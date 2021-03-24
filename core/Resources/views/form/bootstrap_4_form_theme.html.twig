@@ -1,0 +1,38 @@
+{% extends 'bootstrap_4_layout.html.twig' %}
+
+{% block file_widget -%}
+    <div class="row">
+        <div class="col-12">
+            {% set value = form.vars.data %}
+
+            {% if value %}
+                {% if value and value.extension in ['jpg', 'gif', 'png'] %}
+                    <div class="card">
+                        <div class="card-img-top bg-dark text-center">
+                            <a href="{{ asset(value.pathname) }}" target="_blank">
+                                <img src="{{ asset(value.pathname) }}" class="img-fluid">
+                            </a>
+                        </div>
+                        <div class="card-body">
+                            {{- parent() -}}
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="card">
+                        <div class="card-body">
+                            {{- parent() -}}
+
+                            <div class="p-2 text-center">
+                                <a class="btn btn-primary" href="{{ asset(value.pathname) }}" target="_blank">
+                                    Télécharger
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+            {% else %}
+                {{- parent() -}}
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

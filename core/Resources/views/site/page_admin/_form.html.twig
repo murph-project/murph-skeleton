@@ -1,0 +1,51 @@
+{% set formMetas %}
+    {% for item in ['metaTitle', 'metaDescrition'] %}
+        {{ form_row(form[item]) }}
+    {% endfor %}
+{% endset %}
+
+{% set formOpenGraph %}
+    {% for item in ['ogTitle', 'ogDescription', 'ogImage'] %}
+        {{ form_row(form[item]) }}
+    {% endfor %}
+{% endset %}
+
+{% set formOthers %}
+    {% for item in ['name', 'template'] %}
+        {{ form_row(form[item]) }}
+    {% endfor %}
+{% endset %}
+
+{% set formSitemap %}
+{% endset %}
+
+<div class="row">
+    <div class="col-8 p-2">
+        {{ form_widget(form) }}
+    </div>
+    <div class="col-4 p-3">
+        <ul class="nav nav-pills">
+            <li class="nav-item">
+                <a class="nav-link active" data-toggle="tab" href="#form-page-metas">Métas</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#form-page-og">OpenGraph</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#form-page-others">Autres</a>
+            </li>
+        </ul>
+
+        <div class="tab-content">
+            <div class="tab-pane show active p-3" id="form-page-metas">
+                {{ formMetas|raw }}
+            </div>
+            <div class="tab-pane p-3" id="form-page-og">
+                {{ formOpenGraph|raw }}
+            </div>
+            <div class="tab-pane p-3" id="form-page-others">
+                {{ formOthers|raw }}
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,52 @@
+{% extends '@Core/admin/layout.html.twig' %}
+
+{% block body %}
+    <div class="bg-light pl-5 pr-4 pt-5 pb-5">
+        <div class="d-flex">
+            <div class="mr-auto w-50">
+                <h1 class="display-5">{{ entity.displayName }}</h1>
+            </div>
+
+            <div class="ml-auto">
+                <div class="btn-group">
+                    <a href="{{ path('admin_user_index') }}" class="btn btn-secondary">
+                        <span class="fa fa-list pr-1"></span>
+
+                        Retour à la liste
+                    </a>
+                    <a href="{{ path('admin_user_edit', {entity: entity.id}) }}" class="btn btn-primary">
+                        <span class="fa fa-edit pr-1"></span>
+
+                        Éditer
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12 p-3">
+            <ul class="list-group">
+                <li class="list-group-item">
+                    <span class="font-weight-bold pb-2 d-block">Titre</span>
+
+                    {{ entity.displayName }}
+                </li>
+                <li class="list-group-item">
+                    <span class="font-weight-bold pb-2 d-block">Sous-titre</span>
+
+                    {{ entity.email }}
+                </li>
+                <li class="list-group-item">
+                    <span class="font-weight-bold pb-2 d-block">Permissions</span>
+
+                    {{ entity.roles|join(', ')|replace({
+                        ROLE_USER: 'Utilisateur⋅trice',
+                        ROLE_WRITER: 'Rédacteur⋅trice',
+                        ROLE_ADMIN: 'Administrateur⋅trice',
+                    }) }}
+                </li>
+            </ul>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,61 @@
+{% import "@Core/admin/macros/menu.html.twig" as macros_menu %}
+
+<ul class="nav flex-column">
+    <li class="nav-item">
+        <a class="nav-link {{ macros_menu.active_class('dashboard', section) }}" href="{{ path('admin_dashboard_index') }}">
+            <span class="fa fa-chart-line"></span>
+
+            <span class="nav-item-label">Tableau de bord</span>
+        </a>
+    </li>
+</ul>
+
+{% if is_granted('ROLE_ADMIN') %}
+    <h6 class="sidebar-heading justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+        <span>Contenu</span>
+    </h6>
+
+    <ul class="nav flex-column">
+        <li class="nav-item">
+            <a class="nav-link {{ macros_menu.active_class('site_navigation', section) }}" href="{{ path('admin_site_navigation_index') }}">
+                <span class="fa fa-globe-europe"></span>
+
+                <span class="nav-item-label">Navigations</span>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link {{ macros_menu.active_class('site_tree', section) }}" href="{{ path('admin_site_tree_index') }}">
+                <span class="fa fa-sitemap"></span>
+
+                <span class="nav-item-label">Arborescence</span>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link {{ macros_menu.active_class('site_page', section) }}" href="{{ path('admin_site_page_index') }}">
+                <span class="fa fa-file-alt"></span>
+
+                <span class="nav-item-label">Pages</span>
+            </a>
+        </li>
+    </ul>
+{% endif %}
+
+{{ include('admin/menu.html.twig') }}
+
+{% if is_granted('ROLE_ADMIN') %}
+    <h6 class="sidebar-heading justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+        <span>Administration</span>
+    </h6>
+
+    <ul class="nav flex-column">
+        <li class="nav-item">
+            <a class="nav-link {{ macros_menu.active_class('user', section) }}" href="{{ path('admin_user_index') }}">
+                <span class="fa fa-user"></span>
+
+                <span class="nav-item-label">Utilisateurs</span>
+            </a>
+        </li>
+    </ul>
+{% endif %}

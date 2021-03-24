@@ -1,0 +1,79 @@
+{% import _self as macros %}
+
+{% macro item(node, store) %}
+    {% set isActive = store.isActiveNode(node, true) %}
+
+    {% if node.isVisible %}
+        {% if node.code == 'post' %}
+            <a {% if isActive %}style="color: red"{% endif %} href="{{ url(node.routeName, {post: 1}) }}">
+                {{ node.label }}
+            </a>
+        {% elseif node.page %}
+            {% set url = node.hasExternalUrl ? node.url : url(node.routeName) %}
+
+            <a {% if isActive %}style="color: red"{% endif %} href="{{ url }}">
+                {{ node.label }}
+            </a>
+        {% else %}
+            <span {% if isActive %}style="color: red"{% endif %}>
+                {{ node.label }}
+            </span>
+        {% endif %}
+
+        {{ dump(node.attributes) }}
+
+        {% if node.children|length %}
+            <ul>
+                {% for child in node.children %}
+                    {% if child.isVisible %}
+                        <li>
+                            {{ macros.item(child, store) }}
+                        </li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endif %}
+{% endmacro %}
+
+{% macro menu(menu, store) %}
+    <ul>
+        {% for child in menu.rootNode.children %}
+            {% if child.isVisible %}
+                <li>
+                    {{ macros.item(child, store) }}
+                </li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+{% endmacro %}
+
+<h1>{{ _page.title.value }}</h1>
+
+<pre>{{ _page.content.value }}</pre>
+
+{% set image = _page.image.value %}
+
+{% if image %}
+    <img src="{{ asset(image) }}" alt="">
+{% endif %}
+
+<ul>
+    <li>
+        Node : {{ _node.label }}
+    </li>
+    <li>
+        Menu : {{ _menu.label }}
+    </li>
+    <li>
+        Navigation : {{ _navigation.label }}
+    </li>
+</ul>
+
+<h4>Menu</h4>
+
+{% set menu = _navigation.menu('top') %}
+
+{% if menu %}
+    {{ macros.menu(menu, _store) }}
+{% endif %}

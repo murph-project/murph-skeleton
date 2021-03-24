@@ -1,0 +1,113 @@
+{% apply spaceless %}
+<!DOCTYPE html>
+<html>
+    <head>
+        {{ include('@Core/admin/module/metas.html.twig') }}
+
+        <title>{% block title %}{{ site_name }}{% endblock %}</title>
+
+        {% block css %}
+            {{ encore_entry_link_tags('admin') }}
+        {% endblock %}
+    </head>
+    <body>
+        <div class="container login-container">
+            <div class="row shadow rounded">
+                <div class="col-md-6">
+                    <div class="login-form">
+                        <div class="h3 pb-4">
+                            <span class="text-success">
+                                <span class="fa fa-lock"></span>
+                            </span>
+
+                            Nouveau mot de passe
+                        </div>
+
+                        {% if expired %}
+                            <div class="alert alert-warning">
+                                Ce lien a expiré. Merci de faire une nouvelle demande sur la page
+                                <a href="{{ path('auth_resetting_request') }}">Mot de passe perdu</a>
+                            </div>
+                        {% elseif password_updated %}
+                            <div class="alert alert-info">
+                                Le mot de passe a été mis à jour.
+                            </div>
+
+                            <p>
+                                <a class="btn btn-primary" href="{{ path('auth_login') }}">Afficher la page de connexion</a></p>
+                            </p>
+                        {% else %}
+                            <form method="post" id="form-password" action="{{ path("auth_resetting_update", {token: token}) }}">
+                                <p>
+                                    Veuillez saisir un nouveau mot de passe.<br>
+                                    L'indicateur doit afficher 5 traits verts pour que
+                                    le mot de passe soit accepté. Les 2 mots de passe
+                                    doivent correspondre.
+                                </p>
+
+                                <div class="form-group">
+                                    <label for="form-password">Nouveau mot de passe</label>
+
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">
+                                                <span class="fa fa-key"></span>
+                                            </div>
+                                        </div>
+
+                                        <input type="password" name="password" class="form-control" id="form-password-new" required>
+                                    </div>
+                                </div>
+
+                                <div class="container">
+                                    <div class="row password-strenth" id="form-password-strength">
+                                        <div class="col-sm bg-light"></div>
+                                        <div class="col-sm bg-light"></div>
+                                        <div class="col-sm bg-light"></div>
+                                        <div class="col-sm bg-light"></div>
+                                        <div class="col-sm bg-light"></div>
+                                        <div class="col-12 password-strenth-info"></div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="form-password">Confirmation du mot de passe</label>
+
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">
+                                                <span class="fa fa-key"></span>
+                                            </div>
+                                        </div>
+
+                                        <input type="password" name="password2" class="form-control" id="form-password-confirmation" required>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <input type="submit" class="btn btn-primary" disabled id="form-password-submit" value="Soumettre">
+                                    &nbsp;
+                                    <a class="btn btn-light" href="{{ path('auth_login') }}">Afficher la page de connexion</a></p>
+                                </div>
+
+                                <input type="hidden" name="_csrf_token" value="{{ csrf_token('resetting_update') }}">
+                            </form>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="col-md-6 bg-light d-flex">
+                    <div class="flex-fill align-self-center text-center p-3">
+                        <img class="login-image" src="{{ asset(site_logo) }}" alt="{{ site_name }}" title="{{ site_name }}">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {% block js %}
+            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+
+            {{ encore_entry_script_tags('admin') }}
+        {% endblock %}
+    </body>
+</html>
+{% endapply %}

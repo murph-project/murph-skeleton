@@ -1,0 +1,261 @@
+<ul class="nav nav-pills" id="myTab" role="tablist">
+    <li class="nav-item" role="presentation">
+        <a class="nav-link {% if tab == 'content' %}active{% endif %}" data-toggle="tab" href="#form-node-edit-content">Contenu</a>
+    </li>
+    <li class="nav-item" role="presentation">
+        <a class="nav-link {% if tab == 'routing' %}active{% endif %}" data-toggle="tab" href="#form-node-edit-routing">Routage</a>
+    </li>
+    <li class="nav-item" role="presentation">
+        <a class="nav-link {% if tab == 'attributes' %}active{% endif %}" data-toggle="tab" href="#form-node-edit-attributes">Attributs</a>
+    </li>
+    <li class="nav-item" role="presentation">
+        <a class="nav-link {% if tab == 'sitemap' %}active{% endif %}" data-toggle="tab" href="#form-node-edit-sitemap">Sitemap</a>
+    </li>
+</ul>
+
+<div class="tab-content pt-4">
+    <div class="tab-pane {% if tab == 'content' %}show active{% endif %}" id="form-node-edit-content">
+        {{ form_row(form.label) }}
+
+        {% if form.position is defined %}
+            {{ form_row(form.position) }}
+        {% endif %}
+
+        <div class="accordion mb-3" id="node-page-action">
+            <div class="card">
+                {% set action = form.pageAction[0] %}
+                {% set options = not entity.id ? {'attr': {'checked': 'checked'}} : {} %}
+
+                <div class="card-header p-0">
+                    <h2 class="mb-0">
+                        <label class="btn btn-link btn-block text-left"
+                            for="{{ action.vars.id }}"
+                            data-toggle="collapse"
+                            data-target="#form-node-page-action-new">
+                            {{ action.vars.label }}
+                        </label>
+
+                        <div class="d-none">
+                            {{ form_row(action, options) }}
+                        </div>
+                    </h2>
+                </div>
+                <div id="form-node-page-action-new" class="collapse {% if not entity.id %}show{% endif %}" data-parent="#node-page-action">
+                    <div class="card-body">
+                        {{ form_row(form.pageType) }}
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                {% set action = form.pageAction[1] %}
+
+                <div class="card-header p-0">
+                    <h2 class="mb-0">
+                        <label class="btn btn-link btn-block text-left"
+                            for="{{ action.vars.id }}"
+                            data-toggle="collapse"
+                            data-target="#form-node-page-action-existing">
+                            {{ action.vars.label }}
+                        </label>
+
+                        <div class="d-none">
+                            {{ form_row(action) }}
+                        </div>
+                    </h2>
+                </div>
+                <div id="form-node-page-action-existing" class="collapse" data-parent="#node-page-action">
+                    <div class="card-body">
+                        {{ form_row(form.pageEntity) }}
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                {% set action = form.pageAction[2] %}
+
+                <div class="card-header p-0">
+                    <h2 class="mb-0">
+                        <label class="btn btn-link btn-block text-left"
+                            for="{{ action.vars.id }}"
+                            data-toggle="collapse"
+                            data-target="#form-node-page-action-none">
+                            {{ action.vars.label }}
+                        </label>
+
+                        <div class="d-none">
+                            {{ form_row(action) }}
+                        </div>
+                    </h2>
+                </div>
+                <div id="form-node-page-action-none" class="collapse" data-parent="#node-page-action">
+                    <div class="card-body">
+                        Aucune action
+                    </div>
+                </div>
+            </div>
+
+            {% if entity.id %}
+                <div class="card">
+                    {% set action = form.pageAction[3] %}
+                    {% set options = {'attr': {'checked': 'checked'}} %}
+
+                    <div class="card-header p-0">
+                        <h2 class="mb-0">
+                            <label class="btn btn-link btn-block text-left"
+                                for="{{ action.vars.id }}"
+                                data-toggle="collapse"
+                                data-target="#form-node-page-action-keep">
+                                {{ action.vars.label }}
+                            </label>
+
+                            <div class="d-none">
+                                {{ form_row(action, options) }}
+                            </div>
+                        </h2>
+                    </div>
+                    <div id="form-node-page-action-keep" class="collapse show" data-parent="#node-page-action">
+                        <div class="card-body">
+                            Aucune action
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+    <div class="tab-pane {% if tab == 'routing' %}show active{% endif %}" id="form-node-edit-routing">
+        {% if entity.id %}
+            <div class="float-right">
+                <span data-modal="{{ path('admin_site_node_urls', {entity: entity.id}) }}" class="btn" title="Afficher toutes les URLs du nœud">
+                    <span class="fa fa-list" data-modal="{{ path('admin_site_node_urls', {entity: entity.id}) }}"></span>
+                </span>
+            </div>
+        {% endif %}
+
+        {{ form_row(form.url) }}
+
+        <div class="pb-1">
+            Nom de la route : <code>{{ entity.routeName }}</code>
+        </div>
+
+        {{ form_row(form.code) }}
+        {{ form_row(form.controller) }}
+
+        <div class="accordion mb-3" data-collection="collection-node-parameters" id="form-node-edit-parameters-collection">
+            {% for item in form.parameters %}
+                <div class="card" data-collection-item="{{ loop.index }}">
+                    <div class="card-header p-0">
+                        <span class="btn btn-link btn-block text-left" data-toggle="collapse" data-target="#form-node-parameter-{{ loop.index }}">
+                            {{ item.vars.data.name }}
+                        </span>
+                    </div>
+                    <div class="collapse" data-parent="#form-node-edit-parameters-collection" id="form-node-parameter-{{ loop.index }}">
+                        <div class="card-body">
+                            {{ form_row(item.name) }}
+                            {{ form_row(item.defaultValue) }}
+                            {{ form_row(item.requirement) }}
+
+                            <div class="text-right">
+                                <span data-collection-delete-container class="btn btn-sm btn-danger">
+                                    <span data-collection-delete="{{ loop.index }}" class="fa fa-trash"></span>
+                                </span>
+                            </div>
+
+                            {{ form_rest(item) }}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        <div data-collection-add="collection-node-parameters" class="collection-add">
+            <span class="btn btn-primary" data-collection-add="collection-node-parameters">
+                <span class="fa fa-plus"></span>
+                Ajouter un paramètre
+            </span>
+        </div>
+    </div>
+    <div class="tab-pane {% if tab == 'attributes' %}show active{% endif %}" id="form-node-edit-attributes">
+        <div class="accordion mb-3" data-collection="collection-node-attributes" id="form-node-edit-attributes-collection">
+            {% for item in form.attributes %}
+                <div class="card" data-collection-item="{{ loop.index }}">
+                    <div class="card-header p-0">
+                        <span class="btn btn-link btn-block text-left" data-toggle="collapse" data-target="#form-node-attribute-{{ loop.index }}">
+                            {{ item.vars.data.label }}
+                        </span>
+                    </div>
+                    <div class="collapse" data-parent="#form-node-edit-attributes-collection" id="form-node-attribute-{{ loop.index }}">
+                        <div class="card-body">
+                            {{ form_row(item.label) }}
+                            {{ form_row(item.value) }}
+
+                            <div class="text-right">
+                                <span data-collection-delete-container class="btn btn-sm btn-danger">
+                                    <span data-collection-delete="{{ loop.index }}" class="fa fa-trash"></span>
+                                </span>
+                            </div>
+
+                            {{ form_rest(item) }}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        <div data-collection-add="collection-node-attributes" class="collection-add">
+            <span class="btn btn-primary" data-collection-add="collection-node-attributes">
+                <span class="fa fa-plus"></span>
+                Ajouter un attribut
+            </span>
+        </div>
+    </div>
+    <div class="tab-pane {% if tab == 'sitemap' %}show active{% endif %}" id="form-node-edit-sitemap">
+        {{ form_row(form.sitemapParameters) }}
+    </div>
+</div>
+
+<template type="text/template" id="collection-node-parameters">
+    <div class="card" data-collection-item="__name__">
+        <div class="card-header p-0">
+            <span class="btn btn-link btn-block text-left" data-toggle="collapse" data-target="#form-node-parameter-__name__">
+                Nouveau paramètre
+            </span>
+        </div>
+        <div class="collapse show" id="form-node-parameter-__name__" data-parent="#form-node-edit-parameters-collection">
+            <div class="card-body">
+                {{ form_row(form.parameters.vars.prototype.name) }}
+                {{ form_row(form.parameters.vars.prototype.defaultValue) }}
+                {{ form_row(form.parameters.vars.prototype.requirement) }}
+
+                <div class="text-right">
+                    <span data-collection-delete-container class="btn btn-sm btn-danger"></span>
+                </div>
+
+                {{ form_rest(form.parameters.vars.prototype) }}
+            </div>
+        </div>
+    </div>
+</template>
+
+<template type="text/template" id="collection-node-attributes">
+    <div class="card" data-collection-item="__name__">
+        <div class="card-header p-0">
+            <span class="btn btn-link btn-block text-left" data-toggle="collapse" data-target="#form-node-attribute-__name__">
+                Nouveau attribut
+            </span>
+        </div>
+        <div class="collapse show" id="form-node-attribute-__name__" data-parent="#form-node-edit-attributes-collection">
+            <div class="card-body">
+                {{ form_row(form.attributes.vars.prototype.label) }}
+                {{ form_row(form.attributes.vars.prototype.value) }}
+
+                <div class="text-right">
+                    <span data-collection-delete-container class="btn btn-sm btn-danger"></span>
+                </div>
+
+                {{ form_rest(form.attributes.vars.prototype) }}
+            </div>
+        </div>
+    </div>
+</template>
+
+<div class="d-none">
+    {{ form_rest(form) }}
+</div>
+

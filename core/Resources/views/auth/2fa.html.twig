@@ -1,0 +1,83 @@
+{% apply spaceless %}
+<!DOCTYPE html>
+<html>
+    <head>
+        {{ include('@Core/admin/module/metas.html.twig') }}
+
+        <title>{% block title %}{{ site_name }} {% endblock %}</title>
+
+        {% block css %}
+            {{ encore_entry_link_tags('admin') }}
+        {% endblock %}
+    </head>
+    <body>
+        <div class="container login-container">
+            <div class="row shadow rounded">
+                <div class="col-md-6">
+                    <div class="login-form">
+                        <div class="h3 pb-4">
+                            <span class="text-success">
+                                <span class="fa fa-lock"></span>
+                            </span>
+
+                            Accès sécurisé
+                        </div>
+
+                        <form method="post" action="{{ path("2fa_login_check") }}">
+                            <p>
+                                Cet accès est sécurisé par une double authentification.
+                                Munissez-vous de votre téléphone et générez un code de vérification
+                                pour cette application.
+                            </p>
+
+                            <div class="form-group">
+                                <label for="form-password">Code de vérification</label>
+
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text">
+                                            <span class="fa fa-key"></span>
+                                        </div>
+                                    </div>
+
+                                    <input
+                                        type="text"
+                                        name="{{ authCodeParameterName }}"
+                                        class="form-control"
+                                        autocomplete="one-time-code"
+                                        pattern="[0-9]*"
+                                        inputmode="numeric"
+                                        maxlength="6"
+                                        style="max-width: 100px"
+                                        autofocus
+                                        required
+                                    >
+                                </div>
+                            </div>
+
+                            {% if isCsrfProtectionEnabled %}
+                                <input type="hidden" name="{{ csrfParameterName }}" value="{{ csrf_token(csrfTokenId) }}">
+                            {% endif %}
+
+                            <div class="form-group">
+                                <input type="submit" class="btn btn-primary" value="Connexion">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="col-md-6 bg-light d-flex">
+                    <div class="flex-fill align-self-center text-center p-3">
+                        <img class="login-image" src="{{ asset(site_logo) }}" alt="{{ site_name }}" title="{{ site_name }}">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {% block js %}
+            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+
+            {{ encore_entry_script_tags('admin') }}
+        {% endblock %}
+    </body>
+</html>
+{% endapply %}

@@ -1,0 +1,6 @@
+twig:
+    default_path: '%kernel.project_dir%/templates'
+    form_themes: ['@Core/form/bootstrap_4_form_theme.html.twig']
+    paths:
+        '%kernel.project_dir%/templates/core/': Core
+        '%kernel.project_dir%/core/Resources/views/': Core

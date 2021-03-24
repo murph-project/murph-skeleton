@@ -1,0 +1,57 @@
+{% extends '@Core/admin/layout.html.twig' %}
+
+{% block body %}
+    <div class="bg-light pl-5 pr-4 pt-5 pb-5">
+        <div class="d-flex">
+            <div class="mr-auto w-50">
+                <h1 class="display-5">{{ entity.label }}</h1>
+            </div>
+
+            <div class="ml-auto">
+                <div class="btn-group">
+                    <a href="{{ path('admin_site_navigation_index') }}" class="btn btn-light">
+                        <span class="fa fa-list pr-1"></span>
+                        Retour à la liste
+                    </a>
+                    <a href="{{ path('admin_site_navigation_show', {entity: entity.id}) }}" class="btn btn-secondary">
+                        <span class="fa fa-eye pr-1"></span>
+                        Voir
+                    </a>
+
+                    <button type="submit" form="form-main" class="btn btn-primary">
+                        <span class="fa fa-save pr-1"></span>
+                        Enregistrer
+                    </button>
+
+                    <button type="button" class="btn btn-white dropdown-toggle dropdown-toggle-hide-after" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span class="font-weight-bold">
+                            ⋅⋅⋅
+                        </span>
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-right">
+                        <button type="submit" form="form-delete" class="dropdown-item">
+                            Supprimer
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <form action="{{ app.request.uri }}" method="post" id="form-main" enctype="multipart/form-data">
+        <div class="tab-content">
+            <div class="tab-pane active">
+                <div class="tab-form">
+                    {{ include('@Core/site/navigation_admin/_form.html.twig') }}
+                </div>
+            </div>
+        </div>
+
+        {{ form_rest(form) }}
+    </form>
+
+    <form method="post" action="{{ path('admin_site_navigation_delete', {entity: entity.id}) }}" id="form-delete" data-form-confirm>
+        <input type="hidden" name="_method" value="DELETE">
+        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ entity.id) }}">
+    </form>
+{% endblock %}

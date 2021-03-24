@@ -1,0 +1,13 @@
+{% extends '@Core/mail/base.html.twig' %}
+
+{% set message %}
+Une demande de réinitialisation de mot de passe a été réalisée.
+
+Si vous êtes à l'origine de cette demande, cliquer sur le lien ci-dessous ou copier/coller l'adresse si le lien ne fonctionne pas.
+
+<a href="{{ reseting_update_link }}">{{ reseting_update_link }}</a>
+{% endset %}
+
+{% block body %}
+<p>{{ message|nl2br }}</p>
+{% endblock %}

@@ -1,0 +1,77 @@
+{% extends '@Core/admin/layout.html.twig' %}
+
+{% block body %}
+    <div class="bg-light pl-5 pr-4 pt-5 {% if pager.getPaginationData.pageCount < 2 %}pb-5{% endif %}">
+        <div class="d-flex">
+            <div class="mr-auto w-50">
+                <h1 class="display-5">Navigations</h1>
+            </div>
+
+            <div class="ml-auto">
+                <div class="btn-group">
+                    <a href="{{ path('admin_site_navigation_new') }}" class="btn btn-primary">
+                        <span class="fa fa-plus pr-1"></span>
+                        Nouveau
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        {{ knp_pagination_render(pager) }}
+    </div>
+
+    <table class="table" data-table-fixed>
+        <thead class="thead-light">
+            <tr>
+                <th class="col-5">Libellé</th>
+                <th class="col-5">Domaine</th>
+                <th class="col-2 text-right">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in pager %}
+                {% set edit = path('admin_site_navigation_edit', {entity: item.id}) %}
+                {% set show = path('admin_site_navigation_show', {entity: item.id}) %}
+
+                <tr data-dblclick="{{ edit }}">
+                    <td class="col-6">
+                        <a href="{{ show }}" class="font-weight-bold text-body d-block">
+                            {{ item.label }}
+                        </a>
+
+                        {{ item.code }}
+                    </td>
+                    <td class="col-4">
+                        <a href="" class="btn btn-sm btn-light">
+                            {{ item.domain }}
+                        </a>
+                    </td>
+                    <td class="col-2 text-right">
+                        <a href="{{ edit }}" class="btn btn-sm btn-primary mr-1">
+                            <span class="fa fa-edit"></span>
+                        </a>
+                        <button type="submit" form="form-delete-{{ item.id }}" class="btn btn-sm btn-danger">
+                            <span class="fa fa-trash"></span>
+                        </button>
+
+                        <form method="post" action="{{ path('admin_site_navigation_delete', {entity: item.id}) }}" id="form-delete-{{ item.id }}" data-form-confirm>
+                            <input type="hidden" name="_method" value="DELETE">
+                            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ item.id) }}">
+                        </form>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td class="col-12 text-center p-4 text-black-50">
+                        <div class="display-1">
+                            <span class="fa fa-search"></span>
+                        </div>
+                        <div class="display-5 mt-3">
+                            Aucun résultat
+                        </div>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

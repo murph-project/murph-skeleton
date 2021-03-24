@@ -1,0 +1,39 @@
+{% extends '@Core/admin/layout.html.twig' %}
+
+{% block body %}
+    <div class="bg-light pl-5 pr-4 pt-5 pb-5">
+        <div class="d-flex">
+            <div class="mr-auto w-50">
+                <h1 class="display-5">Nouveau⋅elle utilisateur⋅tice</h1>
+            </div>
+
+            <div class="ml-auto">
+                <div class="btn-group">
+                    <a href="{{ path('admin_user_index') }}" class="btn btn-light">
+                        <span class="fa fa-list pr-1"></span>
+
+                        Retour à la liste
+                    </a>
+
+                    <button type="submit" form="form-main" class="btn btn-primary">
+                        <span class="fa fa-save pr-1"></span>
+
+                        Enregistrer
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <form action="{{ app.request.uri }}" method="post" id="form-main" enctype="multipart/form-data">
+        <div class="tab-content">
+            <div class="tab-pane active">
+                <div class="tab-form">
+                    {{ include('@Core/user/user_admin/_form.html.twig') }}
+                </div>
+            </div>
+        </div>
+
+        {{ form_rest(form) }}
+    </form>
+{% endblock %}

@@ -1,0 +1,219 @@
+{% extends '@Core/admin/layout.html.twig' %}
+
+{% block body %}
+    <div class="bg-light pl-5 pr-4 pt-5 pb-5">
+        <div class="d-flex">
+            <div class="mr-auto w-50">
+                <button type="button" class="btn btn-outline-dark dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <span class="font-weight-bold">
+                        {{ navigation.label }}
+                    </span>
+                </button>
+                <div class="dropdown-menu">
+                    {% for item in navigations %}
+                        <a href="{{ path('admin_site_tree_navigation', {navigation: item.id}) }}" class="dropdown-item">
+                            {{ item.label }}
+                        </a>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="ml-auto">
+                <div class="btn-group">
+                    <button class="btn btn-primary" data-toggle="modal" data-target="#modal-menu-new">
+                        <span class="fa fa-plus pr-1"></span>
+                        Ajouter un menu
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        {% for menu in navigation.menus %}
+            <div class="col-12 p-3 m-0">
+                <div class="d-flex">
+                    <div class="mr-auto">
+                        <div class="h4">
+                            {{ menu.label }}
+                        </div>
+                    </div>
+
+                    <div class="ml-auto">
+                        <div class="btn-group">
+                            <span class="btn btn-light">
+                                {{ menu.code }}
+                            </span>
+
+                            <button type="button" class="btn btn-secondary dropdown-toggle " data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Actions
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-right">
+                                <button type="submit" class="dropdown-item" data-toggle="modal" data-target="#modal-menu-edit-{{ menu.id }}">
+                                    Modifier
+                                </button>
+                                <button type="submit" form="form-menu-delete-{{ menu.id }}" class="dropdown-item">
+                                    Supprimer
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 pl-3 mb-4">
+                <div class="list-group mr-3">
+                    {% set rootNode = menu.rootNode %}
+
+                    {% if rootNode %}
+                        {% for node in rootNode.allChildren %}
+                            {% set move = path('admin_site_node_move', {entity: node.id}) %}
+                            {% set edit = path('admin_site_node_edit', {entity: node.id}) %}
+                            {% set new = path('admin_site_node_new', {node: node.id}) %}
+
+                            <div class="list-group-item">
+                                <div class="float-right">
+                                    {% if node.page %}
+                                        <a href="{{ path('admin_site_page_edit', {entity: node.page.id}) }}" class="btn btn-sm btn-warning text-white mr-1">
+                                            <span class="fa fa-file-alt"></span>
+                                            Page
+                                        </a>
+                                    {% endif %}
+
+                                    <button data-modal="{{ edit }}" type="submit" class="btn btn-sm btn-success mr-1">
+                                        <span data-modal="{{ edit }}" class="fa fa-pen"></span>
+                                        Éditer
+                                    </button>
+
+                                    <button type="submit" form="form-node-visibility-{{ node.id }}" class="btn btn-sm btn-light border-dark mr-1">
+                                        {% if node.isVisible %}
+                                            <span class="fa fa-eye"></span>
+                                            Visible
+                                        {% else %}
+                                            <span class="fa fa-eye-slash"></span>
+                                            Caché
+                                        {% endif %}
+                                    </button>
+
+                                    <button data-modal="{{ move }}" type="submit" class="btn btn-sm btn-dark mr-1">
+                                        <span data-modal="{{ move }}" class="fa fa-arrows-alt"></span>
+                                    </button>
+
+                                    <button data-modal="{{ new }}" type="submit" class="btn btn-sm btn-primary mr-1">
+                                        <span data-modal="{{ new }}" class="fa fa-plus"></span>
+                                    </button>
+
+                                    <button type="submit" form="form-node-delete-{{ node.id }}" class="btn btn-sm btn-danger">
+                                        <span class="fa fa-trash"></span>
+                                    </button>
+                                </div>
+
+                                <div class="d block" style="padding-left: {{ (node.treeLevel - 1) * 30 }}px">
+                                    {{ node.label }}
+
+                                    <span class="ml-3 btn-group">
+                                        {% if node.hasExternalUrl %}
+                                            <a href="{{ node.url }}" class="btn btn-sm border border-secondary btn-light">
+                                                <span class="fa fa-sign-out-alt text-muted"></span>
+
+                                                {{ node.url }}
+                                            </a>
+                                        {% else %}
+                                            {% if node.parameters|length %}
+                                                <span class="btn btn-sm border border-secondary btn-light">
+                                                    {{ node.url }}
+                                                </span>
+                                            {% else %}
+                                                <a href="{{ url(node.routeName) }}" target="_blank" class="btn btn-sm border border-secondary btn-light">
+                                                    {{ node.url }}
+                                                </a>
+                                            {% endif %}
+
+                                            {% if node.controller %}
+                                                <span title="{{ node.controller }}" data-toggle="tooltip" data-placement="top" class="btn btn-sm border border-secondary btn-light">
+                                                    <span class="fa fa-dice-d6"></span>
+                                                </span>
+                                            {% endif %}
+                                        {% endif %}
+                                    </span>
+                                </div>
+
+                                <form method="post" action="{{ path('admin_site_node_toggle_visibility', {entity: node.id}) }}" id="form-node-visibility-{{ node.id }}">
+                                    <input type="hidden" name="_token" value="{{ csrf_token('toggle_visibility' ~ node.id) }}">
+                                </form>
+
+                                <form method="post" action="{{ path('admin_site_node_delete', {entity: node.id}) }}" id="form-node-delete-{{ node.id }}" data-form-confirm>
+                                    <input type="hidden" name="_method" value="DELETE">
+                                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ node.id) }}">
+                                </form>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+         {% else %}
+            <div class="col-12 text-center p-4 text-black-50">
+                <div class="display-1">
+                    <span class="fa fa-search"></span>
+                </div>
+                <div class="display-5 mt-4">
+                    <button class="btn btn-primary" data-toggle="modal" data-target="#modal-menu-new">
+                        <span class="fa fa-plus pr-1"></span>
+                        Ajouter un menu
+                    </button>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <div class="modal" id="modal-menu-new">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Nouveau menu</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="{{ path('admin_site_menu_new', {navigation: navigation.id}) }}" id="form-menu-new" method="POST">
+                        {{ form_widget(forms.menu) }}
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" form="form-menu-new" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                    <button type="submit" form="form-menu-new" class="btn btn-primary">Enregistrer</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% for menuId, form in forms.menus %}
+        <div class="modal" id="modal-menu-edit-{{ menuId }}">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">{{ form.vars.data.label }}</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="{{ path('admin_site_menu_edit', {entity: menuId}) }}" id="form-menu-edit-{{ menuId }}" method="POST">
+                            {{ form_widget(form) }}
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" form="form-menu-edit-{{ menuId }}" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                        <button type="submit" form="form-menu-edit-{{ menuId }}" class="btn btn-primary">Enregistrer</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <form method="post" action="{{ path('admin_site_menu_delete', {entity: menuId}) }}" id="form-menu-delete-{{ menuId }}" data-form-confirm>
+            <input type="hidden" name="_method" value="DELETE">
+            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ menuId) }}">
+        </form>
+    {% endfor %}
+{% endblock %}

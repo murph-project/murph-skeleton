@@ -1,0 +1,9 @@
+core:
+    site:
+        name: "Murph"
+        logo: "build/images/core/logo.svg"
+        pages:
+            App\Entity\Page\SimplePage:
+                name: 'Page simple'
+                templates:
+                    - {name: "Template 1", file: "page/simple/page.html.twig"}
