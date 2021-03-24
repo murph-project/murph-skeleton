@@ -83,11 +83,13 @@ class NodeEventSubscriber extends EntityManagerEventSubscriber
         }
 
         $parameters = $node->getParameters();
+        $routeParameters = [];
 
         foreach ($parameters as $key => $parameter) {
             $parameter['name'] = $this->routeParameterSlugify->slugify($parameter['name']);
             $routeParameter = sprintf('{%s}', $parameter['name']);
             $regex = '/'.preg_quote($routeParameter).'/';
+            $routeParameters[] = $parameter['name'];
 
             if (!preg_match($regex, $generatedUrl)) {
                 $generatedUrl .= '/'.$routeParameter;
@@ -95,6 +97,20 @@ class NodeEventSubscriber extends EntityManagerEventSubscriber
 
             $parameters[$key] = $parameter;
         }
+
+        preg_match_all('/\{(.*)\}/isU', $generatedUrl, $matches, PREG_SET_ORDER);
+
+        foreach ($matches as $match) {
+            if (!in_array($match[1], $routeParameters)) {
+                $parameters[] = [
+                    'name' => $this->routeParameterSlugify->slugify($match[1]),
+                    'defaultValue' => null,
+                    'requirement' => null,
+                ];
+            }
+        }
+
+        $generatedUrl = str_replace('//', '/', $generatedUrl);
 
         $node->setParameters($parameters);
 
