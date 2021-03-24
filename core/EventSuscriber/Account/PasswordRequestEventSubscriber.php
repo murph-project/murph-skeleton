@@ -53,7 +53,7 @@ class PasswordRequestEventSubscriber implements EventSubscriberInterface
         $this->entityManager->update($user);
 
         $this->notifier
-            ->setSubject($translator->trans('Mot de passe perdu'))
+            ->setSubject($this->translator->trans('Mot de passe perdu'))
             ->addRecipient($user->getEmail())
             ->notify('@Core/mail/account/resetting_request.html.twig', [
                 'reseting_update_link' => $this->urlGenerator->generate(
