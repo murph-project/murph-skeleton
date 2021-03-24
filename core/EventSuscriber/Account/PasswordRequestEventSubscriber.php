@@ -20,17 +20,20 @@ class PasswordRequestEventSubscriber implements EventSubscriberInterface
     protected UrlGeneratorInterface $urlGenerator;
     protected EntityManager $entityManager;
     protected TokenGeneratorInterface $tokenGenerator;
+    protected TranslatorInterface $translator;
 
     public function __construct(
         MailNotifier $notifier,
         UrlGeneratorInterface $urlGenerator,
         EntityManager $entityManager,
-        TokenGeneratorInterface $tokenGenerator
+        TokenGeneratorInterface $tokenGenerator,
+        TranslatorInterface $translator
     ) {
         $this->notifier = $notifier;
         $this->urlGenerator = $urlGenerator;
         $this->entityManager = $entityManager;
         $this->tokenGenerator = $tokenGenerator;
+        $this->translator = $translator;
     }
 
     public static function getSubscribedEvents()
@@ -49,7 +52,7 @@ class PasswordRequestEventSubscriber implements EventSubscriberInterface
         $this->entityManager->update($user);
 
         $this->notifier
-            ->setSubject('Mot de passe perdu')
+            ->setSubject($translator->trans('Mot de passe perdu'))
             ->addRecipient($user->getEmail())
             ->notify('@Core/mail/account/resetting_request.html.twig', [
                 'reseting_update_link' => $this->urlGenerator->generate(
