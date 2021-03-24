@@ -8,9 +8,7 @@ use App\Core\Entity\Site\Navigation;
 use App\Core\Entity\Site\Node;
 use App\Core\Event\EntityManager\EntityManagerEvent;
 use App\Core\EventSuscriber\EntityManagerEventSubscriber;
-use Symfony\Bundle\FrameworkBundle\Console\Application;
-use Symfony\Component\Console\Input\ArrayInput;
-use Symfony\Component\Console\Output\BufferedOutput;
+use Symfony\Component\Finder\Finder;
 use Symfony\Component\HttpKernel\KernelInterface;
 
 /**
@@ -53,14 +51,14 @@ class SiteEventSubscriber extends EntityManagerEventSubscriber
 
     protected function cleanCache()
     {
-        $application = new Application($this->kernel);
-        $application->setAutoExit(false);
+        $finder = new Finder();
+        $finder
+            ->in($this->kernel->getCacheDir())
+            ->name('url_*.php*')
+        ;
 
-        $input = new ArrayInput([
-            'command' => 'cache:clear',
-        ]);
-
-        $output = new BufferedOutput();
-        $application->run($input, $output);
+        foreach ($finder as $file) {
+            unlink((string) $file->getPathname());
+        }
     }
 }
