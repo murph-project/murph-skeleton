@@ -8,6 +8,7 @@ use App\Core\Notification\MailNotifier;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Csrf\TokenGenerator\TokenGeneratorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * class EventListener.
