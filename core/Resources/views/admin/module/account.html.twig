@@ -5,11 +5,11 @@
     </button>
     <div class="dropdown-menu dropdown-menu-right">
         <a href="{{ path('admin_account') }}" class="dropdown-item">
-            Mon compte
+            {{ 'My account'|trans }}
         </a>
 
         <a href="{{ path('auth_logout') }}" class="dropdown-item">
-            Déconnexion
+            {{ 'Logout'|trans }}
         </a>
     </div>
 </div>

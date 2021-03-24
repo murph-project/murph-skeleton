@@ -17,7 +17,7 @@ class NavigationType extends AbstractType
             'label',
             TextType::class,
             [
-                'label' => 'Libellé',
+                'label' => 'Label',
                 'required' => true,
                 'attr' => [
                 ],
@@ -45,7 +45,7 @@ class NavigationType extends AbstractType
             'domain',
             TextType::class,
             [
-                'label' => 'Nom de domaine',
+                'label' => 'Domain',
                 'required' => true,
                 'attr' => [
                 ],

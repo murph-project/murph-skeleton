@@ -64,9 +64,9 @@ class AccountAdminController extends AdminController
                     $qrCodeContent = $totpAuthenticatorService->getQRContent($account);
 
                     if (!$totpAuthenticatorService->checkCode($account, $code)) {
-                        $this->addFlash('error', 'Le code n\'est pas valide.');
+                        $this->addFlash('error', 'The code is not valid.');
                     } else {
-                        $this->addFlash('success', 'Double authentification activée.');
+                        $this->addFlash('success', 'Double authentication enabled.');
 
                         $entityManager->update($account);
 
@@ -80,7 +80,7 @@ class AccountAdminController extends AdminController
 
                 $entityManager->update($account);
 
-                $this->addFlash('success', 'Double authentification désactivée.');
+                $this->addFlash('success', 'Double authentication disabled.');
 
                 return $this->redirectToRoute('admin_account');
             }
@@ -110,7 +110,7 @@ class AccountAdminController extends AdminController
             $password = $request->request->get('password');
 
             if (!$encoder->isPasswordValid($account, $password)) {
-                $this->addFlash('error', 'Le formulaire n\'est pas valide.');
+                $this->addFlash('error', 'The form is not valid.');
 
                 return $this->redirectToRoute('admin_account');
             }
@@ -129,13 +129,13 @@ class AccountAdminController extends AdminController
 
                 $entityManager->update($account);
 
-                $this->addFlash('success', 'Mot de passe modifié !');
+                $this->addFlash('success', 'Password updated.');
 
                 return $this->redirectToRoute('admin_account');
             }
         }
 
-        $this->addFlash('error', 'Le formulaire n\'est pas valide.');
+        $this->addFlash('error', 'The form is not valid.');
 
         return $this->redirectToRoute('admin_account');
     }

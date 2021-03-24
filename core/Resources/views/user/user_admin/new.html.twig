@@ -4,7 +4,7 @@
     <div class="bg-light pl-5 pr-4 pt-5 pb-5">
         <div class="d-flex">
             <div class="mr-auto w-50">
-                <h1 class="display-5">Nouveau⋅elle utilisateur⋅tice</h1>
+                <h1 class="display-5">{{ 'New'|trans }}⋅elle utilisateur⋅tice</h1>
             </div>
 
             <div class="ml-auto">
@@ -12,13 +12,13 @@
                     <a href="{{ path('admin_user_index') }}" class="btn btn-light">
                         <span class="fa fa-list pr-1"></span>
 
-                        Retour à la liste
+                        {{ 'Back to the list'|trans }}
                     </a>
 
                     <button type="submit" form="form-main" class="btn btn-primary">
                         <span class="fa fa-save pr-1"></span>
 
-                        Enregistrer
+                        {{ 'Save'|trans }}
                     </button>
                 </div>
             </div>

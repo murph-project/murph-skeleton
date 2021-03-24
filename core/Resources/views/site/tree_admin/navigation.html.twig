@@ -22,7 +22,7 @@
                 <div class="btn-group">
                     <button class="btn btn-primary" data-toggle="modal" data-target="#modal-menu-new">
                         <span class="fa fa-plus pr-1"></span>
-                        Ajouter un menu
+                        {{ 'Add a menu'|trans }}
                     </button>
                 </div>
             </div>
@@ -46,14 +46,14 @@
                             </span>
 
                             <button type="button" class="btn btn-secondary dropdown-toggle " data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Actions
+                                {{ 'Actions'|trans }}
                             </button>
                             <div class="dropdown-menu dropdown-menu-right">
                                 <button type="submit" class="dropdown-item" data-toggle="modal" data-target="#modal-menu-edit-{{ menu.id }}">
-                                    Modifier
+                                    {{ 'Edit'|trans }}
                                 </button>
                                 <button type="submit" form="form-menu-delete-{{ menu.id }}" class="dropdown-item">
-                                    Supprimer
+                                    {{ 'Remove'|trans }}
                                 </button>
                             </div>
                         </div>
@@ -76,22 +76,22 @@
                                     {% if node.page %}
                                         <a href="{{ path('admin_site_page_edit', {entity: node.page.id}) }}" class="btn btn-sm btn-warning text-white mr-1">
                                             <span class="fa fa-file-alt"></span>
-                                            Page
+                                            {{ 'Page'|trans }}
                                         </a>
                                     {% endif %}
 
                                     <button data-modal="{{ edit }}" type="submit" class="btn btn-sm btn-success mr-1">
                                         <span data-modal="{{ edit }}" class="fa fa-pen"></span>
-                                        Éditer
+                                        {{ 'Edit'|trans }}
                                     </button>
 
                                     <button type="submit" form="form-node-visibility-{{ node.id }}" class="btn btn-sm btn-light border-dark mr-1">
                                         {% if node.isVisible %}
                                             <span class="fa fa-eye"></span>
-                                            Visible
+                                            {{ 'Visible'|trans }}
                                         {% else %}
                                             <span class="fa fa-eye-slash"></span>
-                                            Caché
+                                            {{ 'Hidden'|trans }}
                                         {% endif %}
                                     </button>
 
@@ -159,7 +159,7 @@
                 <div class="display-5 mt-4">
                     <button class="btn btn-primary" data-toggle="modal" data-target="#modal-menu-new">
                         <span class="fa fa-plus pr-1"></span>
-                        Ajouter un menu
+                        {{ 'Add a menu'|trans }}
                     </button>
                 </div>
             </div>
@@ -170,7 +170,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Nouveau menu</h5>
+                    <h5 class="modal-title">{{ 'New menu'|trans }}</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -181,8 +181,8 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" form="form-menu-new" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
-                    <button type="submit" form="form-menu-new" class="btn btn-primary">Enregistrer</button>
+                    <button type="button" form="form-menu-new" class="btn btn-secondary" data-dismiss="modal">{{ 'Cancel'|trans }}</button>
+                    <button type="submit" form="form-menu-new" class="btn btn-primary">{{ 'Save'|trans }}</button>
                 </div>
             </div>
         </div>
@@ -204,8 +204,8 @@
                         </form>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" form="form-menu-edit-{{ menuId }}" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
-                        <button type="submit" form="form-menu-edit-{{ menuId }}" class="btn btn-primary">Enregistrer</button>
+                        <button type="button" form="form-menu-edit-{{ menuId }}" class="btn btn-secondary" data-dismiss="modal">{{ 'Cancel'|trans }}</button>
+                        <button type="submit" form="form-menu-edit-{{ menuId }}" class="btn btn-primary">{{ 'Save'|trans }}</button>
                     </div>
                 </div>
             </div>

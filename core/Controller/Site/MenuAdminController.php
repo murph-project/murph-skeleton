@@ -29,9 +29,9 @@ class MenuAdminController extends AdminController
         if ($form->isValid()) {
             $entityManager->create($entity);
 
-            $this->addFlash('success', 'Donnée enregistrée.');
+            $this->addFlash('success', 'The data has been saved.');
         } else {
-            $this->addFlash('warning', 'Le formulaire est invalide.');
+            $this->addFlash('warning', 'The form is not valid.');
         }
 
         return $this->redirectToRoute('admin_site_tree_navigation', [
@@ -49,9 +49,9 @@ class MenuAdminController extends AdminController
 
         if ($form->isValid()) {
             $entityManager->update($entity);
-            $this->addFlash('success', 'Donnée enregistrée.');
+            $this->addFlash('success', 'The data has been saved.');
         } else {
-            $this->addFlash('warning', 'Le formulaire est invalide.');
+            $this->addFlash('warning', 'The form is not valid.');
         }
 
         return $this->redirectToRoute('admin_site_tree_navigation', [
@@ -67,7 +67,7 @@ class MenuAdminController extends AdminController
         if ($this->isCsrfTokenValid('delete'.$entity->getId(), $request->request->get('_token'))) {
             $entityManager->delete($entity);
 
-            $this->addFlash('success', 'Données supprimée..');
+            $this->addFlash('success', 'The data has been removed.');
         }
 
         return $this->redirectToRoute('admin_site_tree_navigation', [

@@ -1,15 +1,23 @@
 <ul class="nav nav-pills" id="myTab" role="tablist">
     <li class="nav-item" role="presentation">
-        <a class="nav-link {% if tab == 'content' %}active{% endif %}" data-toggle="tab" href="#form-node-edit-content">Contenu</a>
+        <a class="nav-link {% if tab == 'content' %}active{% endif %}" data-toggle="tab" href="#form-node-edit-content">
+            {{ 'Content'|trans }}
+        </a>
     </li>
     <li class="nav-item" role="presentation">
-        <a class="nav-link {% if tab == 'routing' %}active{% endif %}" data-toggle="tab" href="#form-node-edit-routing">Routage</a>
+        <a class="nav-link {% if tab == 'routing' %}active{% endif %}" data-toggle="tab" href="#form-node-edit-routing">
+            {{ 'Routing'|trans }}
+        </a>
     </li>
     <li class="nav-item" role="presentation">
-        <a class="nav-link {% if tab == 'attributes' %}active{% endif %}" data-toggle="tab" href="#form-node-edit-attributes">Attributs</a>
+        <a class="nav-link {% if tab == 'attributes' %}active{% endif %}" data-toggle="tab" href="#form-node-edit-attributes">
+            {{ 'Attributs'|trans }}
+        </a>
     </li>
     <li class="nav-item" role="presentation">
-        <a class="nav-link {% if tab == 'sitemap' %}active{% endif %}" data-toggle="tab" href="#form-node-edit-sitemap">Sitemap</a>
+        <a class="nav-link {% if tab == 'sitemap' %}active{% endif %}" data-toggle="tab" href="#form-node-edit-sitemap">
+            {{ 'Sitemap'|trans }}
+        </a>
     </li>
 </ul>
 
@@ -32,7 +40,7 @@
                             for="{{ action.vars.id }}"
                             data-toggle="collapse"
                             data-target="#form-node-page-action-new">
-                            {{ action.vars.label }}
+                            {{ action.vars.label|trans }}
                         </label>
 
                         <div class="d-none">
@@ -55,7 +63,7 @@
                             for="{{ action.vars.id }}"
                             data-toggle="collapse"
                             data-target="#form-node-page-action-existing">
-                            {{ action.vars.label }}
+                            {{ action.vars.label|trans }}
                         </label>
 
                         <div class="d-none">
@@ -78,7 +86,7 @@
                             for="{{ action.vars.id }}"
                             data-toggle="collapse"
                             data-target="#form-node-page-action-none">
-                            {{ action.vars.label }}
+                            {{ action.vars.label|trans }}
                         </label>
 
                         <div class="d-none">
@@ -104,7 +112,7 @@
                                 for="{{ action.vars.id }}"
                                 data-toggle="collapse"
                                 data-target="#form-node-page-action-keep">
-                                {{ action.vars.label }}
+                                {{ action.vars.label|trans }}
                             </label>
 
                             <div class="d-none">
@@ -114,7 +122,7 @@
                     </div>
                     <div id="form-node-page-action-keep" class="collapse show" data-parent="#node-page-action">
                         <div class="card-body">
-                            Aucune action
+                            {{ 'No action'|trans }}
                         </div>
                     </div>
                 </div>
@@ -124,7 +132,7 @@
     <div class="tab-pane {% if tab == 'routing' %}show active{% endif %}" id="form-node-edit-routing">
         {% if entity.id %}
             <div class="float-right">
-                <span data-modal="{{ path('admin_site_node_urls', {entity: entity.id}) }}" class="btn" title="Afficher toutes les URLs du nœud">
+                <span data-modal="{{ path('admin_site_node_urls', {entity: entity.id}) }}" class="btn" title="{{ 'Show all node URLs'|trans }}">
                     <span class="fa fa-list" data-modal="{{ path('admin_site_node_urls', {entity: entity.id}) }}"></span>
                 </span>
             </div>
@@ -133,7 +141,7 @@
         {{ form_row(form.url) }}
 
         <div class="pb-1">
-            Nom de la route : <code>{{ entity.routeName }}</code>
+            {{ 'Route name: <code>%routeName%</code>'|trans({'%routeName%': entity.routeName})|raw }}
         </div>
 
         {{ form_row(form.code) }}
@@ -168,7 +176,7 @@
         <div data-collection-add="collection-node-parameters" class="collection-add">
             <span class="btn btn-primary" data-collection-add="collection-node-parameters">
                 <span class="fa fa-plus"></span>
-                Ajouter un paramètre
+                {{ 'New parameter'|trans }}
             </span>
         </div>
     </div>
@@ -201,7 +209,7 @@
         <div data-collection-add="collection-node-attributes" class="collection-add">
             <span class="btn btn-primary" data-collection-add="collection-node-attributes">
                 <span class="fa fa-plus"></span>
-                Ajouter un attribut
+                {{ 'New attribut'|trans }}
             </span>
         </div>
     </div>
@@ -214,7 +222,7 @@
     <div class="card" data-collection-item="__name__">
         <div class="card-header p-0">
             <span class="btn btn-link btn-block text-left" data-toggle="collapse" data-target="#form-node-parameter-__name__">
-                Nouveau paramètre
+                {{ 'New parameter'|trans }}
             </span>
         </div>
         <div class="collapse show" id="form-node-parameter-__name__" data-parent="#form-node-edit-parameters-collection">
@@ -237,7 +245,7 @@
     <div class="card" data-collection-item="__name__">
         <div class="card-header p-0">
             <span class="btn btn-link btn-block text-left" data-toggle="collapse" data-target="#form-node-attribute-__name__">
-                Nouveau attribut
+                {{ 'New attribut'|trans }}
             </span>
         </div>
         <div class="collapse show" id="form-node-attribute-__name__" data-parent="#form-node-edit-attributes-collection">

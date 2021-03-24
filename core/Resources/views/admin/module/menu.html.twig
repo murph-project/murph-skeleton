@@ -5,7 +5,9 @@
         <a class="nav-link {{ macros_menu.active_class('dashboard', section) }}" href="{{ path('admin_dashboard_index') }}">
             <span class="fa fa-chart-line"></span>
 
-            <span class="nav-item-label">Tableau de bord</span>
+            <span class="nav-item-label">
+                {{ 'Dashboard'|trans }}
+            </span>
         </a>
     </li>
 </ul>
@@ -20,7 +22,9 @@
             <a class="nav-link {{ macros_menu.active_class('site_navigation', section) }}" href="{{ path('admin_site_navigation_index') }}">
                 <span class="fa fa-globe-europe"></span>
 
-                <span class="nav-item-label">Navigations</span>
+                <span class="nav-item-label">
+                    {{ 'Navigations'|trans }}
+                </span>
             </a>
         </li>
 
@@ -28,7 +32,9 @@
             <a class="nav-link {{ macros_menu.active_class('site_tree', section) }}" href="{{ path('admin_site_tree_index') }}">
                 <span class="fa fa-sitemap"></span>
 
-                <span class="nav-item-label">Arborescence</span>
+                <span class="nav-item-label">
+                    {{ 'Tree'|trans }}
+                </span>
             </a>
         </li>
 
@@ -36,7 +42,9 @@
             <a class="nav-link {{ macros_menu.active_class('site_page', section) }}" href="{{ path('admin_site_page_index') }}">
                 <span class="fa fa-file-alt"></span>
 
-                <span class="nav-item-label">Pages</span>
+                <span class="nav-item-label">
+                    {{ 'Pages'|trans }}
+                </span>
             </a>
         </li>
     </ul>
@@ -46,7 +54,7 @@
 
 {% if is_granted('ROLE_ADMIN') %}
     <h6 class="sidebar-heading justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-        <span>Administration</span>
+        <span>{{ 'Administration'|trans }}</span>
     </h6>
 
     <ul class="nav flex-column">
@@ -54,7 +62,9 @@
             <a class="nav-link {{ macros_menu.active_class('user', section) }}" href="{{ path('admin_user_index') }}">
                 <span class="fa fa-user"></span>
 
-                <span class="nav-item-label">Utilisateurs</span>
+                <span class="nav-item-label">
+                    {{ 'Users'|trans }}
+                </span>
             </a>
         </li>
     </ul>

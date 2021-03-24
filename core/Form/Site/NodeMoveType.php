@@ -21,9 +21,9 @@ class NodeMoveType extends AbstractType
                 'label' => 'Position',
                 'required' => true,
                 'choices' => [
-                    'Après' => 'after',
-                    'Avant' => 'before',
-                    'En dessous' => 'above',
+                    'After' => 'after',
+                    'Before' => 'before',
+                    'Above' => 'above',
                 ],
                 'attr' => [
                 ],
@@ -37,7 +37,7 @@ class NodeMoveType extends AbstractType
             'node',
             EntityType::class,
             [
-                'label' => 'Élement de référence',
+                'label' => 'Element',
                 'class' => Node::class,
                 'choices' => call_user_func(function () use ($options) {
                     return $options['menu']->getRootNode()->getAllChildren();

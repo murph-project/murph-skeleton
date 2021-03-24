@@ -33,20 +33,7 @@ class UserType extends AbstractType
             'displayName',
             TextType::class,
             [
-                'label' => 'Nom complet',
-                'required' => true,
-                'attr' => [
-                ],
-                'constraints' => [
-                ],
-            ]
-        );
-
-        $builder->add(
-            'displayName',
-            TextType::class,
-            [
-                'label' => 'Nom complet',
+                'label' => 'Display name',
                 'required' => true,
                 'attr' => [
                 ],
@@ -59,7 +46,7 @@ class UserType extends AbstractType
             'isAdmin',
             CheckboxType::class,
             [
-                'label' => 'Administrateur⋅trice',
+                'label' => 'Administrator',
                 'required' => false,
                 'attr' => [
                 ],
@@ -72,7 +59,7 @@ class UserType extends AbstractType
             'isWriter',
             CheckboxType::class,
             [
-                'label' => 'Rédacteur⋅trice',
+                'label' => 'Writer',
                 'required' => false,
                 'attr' => [
                 ],

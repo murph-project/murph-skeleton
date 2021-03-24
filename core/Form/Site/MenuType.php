@@ -17,7 +17,7 @@ class MenuType extends AbstractType
             'label',
             TextType::class,
             [
-                'label' => 'Libellé',
+                'label' => 'Label',
                 'required' => true,
                 'attr' => [
                 ],

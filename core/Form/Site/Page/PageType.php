@@ -20,7 +20,7 @@ class PageType extends AbstractType
             'name',
             TextType::class,
             [
-                'label' => 'Nom',
+                'label' => 'Name',
                 'required' => true,
                 'attr' => [
                 ],
@@ -34,7 +34,7 @@ class PageType extends AbstractType
             'metaTitle',
             TextType::class,
             [
-                'label' => 'Titre',
+                'label' => 'Title',
                 'required' => false,
                 'attr' => [
                 ],
@@ -60,7 +60,7 @@ class PageType extends AbstractType
             'ogTitle',
             TextType::class,
             [
-                'label' => 'Titre',
+                'label' => 'Title',
                 'required' => false,
                 'attr' => [
                 ],
@@ -100,7 +100,7 @@ class PageType extends AbstractType
             'template',
             ChoiceType::class,
             [
-                'label' => 'Rendu',
+                'label' => 'Render',
                 'required' => true,
                 'choices' => call_user_func(function () use ($options) {
                     $choices = [];

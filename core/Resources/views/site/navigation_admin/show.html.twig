@@ -12,12 +12,12 @@
                     <a href="{{ path('admin_site_navigation_index') }}" class="btn btn-secondary">
                         <span class="fa fa-list pr-1"></span>
 
-                        Retour à la liste
+                        {{ 'Back to the list'|trans }}
                     </a>
                     <a href="{{ path('admin_site_navigation_edit', {entity: entity.id}) }}" class="btn btn-primary">
                         <span class="fa fa-edit pr-1"></span>
 
-                        Éditer
+                        {{ 'Edit'|trans }}
                     </a>
                 </div>
             </div>
@@ -28,17 +28,17 @@
         <div class="col-12 p-3">
             <ul class="list-group">
                 <li class="list-group-item">
-                    <span class="font-weight-bold pb-2 d-block">Libellé</span>
+                    <span class="font-weight-bold pb-2 d-block">{{ 'Label'|trans }}</span>
 
                     {{ entity.label }}
                 </li>
                 <li class="list-group-item">
-                    <span class="font-weight-bold pb-2 d-block">Code</span>
+                    <span class="font-weight-bold pb-2 d-block">{{ 'Code'|trans }}</span>
 
                     {{ entity.code }}
                 </li>
                 <li class="list-group-item">
-                    <span class="font-weight-bold pb-2 d-block">Nom de domaine</span>
+                    <span class="font-weight-bold pb-2 d-block">{{ 'Domain'|trans }}</span>
 
                     {{ entity.domain }}
                 </li>

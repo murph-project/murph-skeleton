@@ -49,13 +49,13 @@ class UserAdminController extends AdminController
 
             if ($form->isValid()) {
                 $entityManager->create($entity);
-                $this->addFlash('success', 'Donnée enregistrée.');
+                $this->addFlash('success', 'The data has been saved.');
 
                 return $this->redirectToRoute('admin_user_edit', [
                     'entity' => $entity->getId(),
                 ]);
             }
-            $this->addFlash('warning', 'Le formulaire est invalide.');
+            $this->addFlash('warning', 'The form is not valid.');
         }
 
         return $this->render('@Core/user/user_admin/new.html.twig', [
@@ -76,13 +76,13 @@ class UserAdminController extends AdminController
 
             if ($form->isValid()) {
                 $entityManager->update($entity);
-                $this->addFlash('success', 'Donnée enregistrée.');
+                $this->addFlash('success', 'The data has been saved.');
 
                 return $this->redirectToRoute('admin_user_edit', [
                     'entity' => $entity->getId(),
                 ]);
             }
-            $this->addFlash('warning', 'Le formulaire est invalide.');
+            $this->addFlash('warning', 'The form is not valid.');
         }
 
         return $this->render('@Core/user/user_admin/edit.html.twig', [
@@ -109,7 +109,7 @@ class UserAdminController extends AdminController
         if ($this->isCsrfTokenValid('resetting_request'.$entity->getId(), $request->request->get('_token'))) {
             $eventDispatcher->dispatch(new PasswordRequestEvent($entity), PasswordRequestEvent::EVENT);
 
-            $this->addFlash('success', 'Demande envoyée.');
+            $this->addFlash('success', 'E-mail sent.');
         }
 
         return $this->redirectToRoute('admin_user_edit', [
@@ -125,7 +125,7 @@ class UserAdminController extends AdminController
         if ($this->isCsrfTokenValid('delete'.$entity->getId(), $request->request->get('_token'))) {
             $entityManager->delete($entity);
 
-            $this->addFlash('success', 'Données supprimée..');
+            $this->addFlash('success', 'The data has been removed.');
         }
 
         return $this->redirectToRoute('admin_user_index');

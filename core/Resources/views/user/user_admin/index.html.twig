@@ -4,14 +4,14 @@
     <div class="bg-light pl-5 pr-4 pt-5 {% if pager.getPaginationData.pageCount < 2 %}pb-5{% endif %}">
         <div class="d-flex">
             <div class="mr-auto w-50">
-                <h1 class="display-5">Utilisateurs⋅trices</h1>
+                <h1 class="display-5">{{ 'Users'|trans }}</h1>
             </div>
 
             <div class="ml-auto">
                 <div class="btn-group">
                     <a href="{{ path('admin_user_new') }}" class="btn btn-primary">
                         <span class="fa fa-plus pr-1"></span>
-                        Nouveau
+                        {{ 'New'|trans }}
                     </a>
                 </div>
             </div>
@@ -23,8 +23,8 @@
     <table class="table" data-table-fixed>
         <thead class="thead-light">
             <tr>
-                <th class="col-10">Utilisateurs</th>
-                <th class="col-2 text-right">Actions</th>
+                <th class="col-10">{{ 'Username'|trans }}</th>
+                <th class="col-2 text-right">{{ 'Actions'|trans }}</th>
             </tr>
         </thead>
         <tbody>
@@ -61,7 +61,7 @@
                             <span class="fa fa-search"></span>
                         </div>
                         <div class="display-5 mt-3">
-                            Aucun résultat
+                            {{ 'No result'|trans }}
                         </div>
                     </td>
                 </tr>

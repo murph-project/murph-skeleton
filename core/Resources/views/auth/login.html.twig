@@ -20,18 +20,18 @@
                                 <span class="fa fa-lock"></span>
                             </span>
 
-                            Accès sécurisé
+                            {{ 'Secured access'|trans }}
                         </div>
 
                         {% if error %}
                             <div class="alert alert-danger">
-                                L'identifiant ou le mot de passe est incorrect.
+                                {{ 'Username or password is incorrect.'|trans }}
                             </div>
                         {% endif %}
 
                         <form method="post" action="{{ path("auth_login") }}">
                             <div class="form-group">
-                                <label for="form-id">Identifiant</label>
+                                <label for="form-id">{{ 'Username'|trans }}</label>
 
                                 <div class="input-group">
                                     <div class="input-group-prepend">
@@ -45,7 +45,7 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="form-password">Mot de passe</label>
+                                <label for="form-password">{{ 'Password'|trans }}</label>
 
                                 <div class="input-group">
                                     <div class="input-group-prepend">
@@ -57,20 +57,20 @@
                                     <input type="password" name="_password" class="form-control" id="form-password" required>
                                 </div>
 
-                                <p><a href="{{ path('auth_resetting_request') }}">Mot de passe perdu</a></p>
+                                <p><a href="{{ path('auth_resetting_request') }}">{{ 'Forgot your password'|trans }}</a></p>
                             </div>
 
                             <div class="form-group">
                                 <div class="form-check mb-2">
                                     <input class="form-check-input" name="_remember_me" type="checkbox" id="form-remember">
                                     <label class="form-check-label" for="form-remember">
-                                        Se souvenir de moi
+                                        {{ 'Remember me'|trans }}
                                     </label>
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <input type="submit" class="btn btn-primary" value="Connexion">
+                                <input type="submit" class="btn btn-primary" value="{{ 'Login'|trans }}">
                             </div>
 
                             <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">

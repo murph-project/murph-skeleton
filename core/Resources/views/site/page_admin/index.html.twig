@@ -4,7 +4,7 @@
     <div class="bg-light pl-5 pr-4 pt-5 {% if pager.getPaginationData.pageCount < 2 %}pb-5{% endif %}">
         <div class="d-flex">
             <div class="mr-auto w-50">
-                <h1 class="display-5">Pages</h1>
+                <h1 class="display-5">{{ 'Pages'|trans }}</h1>
             </div>
         </div>
 
@@ -14,8 +14,8 @@
     <table class="table" data-table-fixed>
         <thead class="thead-light">
             <tr>
-                <th class="col-10">Nom</th>
-                <th class="col-2 text-right">Actions</th>
+                <th class="col-10">{{ 'Name'|trans }}</th>
+                <th class="col-2 text-right">{{ 'Actions'|trans }}</th>
             </tr>
         </thead>
         <tbody>
@@ -59,7 +59,7 @@
                             <span class="fa fa-search"></span>
                         </div>
                         <div class="display-5 mt-3">
-                            Aucun résultat
+                            {{ 'No result'|trans }}
                         </div>
                     </td>
                 </tr>

@@ -12,12 +12,12 @@
                     <a href="{{ path('admin_user_index') }}" class="btn btn-secondary">
                         <span class="fa fa-list pr-1"></span>
 
-                        Retour à la liste
+                        {{ 'Back to the list'|trans }}
                     </a>
                     <a href="{{ path('admin_user_edit', {entity: entity.id}) }}" class="btn btn-primary">
                         <span class="fa fa-edit pr-1"></span>
 
-                        Éditer
+                        {{ 'Edit'|trans }}
                     </a>
                 </div>
             </div>

@@ -20,18 +20,16 @@
                                 <span class="fa fa-lock"></span>
                             </span>
 
-                            Accès sécurisé
+                            {{ 'Secured access'|trans }}
                         </div>
 
                         <form method="post" action="{{ path("2fa_login_check") }}">
                             <p>
-                                Cet accès est sécurisé par une double authentification.
-                                Munissez-vous de votre téléphone et générez un code de vérification
-                                pour cette application.
+                                {% trans %}This access is secured by double authentication. Take your phone and generate a verification code for this application.{% endtrans %}
                             </p>
 
                             <div class="form-group">
-                                <label for="form-password">Code de vérification</label>
+                                <label for="form-password">{{ 'Code'|trans }}</label>
 
                                 <div class="input-group">
                                     <div class="input-group-prepend">
@@ -60,7 +58,7 @@
                             {% endif %}
 
                             <div class="form-group">
-                                <input type="submit" class="btn btn-primary" value="Connexion">
+                                <input type="submit" class="btn btn-primary" value="{{ 'Connexion'|trans }}">
                             </div>
                         </form>
                     </div>

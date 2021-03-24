@@ -22,7 +22,7 @@ class NodeType extends AbstractType
             'label',
             TextType::class,
             [
-                'label' => 'Libellé',
+                'label' => 'Label',
                 'required' => true,
                 'attr' => [
                 ],
@@ -38,7 +38,7 @@ class NodeType extends AbstractType
             [
                 'label' => 'URL',
                 'required' => false,
-                'help' => 'Laisser vide pour une génération automatique',
+                'help' => 'Leave blank for automatic generation',
                 'attr' => [
                 ],
                 'constraints' => [
@@ -52,7 +52,6 @@ class NodeType extends AbstractType
             [
                 'label' => 'Code',
                 'required' => false,
-                'help' => 'Sans espace, en minusule, sans caractère spécial',
                 'attr' => [
                 ],
                 'constraints' => [
@@ -64,9 +63,9 @@ class NodeType extends AbstractType
             'controller',
             TextType::class,
             [
-                'label' => 'Contrôleur',
+                'label' => 'Controller',
                 'required' => false,
-                'help' => 'Laisser vide pour utiliser celui par défaut. Notation : App\\Controller\\FooController::barAction',
+                'help' => 'Leave blank to use the default one. Example: App\\Controller\\FooController::barAction',
                 'attr' => [
                 ],
                 'constraints' => [
@@ -75,13 +74,13 @@ class NodeType extends AbstractType
         );
 
         $actions = [
-            'Nouvelle page' => 'new',
-            'Associer à une page existante' => 'existing',
-            'Aucune page' => 'none',
+            'New page' => 'new',
+            'Use an existing page' => 'existing',
+            'No page' => 'none',
         ];
 
         if ($builder->getData()->getId()) {
-            $actions['Garder la configuration actuelle'] = 'keep';
+            $actions['Keep the current configuration'] = 'keep';
         }
 
         $builder->add(
@@ -181,9 +180,9 @@ class NodeType extends AbstractType
                     'required' => true,
                     'mapped' => false,
                     'choices' => [
-                        'Après' => 'after',
-                        'Avant' => 'before',
-                        'En dessous' => 'above',
+                        'After' => 'after',
+                        'Before' => 'before',
+                        'Above' => 'above',
                     ],
                     'attr' => [
                     ],

@@ -30,7 +30,7 @@ class NodeSitemapParametersType extends AbstractType
             'priority',
             ChoiceType::class,
             [
-                'label' => 'Priorité',
+                'label' => 'Priority',
                 'required' => true,
                 'attr' => [
                 ],
@@ -53,7 +53,7 @@ class NodeSitemapParametersType extends AbstractType
             'changeFrequency',
             ChoiceType::class,
             [
-                'label' => 'Fréquence de changement',
+                'label' => 'Frequency of change',
                 'required' => true,
                 'attr' => [
                 ],

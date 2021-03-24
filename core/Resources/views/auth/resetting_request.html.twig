@@ -20,25 +20,21 @@
                                 <span class="fa fa-lock"></span>
                             </span>
 
-                            Mot de passe perdu
+                            {{ 'Forgot your password'|trans }}
                         </div>
 
                         {% if email_sent %}
                             <div class="alert alert-info">
-                                Si les informations soumises correspondent à un compte utilisateur,
-                                vous allez recevoir un e-mail avec en lien pour enclancher la
-                                procédure de changement de mot de passe.<br>
+                                {% trans %}If the information submitted corresponds to a user account, you will receive an e-mail with the link to initiate the password change procedure.{% endtrans %}<br>
                             </div>
                         {% else %}
                             <form method="post" action="{{ path("auth_resetting_request") }}">
                                 <p>
-                                    Saisissez le nom d'utilisateur ou l'adresse e-mail
-                                    de votre compte. Un e-mail vous sera envoyé pour
-                                    enclancher la procédure de changement de mot de passe.
+                                    {% trans %}Enter your account username or email address. An e-mail will be sent to you to initiate the password change procedure.{% endtrans %}
                                 </p>
 
                                 <div class="form-group">
-                                    <label for="form-id">Identifiant ou e-mail</label>
+                                    <label for="form-id">{{ 'Username or e-mail'|trans }}</label>
 
                                     <div class="input-group">
                                         <div class="input-group-prepend">
@@ -52,9 +48,9 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <input type="submit" class="btn btn-primary" value="Soumettre">
+                                    <input type="submit" class="btn btn-primary" value="{{ 'Submit'|trans }}">
                                     &nbsp;
-                                    <a class="btn btn-light" href="{{ path('auth_login') }}">Afficher la page de connexion</a></p>
+                                    <a class="btn btn-light" href="{{ path('auth_login') }}">{{ 'Show the login page'|trans }}</a></p>
                                 </div>
 
                                 <input type="hidden" name="_csrf_token" value="{{ csrf_token('resetting_request') }}">

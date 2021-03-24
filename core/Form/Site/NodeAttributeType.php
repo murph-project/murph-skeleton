@@ -16,7 +16,7 @@ class NodeAttributeType extends AbstractType
             'label',
             TextType::class,
             [
-                'label' => 'Libellé',
+                'label' => 'Label',
                 'required' => true,
                 'attr' => [
                 ],
@@ -30,7 +30,7 @@ class NodeAttributeType extends AbstractType
             'value',
             TextType::class,
             [
-                'label' => 'Valeur',
+                'label' => 'Value',
                 'required' => false,
                 'attr' => [
                 ],

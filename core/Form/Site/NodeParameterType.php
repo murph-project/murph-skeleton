@@ -16,7 +16,7 @@ class NodeParameterType extends AbstractType
             'name',
             TextType::class,
             [
-                'label' => 'Nom',
+                'label' => 'Name',
                 'required' => true,
                 'attr' => [
                 ],
@@ -30,7 +30,7 @@ class NodeParameterType extends AbstractType
             'defaultValue',
             TextType::class,
             [
-                'label' => 'Valeur par défaut',
+                'label' => 'Default value',
                 'required' => false,
                 'attr' => [
                 ],
@@ -43,8 +43,8 @@ class NodeParameterType extends AbstractType
             'requirement',
             TextType::class,
             [
-                'label' => 'Éxigence',
-                'help' => 'Expression régulière',
+                'label' => 'Requirement',
+                'help' => 'Regular expression',
                 'required' => false,
                 'attr' => [
                 ],

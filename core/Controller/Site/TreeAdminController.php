@@ -23,7 +23,7 @@ class TreeAdminController extends AdminController
         $navigation = $navigationQuery->create()->findOne();
 
         if (null === $navigation) {
-            $this->addFlash('warning', 'Vous devez ajouter une navigation.');
+            $this->addFlash('warning', 'You must add a navigation.');
 
             return $this->redirectToRoute('admin_site_navigation_new');
         }
