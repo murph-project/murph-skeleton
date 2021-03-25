@@ -13,6 +13,7 @@ use App\Core\Slugify\CodeSlugify;
 use App\Core\Slugify\RouteParameterSlugify;
 use App\Core\Slugify\Slugify;
 use Symfony\Component\HttpKernel\KernelInterface;
+use function Symfony\Component\String\u;
 
 /**
  * class NodeEventSubscriber.
@@ -110,7 +111,9 @@ class NodeEventSubscriber extends EntityManagerEventSubscriber
             }
         }
 
-        $generatedUrl = str_replace('//', '/', $generatedUrl);
+        if (!u($generatedUrl)->startsWith('https://') && !u($generatedUrl)->startsWith('http://')) {
+            $generatedUrl = str_replace('//', '/', $generatedUrl);
+        }
 
         $node->setParameters($parameters);
 
