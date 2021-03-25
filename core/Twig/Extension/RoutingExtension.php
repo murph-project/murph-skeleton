@@ -29,7 +29,35 @@ class RoutingExtension extends AbstractExtension
             new TwigFunction('node_path', [$this, 'getNodePath'], ['is_safe_callback' => [$this, 'isUrlGenerationSafe']]),
             new TwigFunction('safe_node_url', [$this, 'getSafeNodeUrl'], ['is_safe_callback' => [$this, 'isUrlGenerationSafe']]),
             new TwigFunction('safe_node_path', [$this, 'getSafeNodePath'], ['is_safe_callback' => [$this, 'isUrlGenerationSafe']]),
+            new TwigFunction('safe_url', [$this, 'getSafeUrl'], ['is_safe_callback' => [$this, 'isUrlGenerationSafe']]),
+            new TwigFunction('safe_path', [$this, 'getSafePath'], ['is_safe_callback' => [$this, 'isUrlGenerationSafe']]),
         ];
+    }
+
+    public function getSafePath(string $route, array $parameters = [], bool $relative = false): ?string
+    {
+        try {
+            return $this->generator->generate(
+                $route,
+                $parameters,
+                $relative ? UrlGeneratorInterface::RELATIVE_PATH : UrlGeneratorInterface::ABSOLUTE_PATH
+            );
+        } catch (\Exception $e) {
+            return null;
+        }
+    }
+
+    public function getSafeUrl(string $route, array $parameters = [], bool $schemeRelative = false): ?string
+    {
+        try {
+            return $this->generator->generate(
+                $route,
+                $parameters,
+                $schemeRelative ? UrlGeneratorInterface::NETWORK_PATH : UrlGeneratorInterface::ABSOLUTE_URL
+            );
+        } catch (\Exception $e) {
+            return null;
+        }
     }
 
     public function getNodePath(Node $node, array $parameters = [], bool $relative = false): ?string
