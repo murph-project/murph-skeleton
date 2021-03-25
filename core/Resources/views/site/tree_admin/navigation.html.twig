@@ -113,7 +113,7 @@
 
                                     <span class="ml-3 btn-group">
                                         {% if node.hasExternalUrl %}
-                                            <a href="{{ node.url }}" class="btn btn-sm border border-secondary btn-light">
+                                            <a href="{{ safe_node_url(node) }}" class="btn btn-sm border border-secondary btn-light">
                                                 <span class="fa fa-sign-out-alt text-muted"></span>
                                             </a>
                                         {% else %}
@@ -122,9 +122,19 @@
                                                     {{ node.url }}
                                                 </span>
                                             {% else %}
-                                                <a href="{{ url(node.routeName) }}" target="_blank" class="btn btn-sm border border-secondary btn-light">
-                                                    {{ node.url }}
-                                                </a>
+                                                {% set url = safe_node_url(node) %}
+
+                                                {% if url %}
+                                                    <a href="{{ url ? url : '#' }}" target="_blank" class="btn btn-sm border border-secondary btn-light">
+                                                        {{ node.url }}
+                                                    </a>
+                                                {% endif %}
+
+                                                {% if url is same as(null) %}
+                                                    <span class="btn btn-sm border border-secondary btn-light" title="{{ 'Edit the routing'|trans }}">
+                                                        <span class="fa fa-exclamation"></span>
+                                                    </span>
+                                                {% endif %}
                                             {% endif %}
 
                                             {% if node.controller %}

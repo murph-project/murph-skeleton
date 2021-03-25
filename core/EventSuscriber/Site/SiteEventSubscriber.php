@@ -10,6 +10,7 @@ use App\Core\Event\EntityManager\EntityManagerEvent;
 use App\Core\EventSuscriber\EntityManagerEventSubscriber;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\HttpKernel\KernelInterface;
+use App\Core\Cache\SymfonyCacheManager;
 
 /**
  * class SiteEventSubscriber.
@@ -19,10 +20,12 @@ use Symfony\Component\HttpKernel\KernelInterface;
 class SiteEventSubscriber extends EntityManagerEventSubscriber
 {
     protected KernelInterface $kernel;
+    protected SymfonyCacheManager $cacheManager;
 
-    public function __construct(KernelInterface $kernel)
+    public function __construct(KernelInterface $kernel, SymfonyCacheManager $cacheManager)
     {
         $this->kernel = $kernel;
+        $this->cacheManager = $cacheManager;
     }
 
     public function support(EntityInterface $entity)
@@ -36,7 +39,11 @@ class SiteEventSubscriber extends EntityManagerEventSubscriber
             return;
         }
 
-        $this->cleanCache();
+        if ($event->getEntity() instanceof Node) {
+            $this->cacheManager->cleanRouting();
+        } else {
+            $this->cacheManager->cleanAll();
+        }
     }
 
     public function onCreate(EntityManagerEvent $event)
@@ -47,18 +54,5 @@ class SiteEventSubscriber extends EntityManagerEventSubscriber
     public function onDelete(EntityManagerEvent $event)
     {
         return $this->onUpdate($event);
-    }
-
-    protected function cleanCache()
-    {
-        $finder = new Finder();
-        $finder
-            ->in($this->kernel->getCacheDir())
-            ->name('url_*.php*')
-        ;
-
-        foreach ($finder as $file) {
-            unlink((string) $file->getPathname());
-        }
     }
 }

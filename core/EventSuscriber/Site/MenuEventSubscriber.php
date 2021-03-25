@@ -10,6 +10,7 @@ use App\Core\Factory\Site\NodeFactory;
 use App\Core\Manager\EntityManager;
 use App\Core\Repository\Site\NodeRepository;
 use App\Core\Slugify\CodeSlugify;
+use App\Core\Cache\SymfonyCacheManager;
 
 /**
  * class MenuEventSubscriber.
@@ -22,17 +23,20 @@ class MenuEventSubscriber extends EntityManagerEventSubscriber
     protected NodeRepository $nodeRepository;
     protected EntityManager $entityManager;
     protected CodeSlugify $slugify;
+    protected SymfonyCacheManager $cacheManager;
 
     public function __construct(
         NodeFactory $nodeFactory,
         NodeRepository $nodeRepository,
         EntityManager $entityManager,
-        CodeSlugify $slugify
+        CodeSlugify $slugify,
+        SymfonyCacheManager $cacheManager
     ) {
         $this->nodeFactory = $nodeFactory;
         $this->nodeRepository = $nodeRepository;
         $this->entityManager = $entityManager;
         $this->slugify = $slugify;
+        $this->cacheManager = $cacheManager;
     }
 
     public function support(EntityInterface $entity)
@@ -58,11 +62,16 @@ class MenuEventSubscriber extends EntityManagerEventSubscriber
 
         $menu = $event->getEntity();
 
-        if (0 !== count($menu->getNodes())) {
+        if (count($menu->getNodes()) > 2) {
             return;
         }
 
-        $rootNode = $this->nodeFactory->create($menu);
+        $rootNode = $menu->getRootNode();
+
+        if (!$rootNode) {
+            $rootNode = $this->nodeFactory->create($menu);
+        }
+
         $childNode = $this->nodeFactory->create($menu, '/');
         $childNode
             ->setParent($rootNode)
@@ -78,6 +87,8 @@ class MenuEventSubscriber extends EntityManagerEventSubscriber
         $this->entityManager->flush();
 
         $this->nodeRepository->persistAsFirstChild($childNode, $rootNode);
+
+        $this->cacheManager->cleanAll();
     }
 
     public function onUpdate(EntityManagerEvent $event)

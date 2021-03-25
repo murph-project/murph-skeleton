@@ -39,6 +39,10 @@ class SiteRouteLoader extends Loader
                         continue;
                     }
 
+                    if (null === $node->getUrl()) {
+                        continue;
+                    }
+
                     if ($node->hasExternalUrl()) {
                         continue;
                     }
