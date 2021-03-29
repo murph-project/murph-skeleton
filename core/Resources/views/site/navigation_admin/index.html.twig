@@ -1,7 +1,7 @@
 {% extends '@Core/admin/layout.html.twig' %}
 
 {% block body %}
-    <div class="bg-light pl-5 pr-4 pt-5 {% if pager.getPaginationData.pageCount < 2 %}pb-5{% endif %}">
+    <div class="bg-light pl-5 pr-4 pt-5 {% if pager.paginationData.pageCount < 2 %}pb-5{% endif %}">
         <div class="d-flex">
             <div class="mr-auto w-50">
                 <h1 class="display-5">
