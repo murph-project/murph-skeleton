@@ -19,13 +19,13 @@ class PageController extends AbstractController
         $this->siteStore = $siteStore;
     }
 
-    public function show(Request $request, SiteRequest $siteRequest): Response
+    public function show(): Response
     {
-        if (!$siteRequest->getPage()) {
+        if (!$this->siteRequest->getPage()) {
             throw $this->createNotFoundException();
         }
 
-        return $this->defaultRender($siteRequest->getPage()->getTemplate());
+        return $this->defaultRender($this->siteRequest->getPage()->getTemplate());
     }
 
     protected function defaultRender(string $view, array $parameters = [], Response $response = null): Response
