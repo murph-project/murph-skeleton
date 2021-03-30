@@ -1,5 +1,7 @@
 {% extends '@Core/admin/layout.html.twig' %}
 
+{% block title %}{{ 'Users'|trans }} - {{ parent() }}{% endblock %}
+
 {% block body %}
     <div class="bg-light pl-5 pr-4 pt-5 {% if pager.paginationData.pageCount < 2 %}pb-5{% endif %}">
         <div class="d-flex">
