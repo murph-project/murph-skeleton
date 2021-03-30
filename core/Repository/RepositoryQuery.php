@@ -28,28 +28,8 @@ abstract class RepositoryQuery
 
     public function __call(string $name, $params): self
     {
-        $fn = function (&$data) {
-            if (is_string($data)) {
-                $words = explode(' ', $data);
-
-                foreach ($words as $k => $v) {
-                    if (isset($v[0]) && '.' === $v[0]) {
-                        $words[$k] = $this->id.$v;
-                    }
-                }
-
-                $data = implode(' ', $words);
-            } elseif (is_array($data)) {
-                foreach ($data as $k => $v) {
-                    $fn($data[$k]);
-                }
-            }
-
-            return $data;
-        };
-
         foreach ($params as $key => $value) {
-            $fn($params[$key]);
+            $this->populateDqlId($params[$key]);
         }
 
         call_user_func_array([$this->query, $name], $params);
@@ -92,5 +72,26 @@ abstract class RepositoryQuery
     public function getRepository(): ServiceEntityRepository
     {
         return $this->repository;
+    }
+
+    protected function populateDqlId(&$data)
+    {
+        if (is_string($data)) {
+            $words = explode(' ', $data);
+
+            foreach ($words as $k => $v) {
+                if (isset($v[0]) && '.' === $v[0]) {
+                    $words[$k] = $this->id.$v;
+                }
+            }
+
+            $data = implode(' ', $words);
+        } elseif (is_array($data)) {
+            foreach ($data as $k => $v) {
+                $this->populateDqlId($data[$k]);
+            }
+        }
+
+        return $data;
     }
 }
