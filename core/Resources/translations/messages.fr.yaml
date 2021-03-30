@@ -121,3 +121,5 @@
 "Show the login page": "Afficher la page de connexion"
 "A password reset request has been made. If you are the source of this request, click on the link below or copy and paste the address if the link does not work.": "Une demande de réinitialisation de mot de passe a été réalisée. Si vous êtes à l'origine de cette demande, cliquer sur le lien ci-dessous ou copier et coller l'adresse si le lien ne fonctionne pas."
 "Edit the routing": "Éditez le routage"
+"Name": "Nom"
+"Authentication": "Authentification"

@@ -4,7 +4,7 @@
     <head>
         {{ include('@Core/admin/module/metas.html.twig') }}
 
-        <title>{% block title %}{{ site_name }}{% endblock %}</title>
+        <title>{% block title %}{{ 'Authentication'|trans }} - {{ site_name }}{% endblock %}</title>
 
         {% block css %}
             {{ encore_entry_link_tags('admin') }}
