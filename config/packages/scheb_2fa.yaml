@@ -6,7 +6,7 @@ scheb_two_factor:
         server_name:
         digits: 6
         window: 1
-        template: auth/2fa.html.twig
+        template: "@Core/auth/2fa.html.twig"
     security_tokens:
         - Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken
         # If you're using guard-based authentication, you have to use this one:

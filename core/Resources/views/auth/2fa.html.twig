@@ -4,7 +4,7 @@
     <head>
         {{ include('@Core/admin/module/metas.html.twig') }}
 
-        <title>{% block title %}{{ 'Authentication'|trans }} - {{ site_name }}{% endblock %}</title>
+        <title>{% block title %}{{ 'Authentication'|trans }}{% endblock %}</title>
 
         {% block css %}
             {{ encore_entry_link_tags('admin') }}
@@ -13,7 +13,7 @@
     <body>
         <div class="container login-container">
             <div class="row shadow rounded">
-                <div class="col-md-6">
+                <div class="col-md-12">
                     <div class="login-form">
                         <div class="h3 pb-4">
                             <span class="text-success">
@@ -61,11 +61,6 @@
                                 <input type="submit" class="btn btn-primary" value="{{ 'Connexion'|trans }}">
                             </div>
                         </form>
-                    </div>
-                </div>
-                <div class="col-md-6 bg-light d-flex">
-                    <div class="flex-fill align-self-center text-center p-3">
-                        <img class="login-image" src="{{ asset(site_logo) }}" alt="{{ site_name }}" title="{{ site_name }}">
                     </div>
                 </div>
             </div>
