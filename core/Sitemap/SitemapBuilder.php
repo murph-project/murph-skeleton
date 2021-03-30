@@ -38,6 +38,10 @@ class SitemapBuilder
             foreach ($rootNode->getAllChildren() as $node) {
                 $parameters = $node->getSitemapParameters();
 
+                if (!$parameters['isVisible']) {
+                    continue;
+                }
+
                 if ($node->hasExternalUrl()) {
                     continue;
                 }
