@@ -12,15 +12,17 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
  */
 abstract class EntityManagerEventSubscriber implements EventSubscriberInterface
 {
+    static protected int $priority = 0;
+
     public static function getSubscribedEvents()
     {
         return [
-            EntityManagerEvent::CREATE_EVENT => 'onCreate',
-            EntityManagerEvent::UPDATE_EVENT => 'onUpdate',
-            EntityManagerEvent::DELETE_EVENT => 'onDelete',
-            EntityManagerEvent::PRE_CREATE_EVENT => 'onPreCreate',
-            EntityManagerEvent::PRE_UPDATE_EVENT => 'onPreUpdate',
-            EntityManagerEvent::PRE_DELETE_EVENT => 'onPreDelete',
+            EntityManagerEvent::CREATE_EVENT => ['onCreate', self::$priority],
+            EntityManagerEvent::UPDATE_EVENT => ['onUpdate', self::$priority],
+            EntityManagerEvent::DELETE_EVENT => ['onDelete', self::$priority],
+            EntityManagerEvent::PRE_CREATE_EVENT => ['onPreCreate', self::$priority],
+            EntityManagerEvent::PRE_UPDATE_EVENT => ['onPreUpdate', self::$priority],
+            EntityManagerEvent::PRE_DELETE_EVENT => ['onPreDelete', self::$priority],
         ];
     }
 

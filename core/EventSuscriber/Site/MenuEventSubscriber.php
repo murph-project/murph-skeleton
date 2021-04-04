@@ -88,7 +88,7 @@ class MenuEventSubscriber extends EntityManagerEventSubscriber
 
         $this->nodeRepository->persistAsFirstChild($childNode, $rootNode);
 
-        $this->cacheManager->cleanAll();
+        $this->cacheManager->cleanRouting();
     }
 
     public function onUpdate(EntityManagerEvent $event)

@@ -40,12 +40,21 @@ class SymfonyCacheManager
     {
         $application = new Application($this->kernel);
         $application->setAutoExit(false);
+        $output = new BufferedOutput();
 
         $input = new ArrayInput([
             'command' => 'cache:clear',
+            '-e' => $this->kernel->getEnvironment(),
+            '--no-warmup' => null,
         ]);
 
-        $output = new BufferedOutput();
+        $application->run($input, $output);
+
+        $input = new ArrayInput([
+            'command' => 'cache:warmup',
+            '-e' => $this->kernel->getEnvironment(),
+        ]);
+
         $application->run($input, $output);
     }
 }
