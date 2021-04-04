@@ -21,7 +21,6 @@ class SiteEventSubscriber extends EntityManagerEventSubscriber
 {
     protected KernelInterface $kernel;
     protected SymfonyCacheManager $cacheManager;
-    static protected int $priority = -1;
 
     public function __construct(KernelInterface $kernel, SymfonyCacheManager $cacheManager)
     {
