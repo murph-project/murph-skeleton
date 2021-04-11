@@ -4,7 +4,7 @@ namespace App\Core\Controller\Account;
 
 use App\Core\Controller\Admin\AdminController;
 use App\Core\Manager\EntityManager;
-use App\Core\Repository\UserRepository;
+use App\Repository\UserRepository;
 use Scheb\TwoFactorBundle\Security\TwoFactor\Provider\Google\GoogleAuthenticatorInterface;
 use Scheb\TwoFactorBundle\Security\TwoFactor\Provider\Google\GoogleAuthenticatorInterface as TotpAuthenticatorInterface;
 use Symfony\Component\HttpFoundation\Request;
