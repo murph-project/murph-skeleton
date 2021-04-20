@@ -24,64 +24,66 @@
         {{ knp_pagination_render(pager) }}
     </div>
 
-    <table class="table" data-table-fixed>
-        <thead class="thead-light">
-            <tr>
-                <th class="col-5">
-                    {{ 'Label'|trans }}
-                </th>
-                <th class="col-5">
-                    {{ 'Domain'|trans }}
-                </th>
-                <th class="col-2 text-right">
-                    {{ 'Actions'|trans }}
-                </th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for item in pager %}
-                {% set edit = path('admin_site_navigation_edit', {entity: item.id}) %}
-                {% set show = path('admin_site_navigation_show', {entity: item.id}) %}
-
-                <tr data-dblclick="{{ edit }}">
-                    <td class="col-5">
-                        <a href="{{ show }}" class="font-weight-bold text-body d-block">
-                            {{ item.label }}
-                        </a>
-
-                        {{ item.code }}
-                    </td>
-                    <td class="col-5">
-                        <a href="" class="btn btn-sm btn-light">
-                            {{ item.domain }}
-                        </a>
-                    </td>
-                    <td class="col-2 text-right">
-                        <a href="{{ edit }}" class="btn btn-sm btn-primary mr-1">
-                            <span class="fa fa-edit"></span>
-                        </a>
-                        <button type="submit" form="form-delete-{{ item.id }}" class="btn btn-sm btn-danger">
-                            <span class="fa fa-trash"></span>
-                        </button>
-
-                        <form method="post" action="{{ path('admin_site_navigation_delete', {entity: item.id}) }}" id="form-delete-{{ item.id }}" data-form-confirm>
-                            <input type="hidden" name="_method" value="DELETE">
-                            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ item.id) }}">
-                        </form>
-                    </td>
-                </tr>
-            {% else %}
+    <div class="table-responsive">
+        <table class="table" data-table-fixed>
+            <thead class="thead-light">
                 <tr>
-                    <td class="col-12 text-center p-4 text-black-50">
-                        <div class="display-1">
-                            <span class="fa fa-search"></span>
-                        </div>
-                        <div class="display-5 mt-3">
-                            {{ 'No result'|trans }}
-                        </div>
-                    </td>
+                    <th class="col-5">
+                        {{ 'Label'|trans }}
+                    </th>
+                    <th class="col-5">
+                        {{ 'Domain'|trans }}
+                    </th>
+                    <th class="col-2 text-right">
+                        {{ 'Actions'|trans }}
+                    </th>
                 </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                {% for item in pager %}
+                    {% set edit = path('admin_site_navigation_edit', {entity: item.id}) %}
+                    {% set show = path('admin_site_navigation_show', {entity: item.id}) %}
+
+                    <tr data-dblclick="{{ edit }}">
+                        <td class="col-5">
+                            <a href="{{ show }}" class="font-weight-bold text-body d-block">
+                                {{ item.label }}
+                            </a>
+
+                            {{ item.code }}
+                        </td>
+                        <td class="col-5">
+                            <a href="" class="btn btn-sm btn-light">
+                                {{ item.domain }}
+                            </a>
+                        </td>
+                        <td class="col-2 text-right">
+                            <a href="{{ edit }}" class="btn btn-sm btn-primary mr-1">
+                                <span class="fa fa-edit"></span>
+                            </a>
+                            <button type="submit" form="form-delete-{{ item.id }}" class="btn btn-sm btn-danger">
+                                <span class="fa fa-trash"></span>
+                            </button>
+
+                            <form method="post" action="{{ path('admin_site_navigation_delete', {entity: item.id}) }}" id="form-delete-{{ item.id }}" data-form-confirm>
+                                <input type="hidden" name="_method" value="DELETE">
+                                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ item.id) }}">
+                            </form>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td class="col-12 text-center p-4 text-black-50">
+                            <div class="display-1">
+                                <span class="fa fa-search"></span>
+                            </div>
+                            <div class="display-5 mt-3">
+                                {{ 'No result'|trans }}
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 {% endblock %}
