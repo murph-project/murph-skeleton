@@ -33,7 +33,7 @@
 
     <div class="row">
         {% for menu in navigation.menus %}
-            <div class="col-12 p-3 m-0">
+            <div class="col-md-12 p-3 m-0">
                 <div class="d-flex">
                     <div class="mr-auto">
                         <div class="h4">
@@ -63,7 +63,7 @@
                 </div>
             </div>
 
-            <div class="col-12 pl-3 mb-4">
+            <div class="col-md-12 pl-3 mb-4">
                 <div class="list-group mr-3">
                     {% set rootNode = menu.rootNode %}
 
@@ -74,95 +74,135 @@
                             {% set new = path('admin_site_node_new', {node: node.id}) %}
 
                             <div class="list-group-item">
-                                <div class="float-right">
-                                    {% if node.page %}
-                                        <a href="{{ path('admin_site_page_edit', {entity: node.page.id}) }}" class="btn btn-sm btn-warning text-white mr-1">
-                                            <span class="fa fa-file-alt"></span>
-                                            {{ 'Page'|trans }}
-                                        </a>
-                                    {% endif %}
+                                <div class="row">
+                                    <div class="col-6" style="padding-left: {{ (node.treeLevel - 1) * 30 }}px">
+                                        {{ node.label }}
 
-                                    <button data-modal="{{ edit }}" type="submit" class="btn btn-sm btn-success mr-1">
-                                        <span data-modal="{{ edit }}" class="fa fa-pen"></span>
-                                        {{ 'Edit'|trans }}
-                                    </button>
-
-                                    <button type="submit" form="form-node-visibility-{{ node.id }}" class="btn btn-sm btn-light border-dark mr-1">
-                                        {% if node.isVisible %}
-                                            <span class="fa fa-eye"></span>
-                                            {{ 'Visible'|trans }}
-                                        {% else %}
-                                            <span class="fa fa-eye-slash"></span>
-                                            {{ 'Hidden'|trans }}
-                                        {% endif %}
-                                    </button>
-
-                                    <button data-modal="{{ move }}" type="submit" class="btn btn-sm btn-dark mr-1">
-                                        <span data-modal="{{ move }}" class="fa fa-arrows-alt"></span>
-                                    </button>
-
-                                    <button data-modal="{{ new }}" type="submit" class="btn btn-sm btn-primary mr-1">
-                                        <span data-modal="{{ new }}" class="fa fa-plus"></span>
-                                    </button>
-
-                                    <button type="submit" form="form-node-delete-{{ node.id }}" class="btn btn-sm btn-danger">
-                                        <span class="fa fa-trash"></span>
-                                    </button>
-                                </div>
-
-                                <div class="d block" style="padding-left: {{ (node.treeLevel - 1) * 30 }}px">
-                                    {{ node.label }}
-
-                                    <span class="ml-3 btn-group">
-                                        {% if node.hasExternalUrl %}
-                                            <a href="{{ safe_node_url(node) }}" class="btn btn-sm border border-secondary btn-light">
-                                                <span class="fa fa-sign-out-alt text-muted"></span>
-                                            </a>
-                                        {% else %}
-                                            {% if node.parameters|length %}
-                                                <span class="btn btn-sm border border-secondary btn-light">
-                                                    {{ node.url }}
-                                                </span>
+                                        <span class="ml-3 btn-group d-none d-md-inline-block">
+                                            {% if node.hasExternalUrl %}
+                                                <a href="{{ safe_node_url(node) }}" class="btn btn-sm border border-secondary btn-light">
+                                                    <span class="fa fa-sign-out-alt text-muted"></span>
+                                                </a>
                                             {% else %}
-                                                {% set url = safe_node_url(node) %}
-
-                                                {% if url %}
-                                                    <a href="{{ url ? url : '#' }}" target="_blank" class="btn btn-sm border border-secondary btn-light">
+                                                {% if node.parameters|length %}
+                                                    <span class="btn btn-sm border border-secondary btn-light">
                                                         {{ node.url }}
-                                                    </a>
+                                                    </span>
+                                                {% else %}
+                                                    {% set url = safe_node_url(node) %}
+
+                                                    {% if url %}
+                                                        <a href="{{ url ? url : '#' }}" target="_blank" class="btn btn-sm border border-secondary btn-light">
+                                                            {{ node.url }}
+                                                        </a>
+                                                    {% endif %}
+
+                                                    {% if url is same as(null) %}
+                                                        <span class="btn btn-sm border border-secondary btn-light" title="{{ 'Edit the routing'|trans }}">
+                                                            <span class="fa fa-exclamation"></span>
+                                                        </span>
+                                                    {% endif %}
                                                 {% endif %}
 
-                                                {% if url is same as(null) %}
-                                                    <span class="btn btn-sm border border-secondary btn-light" title="{{ 'Edit the routing'|trans }}">
-                                                        <span class="fa fa-exclamation"></span>
+                                                {% if node.controller %}
+                                                    <span title="{{ node.controller }}" data-toggle="tooltip" data-placement="top" class="btn btn-sm border border-secondary btn-light">
+                                                        <span class="fa fa-dice-d6"></span>
                                                     </span>
                                                 {% endif %}
                                             {% endif %}
+                                        </span>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="float-right">
+                                            <div class="d-none d-md-block">
+                                                {% if node.page %}
+                                                    <a href="{{ path('admin_site_page_edit', {entity: node.page.id}) }}" class="btn btn-sm btn-warning text-white mr-1 mb-1">
+                                                        <span class="fa fa-file-alt"></span>
+                                                        {{ 'Page'|trans }}
+                                                    </a>
+                                                {% endif %}
 
-                                            {% if node.controller %}
-                                                <span title="{{ node.controller }}" data-toggle="tooltip" data-placement="top" class="btn btn-sm border border-secondary btn-light">
-                                                    <span class="fa fa-dice-d6"></span>
-                                                </span>
-                                            {% endif %}
-                                        {% endif %}
-                                    </span>
+                                                <button data-modal="{{ edit }}" type="submit" class="btn btn-sm btn-success mr-1 mb-1">
+                                                    <span data-modal="{{ edit }}" class="fa fa-pen"></span>
+                                                    {{ 'Edit'|trans }}
+                                                </button>
+
+                                                <button form="form-node-visibility-{{ node.id }}" class="btn btn-sm btn-light border-dark mr-1 mb-1">
+                                                    {% if node.isVisible %}
+                                                        <span class="fa fa-eye"></span>
+                                                        {{ 'Visible'|trans }}
+                                                    {% else %}
+                                                        <span class="fa fa-eye-slash"></span>
+                                                        {{ 'Hidden'|trans }}
+                                                    {% endif %}
+                                                </button>
+
+                                                <button data-modal="{{ move }}" class="btn btn-sm btn-dark mr-1 mb-1">
+                                                    <span data-modal="{{ move }}" class="fa fa-arrows-alt"></span>
+                                                </button>
+
+                                                <button data-modal="{{ new }}" class="btn btn-sm btn-primary mr-1 mb-1">
+                                                    <span data-modal="{{ new }}" class="fa fa-plus"></span>
+                                                </button>
+
+                                                <button type="submit" form="form-node-delete-{{ node.id }}" class="btn btn-sm btn-danger mb-1">
+                                                    <span class="fa fa-trash"></span>
+                                                </button>
+                                            </div>
+                                            <div class="d-block d-md-none text-left">
+                                                <button type="button" class="btn btn-sm dropdown-toggle " data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    {{ 'Actions'|trans }}
+                                                </button>
+                                                <div class="dropdown-menu dropdown-menu-right">
+                                                    {% if node.page %}
+                                                        <a href="{{ path('admin_site_page_edit', {entity: node.page.id}) }}" class="dropdown-item">
+                                                            {{ 'Page'|trans }}
+                                                        </a>
+                                                    {% endif %}
+                                                    <button data-modal="{{ edit }}" class="dropdown-item">
+                                                        {{ 'Edit'|trans }}
+                                                    </button>
+
+                                                    <button form="form-node-visibility-{{ node.id }}" class="dropdown-item">
+                                                        {% if node.isVisible %}
+                                                            {{ 'Visible'|trans }}
+                                                        {% else %}
+                                                            {{ 'Hidden'|trans }}
+                                                        {% endif %}
+                                                    </button>
+
+                                                    <button data-modal="{{ move }}" class="dropdown-item">
+                                                        {{ 'Move'|trans }}
+                                                    </button>
+
+                                                    <button data-modal="{{ new }}" class="dropdown-item">
+                                                        {{ 'New'|trans }}
+                                                    </button>
+
+                                                    <button type="submit" form="form-node-delete-{{ node.id }}" class="dropdown-item">
+                                                        {{ 'Remove'|trans }}
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <form method="post" action="{{ path('admin_site_node_toggle_visibility', {entity: node.id}) }}" id="form-node-visibility-{{ node.id }}">
+                                        <input type="hidden" name="_token" value="{{ csrf_token('toggle_visibility' ~ node.id) }}">
+                                    </form>
+
+                                    <form method="post" action="{{ path('admin_site_node_delete', {entity: node.id}) }}" id="form-node-delete-{{ node.id }}" data-form-confirm>
+                                        <input type="hidden" name="_method" value="DELETE">
+                                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ node.id) }}">
+                                    </form>
                                 </div>
-
-                                <form method="post" action="{{ path('admin_site_node_toggle_visibility', {entity: node.id}) }}" id="form-node-visibility-{{ node.id }}">
-                                    <input type="hidden" name="_token" value="{{ csrf_token('toggle_visibility' ~ node.id) }}">
-                                </form>
-
-                                <form method="post" action="{{ path('admin_site_node_delete', {entity: node.id}) }}" id="form-node-delete-{{ node.id }}" data-form-confirm>
-                                    <input type="hidden" name="_method" value="DELETE">
-                                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ node.id) }}">
-                                </form>
                             </div>
                         {% endfor %}
                     {% endif %}
                 </div>
             </div>
          {% else %}
-            <div class="col-12 text-center p-4 text-black-50">
+            <div class="col-md-12 text-center p-4 text-black-50">
                 <div class="display-1">
                     <span class="fa fa-search"></span>
                 </div>
