@@ -27,16 +27,14 @@
 
         {% block body_container %}
             <div class="container-fluid">
-                <div class="row">
-                    <nav class="col-md-2 col-1 d-md-block bg-dark-blue sidebar">
-                        <div class="sidebar-sticky">
-                            {{ include('@Core/admin/module/menu.html.twig') }}
-                        </div>
-                    </nav>
-                    <div class="col-11 col-md-10 ml-sm-auto col-lg-10 body">
-                        {% block body %}
-                        {% endblock %}
+                <nav class="bg-dark-blue sidebar">
+                    <div class="sidebar-sticky">
+                        {{ include('@Core/admin/module/menu.html.twig') }}
                     </div>
+                </nav>
+                <div class="body">
+                    {% block body %}
+                    {% endblock %}
                 </div>
             </div>
         {% endblock %}

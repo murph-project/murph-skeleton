@@ -126,6 +126,9 @@ tr.table-primary-light {
 
 
 .sidebar {
+    width: 260px;
+    display: inline-block;
+
     .nav-link {
         font-weight: 500;
         color: #333;
@@ -151,32 +154,6 @@ tr.table-primary-light {
         font-size: .75rem;
         text-transform: uppercase;
         display: flex;
-    }
-
-    @media screen and (max-width: 1130px) {
-        .nav-link {
-            font-size: 14px;
-        }
-    }
-
-    @media screen and (max-width: 770px) {
-        .nav {
-            padding-left: 0;
-        }
-
-        .nav-link {
-            padding-left: 10px;
-        }
-
-        .nav-item-label {
-            display: none;
-        }
-
-        .sidebar-heading {
-            display: none;
-        }
-
-        width: 50px;
     }
 }
 
@@ -204,15 +181,19 @@ tr.table-primary-light {
 
 .body {
     padding-top: 60px;
+    width: calc(100vw - 260px);
+    margin-left: 260px;
+    display: inline-block;
 
     .nav {
         padding-left: 10px;
     }
 }
 
-@media screen and (max-width: 580px) {
+@media screen and (max-width: 770px) {
     .body {
-        margin-left: 45px;
+        margin-left: 50px;
+        width: calc(100vw - 50px);
     }
 
     .sidebar {
@@ -222,6 +203,22 @@ tr.table-primary-light {
         .sidebar-sticky {
             width: 50px;
             max-width: 100% !important;
+        }
+
+        .nav {
+            padding-left: 0;
+        }
+
+        .nav-link {
+            padding-left: 10px;
+        }
+
+        .nav-item-label {
+            display: none;
+        }
+
+        .sidebar-heading {
+            display: none;
         }
     }
 }
