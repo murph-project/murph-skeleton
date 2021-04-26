@@ -94,4 +94,29 @@ abstract class RepositoryQuery
 
         return $data;
     }
+
+    protected function filterHandler(string $name, $value)
+    {
+    }
+
+    public function useFilters(array $filters)
+    {
+        foreach ($filters as $name => $value) {
+            if (null === $value) {
+                continue;
+            }
+
+            if (is_int($value) || is_bool($value)) {
+                $this->andWhere('.'.$name.' = :'.$name);
+                $this->setParameter(':'.$name, $value);
+            } elseif (is_string($value)) {
+                $this->andWhere('.'.$name.' LIKE :'.$name);
+                $this->setParameter(':'.$name, '%'.$value.'%');
+            } else {
+                $this->filterHandler($name, $value);
+            }
+        }
+
+        return $this;
+    }
 }
