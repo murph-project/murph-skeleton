@@ -8,6 +8,7 @@ use App\Core\Factory\Site\MenuFactory;
 use App\Core\Form\Site\MenuType;
 use App\Core\Repository\Site\NavigationRepositoryQuery;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -18,9 +19,21 @@ class TreeAdminController extends AdminController
     /**
      * @Route("/", name="admin_site_tree_index")
      */
-    public function index(NavigationRepositoryQuery $navigationQuery): Response
+    public function index(NavigationRepositoryQuery $navigationQuery, Session $session): Response
     {
-        $navigation = $navigationQuery->create()->findOne();
+        $navigation = null;
+
+        if ($session->has('site_tree_last_navigation')) {
+            $navigation = $navigationQuery->create()
+                ->where('.id = :id')
+                ->setParameter(':id', (int) $session->get('site_tree_last_navigation'))
+                ->findOne()
+            ;
+        }
+
+        if (null === $navigation) {
+            $navigation = $navigationQuery->create()->findOne();
+        }
 
         if (null === $navigation) {
             $this->addFlash('warning', 'You must add a navigation.');
@@ -39,9 +52,12 @@ class TreeAdminController extends AdminController
     public function navigation(
         Navigation $navigation,
         NavigationRepositoryQuery $navigationQuery,
-        MenuFactory $menuFactory
+        MenuFactory $menuFactory,
+        Session $session
     ): Response {
         $navigations = $navigationQuery->create()->find();
+
+        $session->set('site_tree_last_navigation', $navigation->getId());
 
         $forms = [
             'menu' => $this->createForm(MenuType::class, $menuFactory->create())->createView(),
