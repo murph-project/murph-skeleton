@@ -20,8 +20,6 @@
             </span>
         {% endif %}
 
-        {{ dump(node.attributes) }}
-
         {% if node.children|length %}
             <ul>
                 {% for child in node.children %}
@@ -58,22 +56,41 @@
     <img src="{{ asset(image) }}" alt="">
 {% endif %}
 
+<h1>Request</h1>
+
 <ul>
     <li>
-        Node : {{ _node.label }}
+        Node: {{ _node.label }}
     </li>
     <li>
-        Menu : {{ _menu.label }}
+        Menu: {{ _menu.label }}
     </li>
     <li>
-        Navigation : {{ _navigation.label }}
+        Navigation: {{ _navigation.label }}
+    </li>
+    <li>
+        Locale:
+
+        <ul>
+            <li>
+                Navigation: {{ _navigation.locale }}
+            </li>
+            <li>
+                Request: {{ app.request.attributes.get('_locale') }}
+            </li>
+            <li>
+                Test: {{ 'This is a test of translation'|trans }}
+            </li>
+        </ul>
     </li>
 </ul>
 
-<h4>Menu</h4>
+<h1>Menus</h1>
 
-{% set menu = _navigation.menu('top') %}
+{# {% set menu = _navigation.menu('top') %} #}
 
-{% if menu %}
+{% for menu in _navigation.menus %}
+    <h2>{{ menu.label }} / {{ menu.code }}</h2>
+
     {{ macros.menu(menu, _store) }}
-{% endif %}
+{% endfor %}
