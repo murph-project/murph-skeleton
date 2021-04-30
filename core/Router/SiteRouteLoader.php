@@ -32,6 +32,16 @@ class SiteRouteLoader extends Loader
         $routes = new RouteCollection();
         $navigations = $this->navigationQuery->find();
 
+        $uniqueness = [];
+
+        foreach ($navigations as $navigation) {
+            if (!isset($uniqueness[$navigation->getDomain()])) {
+                $uniqueness[$navigation->getDomain()] = true;
+            } else {
+                $uniqueness[$navigation->getDomain()] = false;
+            }
+        }
+
         foreach ($navigations as $navigation) {
             foreach ($navigation->getMenus() as $menu) {
                 foreach ($menu->getRootNode()->getAllChildren() as $node) {
@@ -51,6 +61,7 @@ class SiteRouteLoader extends Loader
 
                     $defaults = [
                         '_controller' => $node->getController() ?? PageController::class.'::show',
+                        '_locale' => $navigation->getLocale(),
                         '_node' => $node->getId(),
                         '_menu' => $menu->getId(),
                         '_page' => $node->getPage() ? $node->getPage()->getId() : null,
@@ -69,7 +80,15 @@ class SiteRouteLoader extends Loader
                         }
                     }
 
-                    $route = new Route($node->getUrl(), $defaults, $requirements);
+                    $requirements['_locale'] = $navigation->getLocale();
+
+                    $url = $node->getUrl();
+
+                    if (!$uniqueness[$navigation->getDomain()]) {
+                        $url = sprintf('/%s%s', $navigation->getLocale(), $url);
+                    }
+
+                    $route = new Route($url, $defaults, $requirements);
                     $route->setHost($navigation->getDomain());
 
                     $routes->add($node->getRouteName(), $route);

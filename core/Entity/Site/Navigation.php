@@ -44,6 +44,11 @@ class Navigation implements EntityInterface
      */
     private $menus;
 
+    /**
+     * @ORM\Column(type="string", length=10)
+     */
+    private $locale = 'en';
+
     public function __construct()
     {
         $this->menus = new ArrayCollection();
@@ -134,5 +139,17 @@ class Navigation implements EntityInterface
     public function getRouteName(): string
     {
         return $this->getCode() ? $this->getCode() : 'navigation_'.$this->getId();
+    }
+
+    public function getLocale(): ?string
+    {
+        return $this->locale;
+    }
+
+    public function setLocale(string $locale): self
+    {
+        $this->locale = $locale;
+
+        return $this;
     }
 }

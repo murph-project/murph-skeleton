@@ -8,6 +8,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\Length;
 
 class NavigationType extends AbstractType
 {
@@ -51,6 +52,21 @@ class NavigationType extends AbstractType
                 ],
                 'constraints' => [
                     new NotBlank(),
+                ],
+            ]
+        );
+
+        $builder->add(
+            'locale',
+            TextType::class,
+            [
+                'label' => 'Locale',
+                'required' => true,
+                'attr' => [
+                ],
+                'constraints' => [
+                    new NotBlank(),
+                    new Length(['min' => 2, 'max' => 10]),
                 ],
             ]
         );
