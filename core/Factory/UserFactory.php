@@ -22,13 +22,17 @@ class UserFactory
         $this->encoder = $encoder;
     }
 
-    public function create(): User
+    public function create(?string $email = null, ?string $password = null): User
     {
         $entity = new User();
 
+        if (!empty($email)) {
+            $entity->setEmail($email);
+        }
+
         $entity->setPassword($this->encoder->encodePassword(
             $entity,
-            $this->tokenGenerator->generateToken()
+            !empty($password) ? $password : $this->tokenGenerator->generateToken()
         ));
 
         return $entity;
