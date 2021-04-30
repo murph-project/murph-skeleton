@@ -22,7 +22,9 @@ class NavigationAdminController extends AdminController
      */
     public function index(int $page = 1, RepositoryQuery $query, Request $request): Response
     {
-        $pager = $query->paginate($page);
+        $pager = $query
+            ->orderBy('.label, .domain')
+            ->paginate($page);
 
         return $this->render('@Core/site/navigation_admin/index.html.twig', [
             'pager' => $pager,

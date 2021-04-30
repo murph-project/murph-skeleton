@@ -55,7 +55,9 @@ class TreeAdminController extends AdminController
         MenuFactory $menuFactory,
         Session $session
     ): Response {
-        $navigations = $navigationQuery->create()->find();
+        $navigations = $navigationQuery->create()
+            ->orderBy('.label, .domain')
+            ->find();
 
         $session->set('site_tree_last_navigation', $navigation->getId());
 
