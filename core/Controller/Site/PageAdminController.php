@@ -6,6 +6,7 @@ use App\Core\Controller\Admin\AdminController;
 use App\Core\Entity\Site\Page\Page as Entity;
 use App\Core\Factory\Site\Page\PageFactory as EntityFactory;
 use App\Core\Form\Site\Page\PageType as EntityType;
+use App\Core\Form\Site\Page\Filter\PageFilterType as FilterType;
 use App\Core\Manager\EntityManager;
 use App\Core\Page\FooPage;
 use App\Core\Page\SimplePage;
@@ -14,6 +15,7 @@ use App\Core\Site\PageLocator;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 /**
  * @Route("/admin/site/page")
@@ -23,12 +25,17 @@ class PageAdminController extends AdminController
     /**
      * @Route("/{page}", name="admin_site_page_index", requirements={"page": "\d+"})
      */
-    public function index(int $page = 1, RepositoryQuery $query, Request $request): Response
+    public function index(int $page = 1, RepositoryQuery $query, Request $request, Session $session): Response
     {
-        $pager = $query->paginate($page);
+        $this->updateFilters($request, $session);
+
+        $pager = $query
+            ->useFilters($this->filters)
+            ->paginate($page);
 
         return $this->render('@Core/site/page_admin/index.html.twig', [
             'pager' => $pager,
+            'hasFilters' => !empty($this->filters),
         ]);
     }
 
@@ -100,6 +107,45 @@ class PageAdminController extends AdminController
         }
 
         return $this->redirectToRoute('admin_site_page_index');
+    }
+
+    /**
+     * @Route("/filters", name="admin_site_page_filters")
+     */
+    public function filters(Session $session): Response
+    {
+        $form = $this->createForm(FilterType::class);
+        $form->submit($session->get('page_filter', []));
+
+        return $this->render('@Core/site/page_admin/filters.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
+
+    protected function updateFilters(Request $request, Session $session)
+    {
+        if ($request->query->has('page_filter')) {
+            $filters = $request->query->get('page_filter');
+
+            if ('0' === $filters) {
+                $filters = [];
+            }
+        } elseif ($session->has('page_filter')) {
+            $filters = $session->get('page_filter');
+        } else {
+            $filters = [];
+        }
+
+        $form = $this->createForm(FilterType::class);
+        $form->submit($filters);
+
+        if (empty($filters)) {
+            $this->filters = $filters;
+            $session->set('page_filter', $filters);
+        } elseif ($form->isValid()) {
+            $this->filters = $form->getData();
+            $session->set('page_filter', $filters);
+        }
     }
 
     public function getSection(): string

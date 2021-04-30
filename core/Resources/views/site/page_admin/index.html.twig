@@ -10,7 +10,16 @@
             </div>
         </div>
 
-        {{ knp_pagination_render(pager) }}
+        <div class="row">
+            <div class="col-auto ml-auto {% if pager.getPaginationData.pageCount > 1 %}mr-3{% endif %}">
+                <button data-modal="{{ path('admin_site_page_filters') }}" class="btn btn-sm btn-secondary">
+                    {{ 'Filter'|trans }} {% if hasFilters %}({{ 'Yes'|trans }}){% endif %}
+                </button>
+            </div>
+            <div class="col-auto">
+                {{ knp_pagination_render(pager) }}
+            </div>
+        </div>
     </div>
 
     <div class="table-responsive">

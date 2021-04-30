@@ -17,6 +17,16 @@ class NavigationRepositoryQuery extends RepositoryQuery
         parent::__construct($repository, 'n', $paginator);
     }
 
+    public function filterById($id)
+    {
+        $this
+            ->where('.id = :id')
+            ->setParameter(':id', $id)
+        ;
+
+        return $this;
+    }
+
     public function whereDomain($domain)
     {
         return $this

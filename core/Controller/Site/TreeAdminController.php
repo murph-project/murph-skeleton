@@ -25,8 +25,7 @@ class TreeAdminController extends AdminController
 
         if ($session->has('site_tree_last_navigation')) {
             $navigation = $navigationQuery->create()
-                ->where('.id = :id')
-                ->setParameter(':id', (int) $session->get('site_tree_last_navigation'))
+                ->filterById((int) $session->get('site_tree_last_navigation'))
                 ->findOne()
             ;
         }
