@@ -1,0 +1,32 @@
+<?php
+
+namespace App\Core\EventSuscriber;
+
+use App\Core\Event\Setting\SettingEvent;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+
+/**
+ * class SettingEventSubscriber.
+ *
+ * @author Simon Vieille <simon@deblan.fr>
+ */
+class SettingEventSubscriber implements EventSubscriberInterface
+{
+    protected static int $priority = 0;
+
+    public static function getSubscribedEvents()
+    {
+        return [
+            SettingEvent::INIT_EVENT => ['onInit', self::$priority],
+            SettingEvent::FORM_INIT_EVENT => ['onFormInit', self::$priority],
+        ];
+    }
+
+    public function onInit(SettingEvent $event)
+    {
+    }
+
+    public function onFormInit(SettingEvent $event)
+    {
+    }
+}

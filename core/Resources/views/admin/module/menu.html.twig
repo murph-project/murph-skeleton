@@ -67,5 +67,15 @@
                 </span>
             </a>
         </li>
+
+        <li class="nav-item">
+            <a class="nav-link {{ macros_menu.active_class('setting', section) }}" href="{{ path('admin_setting_index') }}">
+                <span class="fa fa-sliders-h"></span>
+
+                <span class="nav-item-label">
+                    {{ 'Settings'|trans }}
+                </span>
+            </a>
+        </li>
     </ul>
 {% endif %}

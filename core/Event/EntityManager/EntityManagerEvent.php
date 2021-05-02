@@ -6,7 +6,7 @@ use App\Core\Entity\EntityInterface;
 use Symfony\Contracts\EventDispatcher\Event;
 
 /**
- * class EntityEvent.
+ * class EntityManagerEvent.
  *
  * @author Simon Vieille <simon@deblan.fr>
  */
