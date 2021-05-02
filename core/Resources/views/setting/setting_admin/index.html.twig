@@ -29,11 +29,11 @@
                     <tr data-dblclick="{{ edit }}">
                         <td class="col-5">
                             <a href="#" data-modal="{{ edit }}" class="font-weight-bold text-body d-block">
-                                {{ item.label }}
+                                {{ item.label|trans }}
                             </a>
                         </td>
                         <td class="col-5">
-                            {{ item.section }}
+                            {{ item.section|trans }}
                         </td>
                         <td class="col-2 miw-100 text-right">
                             <span data-modal="{{ edit }}" class="btn btn-sm btn-primary mr-1">
