@@ -4,12 +4,10 @@
 
 {% block body %}
     <div class="bg-light pl-5 pr-4 pt-5 pb-5">
-        <div class="d-flex">
-            <div class="mr-auto w-50">
-                <h1 class="display-5">{{ 'New'|trans }}⋅elle utilisateur⋅tice</h1>
-            </div>
+        <div class="crud-header">
+            <h1 class="crud-header-title">{{ 'New'|trans }}</h1>
 
-            <div class="ml-auto">
+            <div class="crud-header-actions">
                 <div class="btn-group">
                     <a href="{{ path('admin_user_index') }}" class="btn btn-light">
                         <span class="fa fa-list pr-1"></span>

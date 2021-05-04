@@ -4,12 +4,10 @@
 
 {% block body %}
     <div class="bg-light pl-5 pr-4 pt-5 pb-5">
-        <div class="d-flex">
-            <div class="mr-auto w-50">
-                <h1 class="display-5">{{ entity.label }}</h1>
-            </div>:
+        <div class="crud-header">
+            <h1 class="crud-header-title">{{ entity.label }}</h1>
 
-            <div class="ml-auto">
+            <div class="crud-header-actions">
                 <div class="btn-group">
                     <a href="{{ path('admin_site_navigation_index') }}" class="btn btn-secondary">
                         <span class="fa fa-list pr-1"></span>

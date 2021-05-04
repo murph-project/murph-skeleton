@@ -4,8 +4,8 @@
 
 {% block body %}
     <div class="bg-light pl-5 pr-4 pt-5 pb-5">
-        <div class="d-flex">
-            <div class="mr-auto w-50">
+        <div class="crud-header">
+            <div class="crud-header-title">
                 <button type="button" class="btn btn-outline-dark dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <span class="font-weight-bold">
                         {{ navigation.label }}
@@ -20,7 +20,7 @@
                 </div>
             </div>
 
-            <div class="ml-auto">
+            <div class="crud-header-actions">
                 <div class="btn-group">
                     <button class="btn btn-primary" data-toggle="modal" data-target="#modal-menu-new">
                         <span class="fa fa-plus pr-1"></span>
