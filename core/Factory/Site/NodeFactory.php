@@ -4,13 +4,14 @@ namespace App\Core\Factory\Site;
 
 use App\Core\Entity\Site\Menu;
 use App\Core\Entity\Site\Node;
+use App\Core\Factory\FactoryInterface;
 
 /**
  * class NodeFactory.
  *
  * @author Simon Vieille <simon@deblan.fr>
  */
-class NodeFactory
+class NodeFactory implements FactoryInterface
 {
     public function create(?Menu $menu = null, string $url = null): Node
     {

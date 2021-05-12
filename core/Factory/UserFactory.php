@@ -11,7 +11,7 @@ use Symfony\Component\Security\Csrf\TokenGenerator\TokenGeneratorInterface;
  *
  * @author Simon Vieille <simon@deblan.fr>
  */
-class UserFactory
+class UserFactory implements FactoryInterface
 {
     protected TokenGeneratorInterface $tokenGenerator;
     protected UserPasswordEncoderInterface $encoder;

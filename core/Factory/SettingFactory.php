@@ -9,7 +9,7 @@ use App\Core\Entity\Setting;
  *
  * @author Simon Vieille <simon@deblan.fr>
  */
-class SettingFactory
+class SettingFactory implements FactoryInterface
 {
     public function create(string $code): Setting
     {
