@@ -38,7 +38,6 @@ class UserAdminController extends AdminController
     public function new(
         EntityFactory $factory,
         EntityManager $entityManager,
-        UserPasswordEncoderInterface $encoder,
         Request $request
     ): Response {
         $entity = $factory->create($this->getUser());

@@ -40,24 +40,6 @@ class PageAdminController extends AdminController
     }
 
     /**
-     * @Route("/new", name="admin_site_page_new")
-     */
-    public function new(EntityFactory $factory, EntityManager $entityManager): Response
-    {
-        // $entity = $factory->create(FooPage::class);
-        $entity = $factory->create(SimplePage::class);
-        $entity->setName('Page de test '.mt_rand());
-
-        $entityManager->create($entity);
-
-        $this->addFlash('success', 'The data has been saved.');
-
-        return $this->redirectToRoute('admin_site_page_edit', [
-            'entity' => $entity->getId(),
-        ]);
-    }
-
-    /**
      * @Route("/edit/{entity}", name="admin_site_page_edit")
      */
     public function edit(
