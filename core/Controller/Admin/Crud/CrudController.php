@@ -43,7 +43,7 @@ abstract class CrudController extends AdminController
         ]);
     }
 
-    protected function doNew(EntityInterface $entity, EntityManager $entityManager, Request $request): Response
+    protected function doNew(EntityInterface $entity, EntityManager $entityManager, Request $request, callable $beforeCreate = null): Response
     {
         $configuration = $this->getConfiguration();
         $form = $this->createForm($configuration->getForm('new'), $entity);
@@ -52,6 +52,10 @@ abstract class CrudController extends AdminController
             $form->handleRequest($request);
 
             if ($form->isValid()) {
+                if ($beforeCreate !== null) {
+                    call_user_func_array($beforeCreate, [$entity, $form, $request]);
+                }
+
                 $entityManager->create($entity);
                 $this->addFlash('success', 'The data has been saved.');
 
@@ -79,7 +83,7 @@ abstract class CrudController extends AdminController
         ]);
     }
 
-    protected function doEdit(EntityInterface $entity, EntityManager $entityManager, Request $request): Response
+    protected function doEdit(EntityInterface $entity, EntityManager $entityManager, Request $request, callable $beforeUpdate = null): Response
     {
         $configuration = $this->getConfiguration();
         $form = $this->createForm($configuration->getForm('edit'), $entity);
@@ -88,6 +92,10 @@ abstract class CrudController extends AdminController
             $form->handleRequest($request);
 
             if ($form->isValid()) {
+                if ($beforeUpdate !== null) {
+                    call_user_func_array($beforeUpdate, [$entity, $form, $request]);
+                }
+
                 $entityManager->update($entity);
                 $this->addFlash('success', 'The data has been saved.');
 
@@ -105,11 +113,15 @@ abstract class CrudController extends AdminController
         ]);
     }
 
-    protected function doDelete(EntityInterface $entity, EntityManager $entityManager, Request $request): Response
+    protected function doDelete(EntityInterface $entity, EntityManager $entityManager, Request $request, callable $beforeDelete = null): Response
     {
         $configuration = $this->getConfiguration();
 
         if ($this->isCsrfTokenValid('delete'.$entity->getId(), $request->request->get('_token'))) {
+            if ($beforeDelete !== null) {
+                call_user_func($beforeDelete, $entity);
+            }
+
             $entityManager->delete($entity);
 
             $this->addFlash('success', 'The data has been removed.');
