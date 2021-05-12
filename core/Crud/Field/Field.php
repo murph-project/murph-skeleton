@@ -45,11 +45,9 @@ abstract class Field
 
     protected function getValue($entity, array $options)
     {
-        $propertyAccessor = PropertyAccess::createPropertyAccessorBuilder()
-            ->getPropertyAccessor()
-        ;
-
         if (null !== $options['property']) {
+            $propertyAccessor = PropertyAccess::createPropertyAccessorBuilder()->getPropertyAccessor();
+
             $value = $propertyAccessor->getValue($entity, $options['property']);
         } elseif (null !== $options['property_builder']) {
             $value = call_user_func($options['property_builder'], $entity, $options);
