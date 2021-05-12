@@ -17,6 +17,7 @@ abstract class Field
     public function buildView(Environment $twig, $entity, array $options)
     {
         return $twig->render($this->getView($options), [
+            'entity' => $entity,
             'value' => $this->getValue($entity, $options),
             'options' => $options,
         ]);
@@ -53,7 +54,7 @@ abstract class Field
         } elseif (null !== $options['property_builder']) {
             $value = call_user_func($options['property_builder'], $entity, $options);
         } else {
-            throw new CrudConfigurationException('Unable to get the value. One of "property" and "property_builder" is required.');
+            $value = null;
         }
 
         return $value;
