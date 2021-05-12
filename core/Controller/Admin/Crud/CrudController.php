@@ -44,7 +44,8 @@ abstract class CrudController extends AdminController
 
     protected function doNew(EntityInterface $entity, EntityManager $entityManager, Request $request): Response
     {
-        $form = $this->createForm($this->forms['new'], $entity);
+        $configuration = $this->getConfiguration();
+        $form = $this->createForm($configuration->getForm('new'), $entity);
 
         if ($request->isMethod('POST')) {
             $form->handleRequest($request);
@@ -62,6 +63,7 @@ abstract class CrudController extends AdminController
 
         return $this->render($configuration->getView('new'), [
             'form' => $form->createView(),
+            'configuration' => $configuration,
             'entity' => $entity,
         ]);
     }
@@ -79,7 +81,6 @@ abstract class CrudController extends AdminController
     protected function doEdit(EntityInterface $entity, EntityManager $entityManager, Request $request): Response
     {
         $configuration = $this->getConfiguration();
-
         $form = $this->createForm($configuration->getForm('edit'), $entity);
 
         if ($request->isMethod('POST')) {
@@ -105,6 +106,8 @@ abstract class CrudController extends AdminController
 
     protected function doDelete(EntityInterface $entity, EntityManager $entityManager, Request $request): Response
     {
+        $configuration = $this->getConfiguration();
+
         if ($this->isCsrfTokenValid('delete'.$entity->getId(), $request->request->get('_token'))) {
             $entityManager->delete($entity);
 
