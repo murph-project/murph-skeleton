@@ -1,0 +1,112 @@
+{% extends '@Core/admin/layout.html.twig' %}
+
+{% block title %}{{ configuration.pageTitle('index')|trans }} - {{ parent() }}{% endblock %}
+
+{% block body %}
+    {% block header %}
+        <div class="bg-light pl-5 pr-4 pt-5 {% if pager.paginationData.pageCount < 2 %}pb-5{% endif %}">
+            <div class="crud-header">
+                {% block header_title %}
+                    <h1 class="crud-header-title">{{ configuration.pageTitle('index')|trans }}</h1>
+                {% endblock %}
+
+                {% block header_actions %}
+                    <div class="crud-header-actions">
+                        <div class="btn-group">
+                            {% if configuration.action('index', 'new', true) %}
+                                <a href="{{ path(configuration.pageRoute('new')) }}" class="btn btn-primary">
+                                    <span class="fa fa-plus pr-1"></span>
+                                    {{ configuration.actionTitle('index', 'new', 'New')|trans }}
+                                </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endblock %}
+            </div>
+
+            {{ knp_pagination_render(pager) }}
+        </div>
+    {% endblock %}
+
+    {% block list %}
+        <div class="table-responsive">
+            <table class="table">
+                {% block list_header %}
+                    <thead class="thead-light">
+                        <tr>
+                            {% for label, config in configuration.fields('index') %}
+                                {% set attr = config.options.attr is defined ? config.options.attr : [] %}
+
+                                <th {% for key, value in attr %}{{ key }}="{{ value }}"{% endfor %}>
+                                    {{ label|trans }}
+                                </th>
+                            {% endfor %}
+                            <th class="col-2 miw-100 text-right">Actions</th>
+                        </tr>
+                    </thead>
+                {% endblock %}
+
+                {% block list_items %}
+                    <tbody>
+                        {% for item in pager %}
+                            {% block list_item %}
+                                <tr data-dblclick="">
+                                    {% for config in configuration.fields('index') %}
+                                        {% set attr = config.options.attr is defined ? config.options.attr : [] %}
+                                        {% set action = config.options.action is defined ? config.options.action : null %}
+
+                                        <td {% for key, value in attr %}{{ key }}="{{ value }}"{% endfor %}>
+                                            {% if action == 'show' %}
+                                                <a href="{{ path(configuration.pageRoute('show'), {entity: item.id}) }}">
+                                                    {{ render_field(item, config) }}
+                                                </a>
+                                            {% elseif action == 'edit' %}
+                                                <a href="{{ path(configuration.pageRoute('edit'), {entity: item.id}) }}">
+                                                    {{ render_field(item, config) }}
+                                                </a>
+                                            {% else %}
+                                                {{ render_field(item, config) }}
+                                            {% endif %}
+                                        </td>
+                                    {% endfor %}
+
+                                    {% if configuration.action('index', 'edit', true) or configuration.action('index', 'delete', true) %}
+                                        <td class="col-2 miw-100 text-right">
+                                            {% if configuration.action('index', 'edit', true) %}
+                                                <a href="{{ path(configuration.pageRoute('edit'), {entity: item.id}) }}" class="btn btn-sm btn-primary mr-1">
+                                                    <span class="fa fa-edit"></span>
+                                                </a>
+                                            {% endif %}
+
+                                            {% if configuration.action('index', 'delete', true) %}
+                                                <button type="submit" form="form-delete-{{ item.id }}" class="btn btn-sm btn-danger">
+                                                    <span class="fa fa-trash"></span>
+                                                </button>
+
+                                                <form method="post" action="{{ path(configuration.pageRoute('delete'), {entity: item.id}) }}" id="form-delete-{{ item.id }}" data-form-confirm>
+                                                    <input type="hidden" name="_method" value="DELETE">
+                                                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ item.id) }}">
+                                                </form>
+                                            {% endif %}
+                                        </td>
+                                    {% endif %}
+                                </tr>
+                            {% endblock %}
+                        {% else %}
+                            <tr>
+                                <td class="col-12 text-center p-4 text-black-50">
+                                    <div class="display-1">
+                                        <span class="fa fa-search"></span>
+                                    </div>
+                                    <div class="display-5 mt-3">
+                                        Aucun résultat
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                {% endblock %}
+            </table>
+        </div>
+    {% endblock %}
+{% endblock %}

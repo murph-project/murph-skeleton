@@ -1,0 +1,88 @@
+{% extends '@Core/admin/layout.html.twig' %}
+
+{% block title %}{{ configuration.pageTitle('edit')|trans|build_string(entity) }} - {{ parent() }}{% endblock %}
+
+{% block body %}
+    {% block header %}
+        <div class="bg-light pl-5 pr-4 pt-5 pb-5">
+            <div class="crud-header">
+                {% block header_title %}
+                    <h1 class="crud-header-title">{{ configuration.pageTitle('edit')|trans|build_string(entity) }}</h1>
+                {% endblock %}
+
+                {% block header_actions %}
+                    <div class="crud-header-actions">
+                        <div class="btn-group">
+                            {% if configuration.action('edit', 'back', true) %}
+                                <a href="{{ path(configuration.pageRoute('index')) }}" class="btn btn-light">
+                                    <span class="fa fa-list pr-1"></span>
+                                    {{ configuration.actionTitle('edit', 'back', 'Back to the list')|trans }}
+                                </a>
+                            {% endif %}
+
+                            {% if configuration.action('edit', 'show', true) %}
+                                <a href="{{ path(configuration.pageRoute('show'), {entity: entity.id}) }}" class="btn btn-secondary">
+                                    <span class="fa fa-eye pr-1"></span>
+                                    {{ configuration.actionTitle('edit', 'show', 'Show')|trans|build_string(entity) }}
+                                </a>
+                            {% endif %}
+
+                            <button type="submit" form="form-main" class="btn btn-primary">
+                                <span class="fa fa-save pr-1"></span>
+                                {{ configuration.actionTitle('edit', 'save', 'Save')|trans|build_string(entity) }}
+                            </button>
+
+                            {% block dropdownMenu %}
+                                {% set menu = '' %}
+
+                                {% if configuration.action('edit', 'delete', true) %}
+                                    {% set item %}
+                                        <div class="dropdown-menu dropdown-menu-right">
+                                            <button type="submit" form="form-delete" class="dropdown-item">
+                                                {{ configuration.actionTitle('edit', 'delete', 'Delete')|trans|build_string(entity) }}
+                                            </button>
+                                        </div>
+                                    {% endset %}
+
+                                    {% set menu = menu ~ item %}
+                                {% endif %}
+
+                                {% if menu %}
+                                    <button type="button" class="btn btn-white dropdown-toggle dropdown-toggle-hide-after" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <span class="font-weight-bold">
+                                            ⋅⋅⋅
+                                        </span>
+                                    </button>
+
+                                    {{ menu|raw }}
+                                {% endif %}
+                            {% endblock %}
+
+                        </div>
+                    </div>
+                {% endblock %}
+            </div>
+        </div>
+    {% endblock %}
+
+    {% block form %}
+        <form action="{{ app.request.uri }}" method="post" id="form-main" enctype="multipart/form-data">
+            <div class="tab-content">
+                <div class="tab-pane active">
+                    <div class="tab-form">
+                        {{ include(configuration.view('editForm', '@Core/admin/crud/_form.html.twig')) }}
+                    </div>
+                </div>
+            </div>
+
+            {{ form_rest(form) }}
+        </form>
+    {% endblock %}
+
+    {% if configuration.action('edit', 'delete', true) %}
+        <form method="post" action="{{ path(configuration.pageRoute('delete'), {entity: entity.id}) }}" id="form-delete" data-form-confirm>
+            <input type="hidden" name="_method" value="DELETE">
+            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ entity.id) }}">
+        </form>
+    {% endif %}
+{% endblock %}
