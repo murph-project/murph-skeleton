@@ -28,6 +28,7 @@ abstract class Field
             'property' => null,
             'property_builder' => null,
             'view' => null,
+            'raw' => false,
             'attr' => [],
         ]);
 
@@ -35,6 +36,7 @@ abstract class Field
         $resolver->setAllowedTypes('property', ['null', 'string']);
         $resolver->setAllowedTypes('view', 'string');
         $resolver->setAllowedTypes('attr', 'array');
+        $resolver->setAllowedTypes('raw', 'boolean');
         $resolver->setAllowedTypes('property_builder', ['null', 'callable']);
 
         return $resolver;

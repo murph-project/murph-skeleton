@@ -16,8 +16,20 @@ class CrudConfiguration
     protected array $forms = [];
     protected array $formOptions = [];
     protected array $views = [];
+    protected array $viewDatas = [];
     protected array $fields = [];
     protected array $maxPerPage = [];
+
+    protected static $self;
+
+    public function create()
+    {
+        if (null === self::$self) {
+            self::$self = new self();
+        }
+
+        return self::$self;
+    }
 
     /* -- */
 
@@ -125,6 +137,31 @@ class CrudConfiguration
         }
 
         return $this->views[$context] ?? $default;
+    }
+
+    public function addViewData(string $context, string $name, $value): self
+    {
+        if (!isset($this->viewDatas[$context])) {
+            $this->viewDatas[$context] = [];
+        }
+
+        $this->viewDatas[$context][$name] = $value;
+
+        return $this;
+    }
+
+    public function setViewDatas(string $context, array $datas): self
+    {
+        foreach ($datas as $name => $value) {
+            $this->addViewData($name, $value);
+        }
+
+        return $this;
+    }
+
+    public function getViewDatas(string $context): array
+    {
+        return $this->viewDatas[$context] ?? [];
     }
 
     /* -- */

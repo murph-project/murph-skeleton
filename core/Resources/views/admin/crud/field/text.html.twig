@@ -1,1 +1,2 @@
-{{ value }}
+{% if options.raw %}{{ value|raw }}{% else %}{{ value }}{% endif %}
+

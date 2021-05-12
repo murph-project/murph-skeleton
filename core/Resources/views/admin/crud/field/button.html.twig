@@ -1,1 +1,1 @@
-<{{ options.button_tag }} {% for k, v in options.button_attr %}{{ k }}="{{ v }}"{% endfor %}>{{ value }}</{{  options.button_tag }}>
+<{{ options.button_tag }} {% for k, v in options.button_attr %}{{ k }}="{{ v }}"{% endfor %}>{% if options.raw %}{{ value|raw }}{% else %}{{ value }}{% endif %}</{{  options.button_tag }}>
