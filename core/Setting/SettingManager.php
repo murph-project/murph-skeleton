@@ -2,10 +2,10 @@
 
 namespace App\Core\Setting;
 
+use App\Core\Entity\Setting;
 use App\Core\Factory\SettingFactory;
 use App\Core\Manager\EntityManager;
 use App\Core\Repository\SettingRepositoryQuery;
-use App\Core\Entity\Setting;
 
 /**
  * class SettingManager.

@@ -5,7 +5,6 @@ namespace App\Core\Controller\Site;
 use App\Core\Site\SiteRequest;
 use App\Core\Site\SiteStore;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class PageController extends AbstractController

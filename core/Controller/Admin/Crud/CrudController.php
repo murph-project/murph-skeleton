@@ -18,9 +18,9 @@ use Symfony\Component\HttpFoundation\Session\Session;
  */
 abstract class CrudController extends AdminController
 {
-    abstract protected function getConfiguration(): CrudConfiguration;
-
     protected array $filters = [];
+
+    abstract protected function getConfiguration(): CrudConfiguration;
 
     protected function doIndex(int $page = 1, RepositoryQuery $query, Request $request, Session $session): Response
     {
@@ -37,7 +37,7 @@ abstract class CrudController extends AdminController
             'configuration' => $configuration,
             'pager' => $pager,
             'filters' => [
-                'show' => $configuration->getForm('filter') !== null,
+                'show' => null !== $configuration->getForm('filter'),
                 'isEmpty' => empty($this->filters),
             ],
         ]);

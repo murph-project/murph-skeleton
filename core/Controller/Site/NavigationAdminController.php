@@ -24,7 +24,8 @@ class NavigationAdminController extends AdminController
     {
         $pager = $query
             ->orderBy('.label, .domain')
-            ->paginate($page);
+            ->paginate($page)
+        ;
 
         return $this->render('@Core/site/navigation_admin/index.html.twig', [
             'pager' => $pager,

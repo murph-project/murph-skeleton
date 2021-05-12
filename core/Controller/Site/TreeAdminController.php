@@ -56,7 +56,8 @@ class TreeAdminController extends AdminController
     ): Response {
         $navigations = $navigationQuery->create()
             ->orderBy('.label, .domain')
-            ->find();
+            ->find()
+        ;
 
         $session->set('site_tree_last_navigation', $navigation->getId());
 

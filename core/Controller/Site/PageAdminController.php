@@ -5,17 +5,15 @@ namespace App\Core\Controller\Site;
 use App\Core\Controller\Admin\AdminController;
 use App\Core\Entity\Site\Page\Page as Entity;
 use App\Core\Factory\Site\Page\PageFactory as EntityFactory;
-use App\Core\Form\Site\Page\PageType as EntityType;
 use App\Core\Form\Site\Page\Filter\PageFilterType as FilterType;
+use App\Core\Form\Site\Page\PageType as EntityType;
 use App\Core\Manager\EntityManager;
-use App\Core\Page\FooPage;
-use App\Core\Page\SimplePage;
 use App\Core\Repository\Site\Page\PageRepositoryQuery as RepositoryQuery;
 use App\Core\Site\PageLocator;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/admin/site/page")
@@ -31,7 +29,8 @@ class PageAdminController extends AdminController
 
         $pager = $query
             ->useFilters($this->filters)
-            ->paginate($page);
+            ->paginate($page)
+        ;
 
         return $this->render('@Core/site/page_admin/index.html.twig', [
             'pager' => $pager,
@@ -104,6 +103,11 @@ class PageAdminController extends AdminController
         ]);
     }
 
+    public function getSection(): string
+    {
+        return 'site_page';
+    }
+
     protected function updateFilters(Request $request, Session $session)
     {
         if ($request->query->has('page_filter')) {
@@ -128,10 +132,5 @@ class PageAdminController extends AdminController
             $this->filters = $form->getData();
             $session->set('page_filter', $filters);
         }
-    }
-
-    public function getSection(): string
-    {
-        return 'site_page';
     }
 }

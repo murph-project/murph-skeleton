@@ -5,7 +5,6 @@ namespace App\Core\Controller\Setting;
 use App\Core\Controller\Admin\AdminController;
 use App\Core\Entity\Setting as Entity;
 use App\Core\Event\Setting\SettingEvent;
-use App\Core\Factory\SettingFactory as EntityFactory;
 use App\Core\Manager\EntityManager;
 use App\Core\Repository\SettingRepositoryQuery as RepositoryQuery;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -47,8 +46,7 @@ class SettingAdminController extends AdminController
         EntityManager $entityManager,
         EventDispatcherInterface $eventDispatcher,
         Request $request
-    ): Response
-    {
+    ): Response {
         $builder = $this->createFormBuilder($entity);
 
         $eventDispatcher->dispatch(new SettingEvent([

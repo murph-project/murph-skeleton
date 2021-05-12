@@ -74,6 +74,27 @@ abstract class RepositoryQuery
         return $this->repository;
     }
 
+    public function useFilters(array $filters)
+    {
+        foreach ($filters as $name => $value) {
+            if (null === $value) {
+                continue;
+            }
+
+            if (is_int($value) || is_bool($value)) {
+                $this->andWhere('.'.$name.' = :'.$name);
+                $this->setParameter(':'.$name, $value);
+            } elseif (is_string($value)) {
+                $this->andWhere('.'.$name.' LIKE :'.$name);
+                $this->setParameter(':'.$name, '%'.$value.'%');
+            } else {
+                $this->filterHandler($name, $value);
+            }
+        }
+
+        return $this;
+    }
+
     protected function populateDqlId(&$data)
     {
         if (is_string($data)) {
@@ -97,26 +118,5 @@ abstract class RepositoryQuery
 
     protected function filterHandler(string $name, $value)
     {
-    }
-
-    public function useFilters(array $filters)
-    {
-        foreach ($filters as $name => $value) {
-            if (null === $value) {
-                continue;
-            }
-
-            if (is_int($value) || is_bool($value)) {
-                $this->andWhere('.'.$name.' = :'.$name);
-                $this->setParameter(':'.$name, $value);
-            } elseif (is_string($value)) {
-                $this->andWhere('.'.$name.' LIKE :'.$name);
-                $this->setParameter(':'.$name, '%'.$value.'%');
-            } else {
-                $this->filterHandler($name, $value);
-            }
-        }
-
-        return $this;
     }
 }

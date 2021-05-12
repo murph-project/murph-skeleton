@@ -2,15 +2,14 @@
 
 namespace App\Core\EventSuscriber\Site;
 
+use App\Core\Cache\SymfonyCacheManager;
 use App\Core\Entity\EntityInterface;
 use App\Core\Entity\Site\Menu;
 use App\Core\Entity\Site\Navigation;
 use App\Core\Entity\Site\Node;
 use App\Core\Event\EntityManager\EntityManagerEvent;
 use App\Core\EventSuscriber\EntityManagerEventSubscriber;
-use Symfony\Component\Finder\Finder;
 use Symfony\Component\HttpKernel\KernelInterface;
-use App\Core\Cache\SymfonyCacheManager;
 
 /**
  * class SiteEventSubscriber.

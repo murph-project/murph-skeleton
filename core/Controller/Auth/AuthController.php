@@ -6,6 +6,7 @@ use App\Core\Event\Account\PasswordRequestEvent;
 use App\Core\Manager\EntityManager;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,7 +15,6 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Csrf\TokenGenerator\TokenGeneratorInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use ZxcvbnPhp\Zxcvbn;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class AuthController extends AbstractController
 {

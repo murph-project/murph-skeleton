@@ -5,8 +5,6 @@ namespace App\Entity;
 use App\Core\Doctrine\Timestampable;
 use App\Core\Entity\EntityInterface;
 use App\Repository\UserRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Scheb\TwoFactorBundle\Model\Google\TwoFactorInterface;
 use Symfony\Component\Security\Core\User\UserInterface;

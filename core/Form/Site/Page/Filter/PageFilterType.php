@@ -2,18 +2,13 @@
 
 namespace App\Core\Form\Site\Page\Filter;
 
-use App\Core\Entity\Site\Page\Page;
+use App\Core\Entity\Site\Navigation;
+use Doctrine\ORM\EntityRepository;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints\Image;
-use Symfony\Component\Validator\Constraints\NotBlank;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use App\Core\Entity\Site\Navigation;
-use Doctrine\ORM\EntityRepository;
 
 class PageFilterType extends AbstractType
 {

@@ -12,7 +12,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
  */
 abstract class EntityManagerEventSubscriber implements EventSubscriberInterface
 {
-    static protected int $priority = 0;
+    protected static int $priority = 0;
 
     public static function getSubscribedEvents()
     {

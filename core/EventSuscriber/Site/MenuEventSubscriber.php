@@ -2,6 +2,7 @@
 
 namespace App\Core\EventSuscriber\Site;
 
+use App\Core\Cache\SymfonyCacheManager;
 use App\Core\Entity\EntityInterface;
 use App\Core\Entity\Site\Menu;
 use App\Core\Event\EntityManager\EntityManagerEvent;
@@ -10,7 +11,6 @@ use App\Core\Factory\Site\NodeFactory;
 use App\Core\Manager\EntityManager;
 use App\Core\Repository\Site\NodeRepository;
 use App\Core\Slugify\CodeSlugify;
-use App\Core\Cache\SymfonyCacheManager;
 
 /**
  * class MenuEventSubscriber.

@@ -2,9 +2,9 @@
 
 namespace App\Core\Repository\Site\Page;
 
+use App\Core\Entity\Site\Navigation;
 use App\Core\Repository\RepositoryQuery;
 use Knp\Component\Pager\PaginatorInterface;
-use App\Core\Entity\Site\Navigation;
 
 /**
  * class PageRepositoryQuery.
@@ -18,15 +18,6 @@ class PageRepositoryQuery extends RepositoryQuery
         parent::__construct($repository, 'p', $paginator);
     }
 
-    protected function filterHandler(string $name, $value)
-    {
-        if ($name === 'navigation') {
-            return $this->filterByNavigation($value);
-        } else {
-            return parent::filterHandler($name, $value);
-        }
-    }
-
     public function filterByNavigation(Navigation $navigation)
     {
         return $this
@@ -34,7 +25,8 @@ class PageRepositoryQuery extends RepositoryQuery
             ->leftJoin('node.menu', 'menu')
             ->leftJoin('menu.navigation', 'navigation')
             ->where('navigation.id = :navigationId')
-            ->setParameter(':navigationId', $navigation->getId());
+            ->setParameter(':navigationId', $navigation->getId())
+        ;
     }
 
     public function filterById($id)
@@ -45,5 +37,14 @@ class PageRepositoryQuery extends RepositoryQuery
         ;
 
         return $this;
+    }
+
+    protected function filterHandler(string $name, $value)
+    {
+        if ('navigation' === $name) {
+            return $this->filterByNavigation($value);
+        }
+
+        return parent::filterHandler($name, $value);
     }
 }
