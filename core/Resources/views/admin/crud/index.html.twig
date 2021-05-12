@@ -24,20 +24,22 @@
                 {% endblock %}
             </div>
 
-            {% if filters.show %}
-                <div class="row pb-3">
-                    <div class="col-auto ml-auto {% if pager.getPaginationData.pageCount > 1 %}mr-3{% endif %}">
-                        <button data-modal="{{ path(configuration.pageRoute('filter')) }}" class="btn btn-sm btn-secondary">
-                            {{ 'Filter'|trans }} {% if not filters.isEmpty %}({{ 'yes'|trans }}){% endif %}
-                        </button>
+            {% block header_filter_pager %}
+                {% if filters.show %}
+                    <div class="row pb-3">
+                        <div class="col-auto ml-auto {% if pager.getPaginationData.pageCount > 1 %}mr-3{% endif %}">
+                            <button data-modal="{{ path(configuration.pageRoute('filter')) }}" class="btn btn-sm btn-secondary">
+                                {{ 'Filter'|trans }} {% if not filters.isEmpty %}({{ 'yes'|trans }}){% endif %}
+                            </button>
+                        </div>
+                        <div class="col-auto">
+                            {{ knp_pagination_render(pager) }}
+                        </div>
                     </div>
-                    <div class="col-auto">
-                        {{ knp_pagination_render(pager) }}
-                    </div>
-                </div>
-            {% else %}
-                {{ knp_pagination_render(pager) }}
-            {% endif %}
+                {% else %}
+                    {{ knp_pagination_render(pager) }}
+                {% endif %}
+            {% endblock %}
         </div>
     {% endblock %}
 
