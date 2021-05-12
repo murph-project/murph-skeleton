@@ -6,10 +6,10 @@ use App\Core\Controller\Admin\AdminController;
 use App\Core\Crud\CrudConfiguration;
 use App\Core\Entity\EntityInterface;
 use App\Core\Manager\EntityManager;
+use App\Core\Repository\RepositoryQuery;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
-use App\Core\Repository\RepositoryQuery;
 
 /**
  * class CrudController.
@@ -20,25 +20,26 @@ abstract class CrudController extends AdminController
 {
     abstract protected function getConfiguration(): CrudConfiguration;
 
+    protected array $filters = [];
+
     protected function doIndex(int $page = 1, RepositoryQuery $query, Request $request, Session $session): Response
     {
-        /*$this->updateFilters($options['request'], $options['session']);*/
+        $configuration = $this->getConfiguration();
+
+        $this->updateFilters($request, $session);
 
         $pager = $query
-            //->useFilters($this->filters)
-            ->paginate($page)
+            ->useFilters($this->filters)
+            ->paginate($page, $configuration->getMaxPerPage('index'))
         ;
-
-        /*$viewOptions = array_merge([
-            'pager' => $pager,
-            'hasFilters' => !empty($this->filters),
-        ], $options['viewOptions']);*/
-
-        $configuration = $this->getConfiguration();
 
         return $this->render($this->getConfiguration()->getView('index'), [
             'configuration' => $configuration,
             'pager' => $pager,
+            'filters' => [
+                'show' => $configuration->getForm('filter') !== null,
+                'isEmpty' => empty($this->filters),
+            ],
         ]);
     }
 
@@ -119,41 +120,53 @@ abstract class CrudController extends AdminController
 
     protected function doFilter(Session $session): Response
     {
-        $form = $this->createForm($this->forms['filters']);
-        $form->submit($session->get($this->filterRequestId, []));
+        $configuration = $this->getConfiguration();
+        $type = $configuration->getForm('filter');
 
-        return $this->render($this->getView('filters'), [
+        if (null === $type) {
+            throw $this->createNotFoundException();
+        }
+
+        $form = $this->createForm($type);
+        $form->submit($session->get($form->getName(), []));
+
+        return $this->render($configuration->getView('filter'), [
             'form' => $form->createView(),
+            'configuration' => $configuration,
         ]);
     }
 
     protected function updateFilters(Request $request, Session $session)
     {
-        if ($request->query->has($this->filterRequestId)) {
-            $filters = $request->query->get($this->filterRequestId);
+        $configuration = $this->getConfiguration();
+        $type = $configuration->getForm('filter');
+
+        if (null === $type) {
+            return;
+        }
+
+        $form = $this->createForm($type);
+
+        if ($request->query->has($form->getName())) {
+            $filters = $request->query->get($form->getName());
 
             if ('0' === $filters) {
                 $filters = [];
             }
-        } elseif ($session->has($this->filterRequestId)) {
-            $filters = $session->get($this->filterRequestId);
+        } elseif ($session->has($form->getName())) {
+            $filters = $session->get($form->getName());
         } else {
             $filters = [];
         }
 
-        if (isset($this->forms['filters'])) {
-            $form = $this->createForm($this->forms['filters']);
-            $form->submit($filters);
-        } else {
-            $form = null;
-        }
+        $form->submit($filters);
 
         if (empty($filters)) {
             $this->filters = $filters;
-            $session->set($this->filterRequestId, $filters);
-        } elseif (null !== $form && $form->isValid()) {
+            $session->set($form->getName(), $filters);
+        } elseif ($form->isValid()) {
             $this->filters = $form->getData();
-            $session->set($this->filterRequestId, $filters);
+            $session->set($form->getName(), $filters);
         }
     }
 }

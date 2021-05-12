@@ -17,6 +17,7 @@ class CrudConfiguration
     protected array $formOptions = [];
     protected array $views = [];
     protected array $fields = [];
+    protected array $maxPerPage = [];
 
     /* -- */
 
@@ -55,9 +56,9 @@ class CrudConfiguration
         return $this;
     }
 
-    public function getForm(string $context): string
+    public function getForm(string $context): ?string
     {
-        return $this->forms[$context];
+        return $this->forms[$context] ?? null;
     }
 
     public function setFormOptions(string $context, array $options = []): self
@@ -145,5 +146,19 @@ class CrudConfiguration
     public function getFields(string $context): array
     {
         return $this->fields[$context] ?? [];
+    }
+
+    /* -- */
+
+    public function setMaxPerPage(string $page, int $max)
+    {
+        $this->maxPerPage[$page] = $max;
+
+        return $this;
+    }
+
+    public function getMaxPerPage(string $page, int $default = 20)
+    {
+        return $this->maxPerPage[$page] ?? $default;
     }
 }
