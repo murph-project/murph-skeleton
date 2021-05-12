@@ -18,6 +18,7 @@ class StringBuilder
     public function __construct()
     {
         $this->propertyAccessor = PropertyAccess::createPropertyAccessorBuilder()
+            ->disableExceptionOnInvalidPropertyPath()
             ->getPropertyAccessor()
         ;
     }
@@ -33,12 +34,12 @@ class StringBuilder
             return $format;
         }
 
-        preg_match_all('/\{([a-zA-Z0-9\.]+)\}/i', $format, $matches, PREG_SET_ORDER);
+        preg_match_all('/\{([a-zA-Z0-9\._]+)\}/i', $format, $matches, PREG_SET_ORDER);
 
         foreach ($matches as $match) {
             $propertyValue = $this->propertyAccessor->getValue($object, $match[1]);
 
-            $format = u($format)->replace($match[0], $propertyValue);
+            $format = u($format)->replace($match[0], (string) $propertyValue);
         }
 
         return $format;
