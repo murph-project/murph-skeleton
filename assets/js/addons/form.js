@@ -8,4 +8,26 @@ module.exports = function() {
             .find('.custom-file-label')
             .html(inputFile.files[0].name);
     });
+
+    $('.nav a').each(function() {
+        const link = $(this)
+        const href = link.attr('href')
+
+        if (href.substr(0, 1) !== '#') {
+            return
+        }
+
+        console.log(href)
+
+        const tab = $('.tab-pane ' + href)
+
+        if (!tab.length) {
+            return
+        }
+
+        if (tab.find('.form-error-message').length) {
+            link.addClass('border border-danger')
+            link.click()
+        }
+    })
 };
