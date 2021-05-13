@@ -22,7 +22,7 @@ class CrudConfiguration
 
     protected static $self;
 
-    public function create()
+    public static function create()
     {
         if (null === self::$self) {
             self::$self = new self();
