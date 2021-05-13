@@ -21,7 +21,7 @@
                         {% set doRender = true %}
                     {% endif %}
 
-                    {{ include(configuration.view('form_widget', '@Core/admin/crud/_form_widget.html.twig')) }}
+                    {% include(configuration.view('form_widget', '@Core/admin/crud/_form_widget.html.twig')) with {form: item} %}
                 {% endfor %}
             </div>
         {% endfor %}
