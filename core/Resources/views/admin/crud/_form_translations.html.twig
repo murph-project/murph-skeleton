@@ -1,0 +1,33 @@
+{% set doRender = false %}
+
+{% set render %}
+    <ul class="nav nav-pills mt-3 mb-3 p-0">
+        {% for locale in configuration.locales %}
+            <li class="nav-item">
+                <a class="nav-link {% if loop.first %}active{% endif %}" data-toggle="tab" href="#form-locale-{{ loop.index }}">
+                    <span class="flag-icon flag-icon-{{ locale }}"></span>
+
+                    {{ locale|upper|trans }}
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+
+    <div class="tab-content">
+        {% for locale in configuration.locales %}
+            <div class="tab-pane {% if loop.first %}show active{% endif %}" id="form-locale-{{ loop.index }}">
+                {% for item in item.children[locale] %}
+                    {% if not item.isRendered %}
+                        {% set doRender = true %}
+                    {% endif %}
+
+                    {{ include(configuration.view('form_widget', '@Core/admin/crud/_form_widget.html.twig')) }}
+                {% endfor %}
+            </div>
+        {% endfor %}
+    </div>
+{% endset %}
+
+{% if doRender %}
+    {{ render|raw }}
+{% endif %}

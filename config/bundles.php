@@ -19,4 +19,5 @@ return [
     Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle::class => ['all' => true],
     App\Core\Bundle\CoreBundle::class => ['all' => true],
     App\Bundle\AppBundle::class => ['all' => true],
+    Knp\DoctrineBehaviors\DoctrineBehaviorsBundle::class => ['all' => true],
 ];

@@ -33,12 +33,12 @@ class CrudExtension extends AbstractExtension
         ];
     }
 
-    public function renderField($entity, array $config): string
+    public function renderField($entity, array $config, ?string $locale = null): string
     {
         $field = $config['field'];
         $instance = new $field();
         $resolver = $instance->configureOptions(new OptionsResolver());
 
-        return $instance->buildView($this->twig, $entity, $resolver->resolve($config['options']));
+        return $instance->buildView($this->twig, $entity, $resolver->resolve($config['options']), $locale);
     }
 }

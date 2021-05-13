@@ -65,7 +65,15 @@
                     <tbody>
                         {% for item in pager %}
                             {% block list_item %}
-                                <tr data-dblclick="">
+                                {%- set dbClick %}
+                                    {% if configuration.action('index', 'show', true) %}
+                                        {{ path(configuration.pageRoute('show'), {entity: item.id}) }}
+                                    {% elseif configuration.action('index', 'edit', true) %}
+                                        {{ path(configuration.pageRoute('edit'), {entity: item.id}) }}
+                                    {% endif %}
+                                {% endset -%}
+
+                                <tr data-dblclick="{{ dbClick }}">
                                     {% for config in configuration.fields('index') %}
                                         {% set attr = config.options.attr is defined ? config.options.attr : [] %}
                                         {% set action = config.options.action is defined ? config.options.action : null %}
@@ -73,14 +81,14 @@
                                         <td {% for key, value in attr %}{{ key }}="{{ value }}"{% endfor %}>
                                             {% if action == 'show' %}
                                                 <a href="{{ path(configuration.pageRoute('show'), {entity: item.id}) }}">
-                                                    {{ render_field(item, config) }}
+                                                    {{ render_field(item, config, configuration.defaultLocale) }}
                                                 </a>
                                             {% elseif action == 'edit' %}
                                                 <a href="{{ path(configuration.pageRoute('edit'), {entity: item.id}) }}">
-                                                    {{ render_field(item, config) }}
+                                                    {{ render_field(item, config, configuration.defaultLocale) }}
                                                 </a>
                                             {% else %}
-                                                {{ render_field(item, config) }}
+                                                {{ render_field(item, config, configuration.defaultLocale) }}
                                             {% endif %}
                                         </td>
                                     {% endfor %}

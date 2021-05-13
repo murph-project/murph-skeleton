@@ -46,6 +46,9 @@ abstract class CrudController extends AdminController
     protected function doNew(EntityInterface $entity, EntityManager $entityManager, Request $request, callable $beforeCreate = null): Response
     {
         $configuration = $this->getConfiguration();
+
+        $this->prepareEntity($entity);
+
         $form = $this->createForm($configuration->getForm('new'), $entity);
 
         if ($request->isMethod('POST')) {
@@ -86,6 +89,9 @@ abstract class CrudController extends AdminController
     protected function doEdit(EntityInterface $entity, EntityManager $entityManager, Request $request, callable $beforeUpdate = null): Response
     {
         $configuration = $this->getConfiguration();
+
+        $this->prepareEntity($entity);
+
         $form = $this->createForm($configuration->getForm('edit'), $entity);
 
         if ($request->isMethod('POST')) {
@@ -179,6 +185,17 @@ abstract class CrudController extends AdminController
         } elseif ($form->isValid()) {
             $this->filters = $form->getData();
             $session->set($form->getName(), $filters);
+        }
+    }
+
+    protected function prepareEntity(EntityInterface $entity)
+    {
+        $configuration = $this->getConfiguration();
+
+        if ($configuration->isI18n()) {
+            foreach ($configuration->getLocales() as $locale) {
+                $entity->addTranslation($entity->translate($locale, false));
+            }
         }
     }
 }

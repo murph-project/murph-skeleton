@@ -2,8 +2,8 @@
 
 namespace App\Core\Crud\Field;
 
-use App\Core\Crud\Exception\CrudConfigurationException;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\PropertyAccess\Exception\NoSuchPropertyException;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 use Twig\Environment;
 
@@ -14,11 +14,11 @@ use Twig\Environment;
  */
 abstract class Field
 {
-    public function buildView(Environment $twig, $entity, array $options)
+    public function buildView(Environment $twig, $entity, array $options, ?string $locale = null)
     {
         return $twig->render($this->getView($options), [
             'entity' => $entity,
-            'value' => $this->getValue($entity, $options),
+            'value' => $this->getValue($entity, $options, $locale),
             'options' => $options,
         ]);
     }
@@ -43,12 +43,20 @@ abstract class Field
         return $resolver;
     }
 
-    protected function getValue($entity, array $options)
+    protected function getValue($entity, array $options, ?string $locale = null)
     {
         if (null !== $options['property']) {
             $propertyAccessor = PropertyAccess::createPropertyAccessorBuilder()->getPropertyAccessor();
 
-            $value = $propertyAccessor->getValue($entity, $options['property']);
+            try {
+                $value = $propertyAccessor->getValue($entity, $options['property']);
+            } catch (NoSuchPropertyException $e) {
+                if (null !== $locale) {
+                    $value = $propertyAccessor->getValue($entity->translate($locale), $options['property']);
+                } else {
+                    throw $e;
+                }
+            }
         } elseif (null !== $options['property_builder']) {
             $value = call_user_func($options['property_builder'], $entity, $options);
         } else {

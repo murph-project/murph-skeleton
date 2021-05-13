@@ -19,6 +19,8 @@ class CrudConfiguration
     protected array $viewDatas = [];
     protected array $fields = [];
     protected array $maxPerPage = [];
+    protected array $locales = [];
+    protected ?string $defaultLocale = null;
 
     protected static $self;
 
@@ -197,5 +199,30 @@ class CrudConfiguration
     public function getMaxPerPage(string $page, int $default = 20)
     {
         return $this->maxPerPage[$page] ?? $default;
+    }
+
+    /* -- */
+
+    public function setI18n(array $locales, string $defaultLocale): self
+    {
+        $this->locales = $locales;
+        $this->defaultLocale = $defaultLocale;
+
+        return $this;
+    }
+
+    public function getLocales(): array
+    {
+        return $this->locales;
+    }
+
+    public function getDefaultLocale(): ?string
+    {
+        return $this->defaultLocale;
+    }
+
+    public function isI18n(): bool
+    {
+        return !empty($this->locales);
     }
 }

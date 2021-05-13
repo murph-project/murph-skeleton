@@ -13,11 +13,16 @@ $pagination-active-bg: #343a40;
 @import "~choices.js/src/styles/choices.scss";
 @import "~bootstrap/scss/bootstrap.scss";
 @import "~@fortawesome/fontawesome-free/css/all.css";
+@import "~flag-icon-css/sass/flag-icon.scss";
 
 @for $i from 1 through 100 {
     .miw-#{$i*5} {
         min-width: $i * 5px;
     }
+}
+
+.flag-icon-en {
+    background-image: url(~flag-icon-css/flags/4x3/gb.svg);
 }
 
 body {

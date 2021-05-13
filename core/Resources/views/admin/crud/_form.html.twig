@@ -1,6 +1,12 @@
 <div class="row">
     <div class="col-md-12">
-        {{ form_widget(form) }}
+        {% for item in form %}
+            {% if configuration.isI18n and item.vars.name == 'translations' %}
+                {{ include(configuration.view('form_translations', '@Core/admin/crud/_form_translations.html.twig')) }}
+            {% else %}
+                {{ include(configuration.view('form_widget', '@Core/admin/crud/_form_widget.html.twig')) }}
+            {% endif %}
+        {% endfor %}
     </div>
 </div>
 
