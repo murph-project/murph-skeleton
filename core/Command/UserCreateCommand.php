@@ -42,7 +42,13 @@ class UserCreateCommand extends Command
 
         $emailQuestion = new Question('E-mail: ');
         $emailQuestion->setValidator(function ($value) {
-            return !empty($value);
+            if (empty($value)) {
+                throw new \RuntimeException(
+                    'The email must not be empty.'
+                );
+            }
+
+            return $value;
         });
 
         $passwordQuestion = new Question('Password (leave empty to generate a random password): ');
