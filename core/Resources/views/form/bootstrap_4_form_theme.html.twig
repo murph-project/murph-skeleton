@@ -6,7 +6,7 @@
             {% set value = form.vars.data %}
 
             {% if value %}
-                {% if value and value.extension in ['jpeg', 'jpg', 'gif', 'png'] %}
+                {% if value and value.extension in ['jpeg', 'jpg', 'gif', 'png', 'svg'] %}
                     <div class="card">
                         <div class="card-img-top bg-dark text-center">
                             <a href="{{ asset(value.pathname) }}" target="_blank">
