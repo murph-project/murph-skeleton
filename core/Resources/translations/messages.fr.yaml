@@ -37,6 +37,7 @@
 "Yearly": "Annuelle"
 "Never": "Jamais"
 "URL": "URL"
+"Disable URL": "Désactiver l'URL"
 "Controller": "Contrôleur"
 "Leave blank for automatic generation": "Laisser vide pour une génération automatique"
 "Leave blank to use the default one. Example: App\\Controller\\FooController::barAction": "Laisser vide pour utiliser celui par défaut. Exemple : App\\Controller\\FooController::barAction"

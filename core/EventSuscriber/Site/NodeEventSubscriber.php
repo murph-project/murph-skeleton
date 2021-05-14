@@ -60,6 +60,12 @@ class NodeEventSubscriber extends EntityManagerEventSubscriber
 
         $node->setCode($this->codeSlugify->slugify($node->getCode()));
 
+        if ($node->getDisableUrl()) {
+            $node->setUrl(null);
+
+            return;
+        }
+
         if ($node->getUrl()) {
             $generatedUrl = $node->getUrl();
         } else {
@@ -136,6 +142,10 @@ class NodeEventSubscriber extends EntityManagerEventSubscriber
             }
 
             $generatedUrl = $generatedUrl.'-'.$number;
+        }
+
+        if (!u($generatedUrl)->startsWith('/')) {
+            $generatedUrl = '/'.$generatedUrl;
         }
 
         $node->setUrl($generatedUrl);

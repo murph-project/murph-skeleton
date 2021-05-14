@@ -84,23 +84,25 @@
                                                     <span class="fa fa-sign-out-alt text-muted"></span>
                                                 </a>
                                             {% else %}
-                                                {% if node.parameters|length %}
-                                                    <span class="btn btn-sm border border-secondary btn-light">
-                                                        {{ node.url }}
-                                                    </span>
-                                                {% else %}
-                                                    {% set url = safe_node_url(node) %}
-
-                                                    {% if url %}
-                                                        <a href="{{ url ? url : '#' }}" target="_blank" class="btn btn-sm border border-secondary btn-light">
+                                                {% if not node.disableUrl %}
+                                                    {% if node.parameters|length %}
+                                                        <span class="btn btn-sm border border-secondary btn-light">
                                                             {{ node.url }}
-                                                        </a>
-                                                    {% endif %}
-
-                                                    {% if url is same as(null) %}
-                                                        <span class="btn btn-sm border border-secondary btn-light" title="{{ 'Edit the routing'|trans }}">
-                                                            <span class="fa fa-exclamation"></span>
                                                         </span>
+                                                    {% else %}
+                                                        {% set url = safe_node_url(node) %}
+
+                                                        {% if url %}
+                                                            <a href="{{ url ? url : '#' }}" target="_blank" class="btn btn-sm border border-secondary btn-light">
+                                                                {{ node.url }}
+                                                            </a>
+                                                        {% endif %}
+
+                                                        {% if url is same as(null) %}
+                                                            <span class="btn btn-sm border border-secondary btn-light" title="{{ 'Edit the routing'|trans }}">
+                                                                <span class="fa fa-exclamation"></span>
+                                                            </span>
+                                                        {% endif %}
                                                     {% endif %}
                                                 {% endif %}
 

@@ -144,6 +144,7 @@
             {{ 'Route name: <code>%routeName%</code>'|trans({'%routeName%': entity.routeName})|raw }}
         </div>
 
+        {{ form_row(form.disableUrl) }}
         {{ form_row(form.code) }}
         {{ form_row(form.controller) }}
 

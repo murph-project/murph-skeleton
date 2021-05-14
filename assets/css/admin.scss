@@ -129,7 +129,6 @@ tr.table-primary-light {
     }
 }
 
-
 .sidebar {
     width: 260px;
     display: inline-block;
@@ -256,6 +255,13 @@ th {
         z-index: 1060;
         width: 300px;
     }
+}
+
+.bg-tiles {
+    background-color: #c1c1c1;
+    background-image: linear-gradient(45deg, #646464 25%, transparent 25%, transparent 75%, #646464 75%), linear-gradient(45deg, #646464 25%, transparent 25%, transparent 75%, #646464 75%);
+    background-size: 20px 20px;
+    background-position: 0 0, 10px 10px;
 }
 
 .tab-form {

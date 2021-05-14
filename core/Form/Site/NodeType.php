@@ -13,6 +13,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 
 class NodeType extends AbstractType
 {
@@ -39,6 +40,19 @@ class NodeType extends AbstractType
                 'label' => 'URL',
                 'required' => false,
                 'help' => 'Leave blank for automatic generation',
+                'attr' => [
+                ],
+                'constraints' => [
+                ],
+            ]
+        );
+
+        $builder->add(
+            'disableUrl',
+            CheckboxType::class,
+            [
+                'label' => 'Disable URL',
+                'required' => false,
                 'attr' => [
                 ],
                 'constraints' => [

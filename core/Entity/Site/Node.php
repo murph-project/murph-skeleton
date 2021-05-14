@@ -47,6 +47,11 @@ class Node implements EntityInterface
     /**
      * @ORM\Column(type="boolean", options={"default"=0})
      */
+    private $disableUrl = false;
+
+    /**
+     * @ORM\Column(type="boolean", options={"default"=0})
+     */
     private $isVisible = false;
 
     /**
@@ -294,6 +299,18 @@ class Node implements EntityInterface
     public function setIsVisible(bool $isVisible): self
     {
         $this->isVisible = $isVisible;
+
+        return $this;
+    }
+
+    public function getDisableUrl(): ?bool
+    {
+        return $this->disableUrl;
+    }
+
+    public function setDisableUrl(bool $disableUrl): self
+    {
+        $this->disableUrl = $disableUrl;
 
         return $this;
     }
