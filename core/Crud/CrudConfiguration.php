@@ -2,6 +2,8 @@
 
 namespace App\Core\Crud;
 
+use App\Core\Crud\Exception\CrudConfigurationException;
+
 /**
  * class CrudConfiguration.
  *
@@ -20,6 +22,7 @@ class CrudConfiguration
     protected array $fields = [];
     protected array $maxPerPage = [];
     protected array $locales = [];
+    protected array $defaultSort = [];
     protected ?string $defaultLocale = null;
 
     protected static $self;
@@ -224,5 +227,22 @@ class CrudConfiguration
     public function isI18n(): bool
     {
         return !empty($this->locales);
+    }
+
+    /* -- */
+
+    public function setDefaultSort(string $context, string $label, string $direction = 'asc'): self
+    {
+        $this->defaultSort[$context] = [
+            'label' => $label,
+            'direction' => $direction,
+        ];
+
+        return $this;
+    }
+
+    public function getDefaultSort(string $context)
+    {
+        return $this->defaultSort[$context] ?? null;
     }
 }

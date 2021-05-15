@@ -207,9 +207,10 @@ abstract class CrudController extends AdminController
     protected function applySort(string $context, RepositoryQuery $query, Request $request)
     {
         $configuration = $this->getConfiguration();
+        $defaultSort = $configuration->getDefaultSort($context);
 
-        $name = $request->query->get('_sort');
-        $direction = strtolower($request->query->get('_sort_direction'));
+        $name = $request->query->get('_sort', $defaultSort['label'] ?? null);
+        $direction = strtolower($request->query->get('_sort_direction', $defaultSort['direction'] ?? 'asc'));
 
         if (!in_array($direction, ['asc', 'desc'])) {
             $direction = 'asc';
@@ -238,6 +239,8 @@ abstract class CrudController extends AdminController
                 'label' => $label,
                 'direction' => $direction,
             ];
+
+            return;
         }
     }
 }
