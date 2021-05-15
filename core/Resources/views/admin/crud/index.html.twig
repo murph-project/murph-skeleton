@@ -51,12 +51,51 @@
                         <tr>
                             {% for label, config in configuration.fields('index') %}
                                 {% set attr = config.options.attr is defined ? config.options.attr : [] %}
+                                {% set isSortable = config.options.sort ?? false %}
 
                                 <th {% for key, value in attr %}{{ key }}="{{ value }}"{% endfor %}>
-                                    {{ label|trans }}
+                                    {% if isSortable %}
+                                        {% if sort %}
+                                            {% if sort.label == label %}
+                                                {% if sort.direction == 'asc' %}
+                                                    {% set newDirection = 'desc' %}
+                                                    {% set icon = 'fa fa-sort-amount-down-alt' %}
+                                                {% else %}
+                                                    {% set newDirection = 'asc' %}
+                                                    {% set icon = 'fa fa-sort-amount-up-alt' %}
+                                                {% endif %}
+
+                                                {% set url = path(configuration.getPageRoute('index'), {
+                                                    _sort: config.options.sort[0],
+                                                    _sort_direction: newDirection,
+                                                }) %}
+                                            {% else %}
+                                                {% set url = path(configuration.getPageRoute('index'), {
+                                                    _sort: config.options.sort[0],
+                                                    _sort_direction: 'asc',
+                                                }) %}
+
+                                                {% set icon = null %}
+                                            {% endif %}
+
+                                            <a href="{{ url }}">
+                                                {% if icon is defined %}
+                                                    <span class="{{ icon }}"></span>
+                                                {% endif %}
+
+                                                {{ label|trans }}
+                                            </a>
+                                        {% else %}
+                                            {{ label|trans }}
+                                        {% endif %}
+                                    {% else %}
+                                        {{ label|trans }}
+                                    {% endif %}
                                 </th>
                             {% endfor %}
-                            <th class="col-2 miw-100 text-right">Actions</th>
+                            <th class="col-2 miw-100 text-right">
+                                {{ 'Actions'|trans }}
+                            </th>
                         </tr>
                     </thead>
                 {% endblock %}

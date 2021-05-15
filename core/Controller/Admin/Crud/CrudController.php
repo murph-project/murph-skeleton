@@ -19,6 +19,10 @@ use Symfony\Component\HttpFoundation\Session\Session;
 abstract class CrudController extends AdminController
 {
     protected array $filters = [];
+    protected array $sort = [
+        'label' => null,
+        'direction' => null,
+    ];
 
     abstract protected function getConfiguration(): CrudConfiguration;
 
@@ -26,7 +30,7 @@ abstract class CrudController extends AdminController
     {
         $configuration = $this->getConfiguration();
 
-        $this->updateFilters($request, $session);
+        $this->applySort('index', $query, $request);
 
         $pager = $query
             ->useFilters($this->filters)
@@ -36,6 +40,7 @@ abstract class CrudController extends AdminController
         return $this->render($this->getConfiguration()->getView('index'), [
             'configuration' => $configuration,
             'pager' => $pager,
+            'sort' => $this->sort,
             'filters' => [
                 'show' => null !== $configuration->getForm('filter'),
                 'isEmpty' => empty($this->filters),
@@ -196,6 +201,43 @@ abstract class CrudController extends AdminController
             foreach ($configuration->getLocales() as $locale) {
                 $entity->addTranslation($entity->translate($locale, false));
             }
+        }
+    }
+
+    protected function applySort(string $context, RepositoryQuery $query, Request $request)
+    {
+        $configuration = $this->getConfiguration();
+
+        $name = $request->query->get('_sort');
+        $direction = strtolower($request->query->get('_sort_direction'));
+
+        if (!in_array($direction, ['asc', 'desc'])) {
+            $direction = 'asc';
+        }
+
+        foreach ($configuration->getFields($context) as $label => $field) {
+            $sortOption = $field['options']['sort'] ?? null;
+
+            if (null === $sortOption) {
+                continue;
+            }
+
+            if ($sortOption[0] !== $name) {
+                continue;
+            }
+
+            $sorter = $sortOption[1];
+
+            if (is_string($sorter)) {
+                $query->orderBy($sorter, $direction);
+            } else {
+                call_user_func_array($sorter, [$query, $direction]);
+            }
+
+            $this->sort = [
+                'label' => $label,
+                'direction' => $direction,
+            ];
         }
     }
 }

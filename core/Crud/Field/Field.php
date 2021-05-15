@@ -30,6 +30,7 @@ abstract class Field
             'property_builder' => null,
             'view' => null,
             'raw' => false,
+            'sort' => null,
             'attr' => [],
         ]);
 
@@ -39,6 +40,20 @@ abstract class Field
         $resolver->setAllowedTypes('attr', 'array');
         $resolver->setAllowedTypes('raw', 'boolean');
         $resolver->setAllowedTypes('property_builder', ['null', 'callable']);
+        $resolver->setAllowedValues('sort', function($value) {
+            if ($value === null) {
+                return true;
+            }
+
+            if (!is_array($value)) {
+                return false;
+            }
+
+            $isValidParam1 = !empty($value[0]) && is_string($value[0]);
+            $isValidParam2 = !empty($value[1]) && (is_string($value[1]) || is_callable($value[1]));
+
+            return $isValidParam1 && $isValidParam2;
+        });
 
         return $resolver;
     }
