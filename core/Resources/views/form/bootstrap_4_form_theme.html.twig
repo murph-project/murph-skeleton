@@ -36,3 +36,43 @@
         </div>
     </div>
 {% endblock %}
+
+{% block collection_block_widget %}
+
+    <div data-collection="collection-{{ collection_name }}">
+        {% for item in form.value %}
+            <div data-collection-item="{{ loop.index }}">
+                {% for child in item %}
+                    {{ form_row(child) }}
+                {% endfor %}
+            </div>
+
+            <div class="text-right">
+                <span data-collection-delete-container class="btn btn-sm btn-danger">
+                    <span data-collection-delete="{{ loop.index }}">
+                        {{ label_delete|trans }}
+                    </span>
+                </span>
+            </div>
+        {% endfor %}
+    </div>
+
+    <div data-collection-add="collection-{{ collection_name }}" class="collection-add">
+        <span class="btn btn-sm btn-primary" data-collection-add="collection-{{ collection_name }}">
+            <span class="fa fa-plus"></span>
+            {{ label_add|trans }}
+        </span>
+    </div>
+
+    <template type="text/template" id="collection-{{ collection_name }}">
+        <div data-collection-item="__name__">
+            {{ form_rest(form.value.vars.prototype) }}
+
+            <div class="text-right">
+                <span data-collection-delete-container class="btn btn-sm btn-danger">
+                    {{ label_delete|trans }}
+                </span>
+            </div>
+        </div>
+    </template>
+{% endblock %}
