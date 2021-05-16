@@ -280,6 +280,7 @@ class NodeAdminController extends AdminController
             } else {
                 $this->addFlash('info', 'Aucun changement de page effectué.');
             }
+            $entity->setAliasNode(null);
         } elseif ('alias' === $pageAction) {
             $entity->setPage(null);
         } elseif ('none' === $pageAction) {

@@ -46,6 +46,10 @@ class SitemapBuilder
                     continue;
                 }
 
+                if ($node->getAliasNode()) {
+                    continue;
+                }
+
                 $nodeItems = [];
 
                 foreach ($this->getNodeUrls($node) as $url) {
