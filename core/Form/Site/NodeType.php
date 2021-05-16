@@ -159,8 +159,7 @@ class NodeType extends AbstractType
             EntityType::class,
             [
                 'label' => false,
-                'required' => true,
-                'mapped' => true,
+                'required' => false,
                 'class' => Node::class,
                 'choice_label' => 'label',
                 'choices' => call_user_func(function() use ($options, $builder) {
