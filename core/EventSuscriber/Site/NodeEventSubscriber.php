@@ -62,66 +62,82 @@ class NodeEventSubscriber extends EntityManagerEventSubscriber
 
         if ($node->getDisableUrl()) {
             $node->setUrl(null);
-
-            return;
-        }
-
-        if ($node->getUrl()) {
-            $generatedUrl = $node->getUrl();
         } else {
-            $path = [];
-            $parent = $node->getParent();
+            if ($node->getUrl()) {
+                $generatedUrl = $node->getUrl();
+            } else {
+                $path = [];
+                $parent = $node->getParent();
 
-            if ($parent && $parent->getUrl()) {
-                $pPath = trim($parent->getUrl(), '/');
+                if ($parent && $parent->getUrl()) {
+                    $pPath = trim($parent->getUrl(), '/');
 
-                if ($pPath) {
-                    $path[] = $pPath;
+                    if ($pPath) {
+                        $path[] = $pPath;
+                    }
+                }
+
+                $path[] = $this->slugify->slugify($node->getLabel());
+
+                $generatedUrl = '/'.implode('/', $path);
+            }
+
+            if ('/' !== $generatedUrl) {
+                $generatedUrl = rtrim($generatedUrl, '/');
+            }
+
+            $parameters = $node->getParameters();
+            $routeParameters = [];
+
+            foreach ($parameters as $key => $parameter) {
+                $parameter['name'] = $this->routeParameterSlugify->slugify($parameter['name']);
+                $routeParameter = sprintf('{%s}', $parameter['name']);
+                $regex = '/'.preg_quote($routeParameter).'/';
+                $routeParameters[] = $parameter['name'];
+
+                if (!preg_match($regex, $generatedUrl)) {
+                    $generatedUrl .= '/'.$routeParameter;
+                }
+
+                $parameters[$key] = $parameter;
+            }
+
+            preg_match_all('/\{(.*)\}/isU', $generatedUrl, $matches, PREG_SET_ORDER);
+
+            foreach ($matches as $match) {
+                if (!in_array($match[1], $routeParameters)) {
+                    $parameters[] = [
+                        'name' => $this->routeParameterSlugify->slugify($match[1]),
+                        'defaultValue' => null,
+                        'requirement' => null,
+                    ];
                 }
             }
 
-            $path[] = $this->slugify->slugify($node->getLabel());
-
-            $generatedUrl = '/'.implode('/', $path);
-        }
-
-        if ('/' !== $generatedUrl) {
-            $generatedUrl = rtrim($generatedUrl, '/');
-        }
-
-        $parameters = $node->getParameters();
-        $routeParameters = [];
-
-        foreach ($parameters as $key => $parameter) {
-            $parameter['name'] = $this->routeParameterSlugify->slugify($parameter['name']);
-            $routeParameter = sprintf('{%s}', $parameter['name']);
-            $regex = '/'.preg_quote($routeParameter).'/';
-            $routeParameters[] = $parameter['name'];
-
-            if (!preg_match($regex, $generatedUrl)) {
-                $generatedUrl .= '/'.$routeParameter;
+            if (!u($generatedUrl)->startsWith('https://') && !u($generatedUrl)->startsWith('http://')) {
+                $generatedUrl = str_replace('//', '/', $generatedUrl);
             }
 
-            $parameters[$key] = $parameter;
-        }
+            $node->setParameters($parameters);
 
-        preg_match_all('/\{(.*)\}/isU', $generatedUrl, $matches, PREG_SET_ORDER);
+            $urlExists = $this->nodeRepository->urlExists($generatedUrl, $node);
 
-        foreach ($matches as $match) {
-            if (!in_array($match[1], $routeParameters)) {
-                $parameters[] = [
-                    'name' => $this->routeParameterSlugify->slugify($match[1]),
-                    'defaultValue' => null,
-                    'requirement' => null,
-                ];
+            if ($urlExists) {
+                $number = 1;
+
+                while ($this->nodeRepository->urlExists($generatedUrl.'-'.$number, $node)) {
+                    ++$number;
+                }
+
+                $generatedUrl = $generatedUrl.'-'.$number;
             }
-        }
 
-        if (!u($generatedUrl)->startsWith('https://') && !u($generatedUrl)->startsWith('http://')) {
-            $generatedUrl = str_replace('//', '/', $generatedUrl);
-        }
+            if (!u($generatedUrl)->startsWith('/')) {
+                $generatedUrl = '/'.$generatedUrl;
+            }
 
-        $node->setParameters($parameters);
+            $node->setUrl($generatedUrl);
+        }
 
         $attributes = $node->getAttributes();
         $realAttributes = [];
@@ -131,24 +147,6 @@ class NodeEventSubscriber extends EntityManagerEventSubscriber
         }
 
         $node->setAttributes($realAttributes);
-
-        $urlExists = $this->nodeRepository->urlExists($generatedUrl, $node);
-
-        if ($urlExists) {
-            $number = 1;
-
-            while ($this->nodeRepository->urlExists($generatedUrl.'-'.$number, $node)) {
-                ++$number;
-            }
-
-            $generatedUrl = $generatedUrl.'-'.$number;
-        }
-
-        if (!u($generatedUrl)->startsWith('/')) {
-            $generatedUrl = '/'.$generatedUrl;
-        }
-
-        $node->setUrl($generatedUrl);
     }
 
     public function onDelete(EntityManagerEvent $event)
