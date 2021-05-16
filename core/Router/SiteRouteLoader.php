@@ -57,6 +57,10 @@ class SiteRouteLoader extends Loader
                         continue;
                     }
 
+                    if (null !== $node->getAliasNode()) {
+                        continue;
+                    }
+
                     $requirements = [];
 
                     $defaults = [

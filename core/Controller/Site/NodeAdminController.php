@@ -41,6 +41,7 @@ class NodeAdminController extends AdminController
         $entity = $factory->create($node->getMenu());
         $form = $this->createForm(EntityType::class, $entity, [
             'pages' => $pageLocator->getPages(),
+            'navigation' => $node->getMenu()->getNavigation(),
         ]);
 
         if ($request->isMethod('POST')) {
@@ -108,6 +109,7 @@ class NodeAdminController extends AdminController
     ): Response {
         $form = $this->createForm(EntityType::class, $entity, [
             'pages' => $pageLocator->getPages(),
+            'navigation' => $entity->getMenu()->getNavigation(),
         ]);
 
         if ($request->isMethod('POST')) {
@@ -269,15 +271,21 @@ class NodeAdminController extends AdminController
             $page = $pageFactory->create($pageType, $entity->getLabel());
             $page->setTemplate($pageConfiguration->getTemplates()[0]['file']);
 
-            $entity->setPage($page);
+            $entity
+                ->setPage($page)
+                ->setAliasNode(null);
         } elseif ('existing' === $pageAction) {
             if ($pageEntity) {
                 $entity->setPage($pageEntity);
             } else {
                 $this->addFlash('info', 'Aucun changement de page effectué.');
             }
-        } elseif ('none' === $pageAction) {
+        } elseif ('alias' === $pageAction) {
             $entity->setPage(null);
+        } elseif ('none' === $pageAction) {
+            $entity
+                ->setPage(null)
+                ->setAliasNode(null);
         }
     }
 }

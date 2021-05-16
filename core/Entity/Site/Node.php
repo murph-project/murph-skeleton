@@ -123,9 +123,20 @@ class Node implements EntityInterface
      */
     private $sitemapParameters = [];
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Node::class, inversedBy="aliasNodes")
+     */
+    private $aliasNode;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Node::class, mappedBy="aliasNode")
+     */
+    private $aliasNodes;
+
     public function __construct()
     {
         $this->children = new ArrayCollection();
+        $this->aliasNodes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -324,6 +335,10 @@ class Node implements EntityInterface
 
     public function getPage(): ?Page
     {
+        if ($this->getAliasNode()) {
+            return $this->getAliasNode()->getPage();
+        }
+
         return $this->page;
     }
 
@@ -336,11 +351,19 @@ class Node implements EntityInterface
 
     public function getRouteName(): string
     {
+        if ($this->getAliasNode()) {
+            return $this->getAliasNode()->getRouteName();
+        }
+
         return $this->getMenu()->getRouteName().'_'.($this->getCode() ? $this->getCode() : $this->getId());
     }
 
     public function getCode(): ?string
     {
+        if ($this->getAliasNode()) {
+            return $this->getAliasNode()->getCode();
+        }
+
         return $this->code;
     }
 
@@ -353,6 +376,10 @@ class Node implements EntityInterface
 
     public function getParameters(): ?array
     {
+        if ($this->getAliasNode()) {
+            return $this->getAliasNode()->getParameters();
+        }
+
         if (!is_array($this->parameters)) {
             $this->parameters = [];
         }
@@ -385,6 +412,10 @@ class Node implements EntityInterface
 
     public function getController(): ?string
     {
+        if ($this->getAliasNode()) {
+            return $this->getAliasNode()->getController();
+        }
+
         return $this->controller;
     }
 
@@ -397,6 +428,10 @@ class Node implements EntityInterface
 
     public function getSitemapParameters(): ?array
     {
+        if ($this->getAliasNode()) {
+            return $this->getAliasNode()->getSitemapParameters();
+        }
+
         if (!is_array($this->sitemapParameters)) {
             $this->sitemapParameters = [
                 'isVisible' => false,
@@ -411,6 +446,48 @@ class Node implements EntityInterface
     public function setSitemapParameters(?array $sitemapParameters): self
     {
         $this->sitemapParameters = $sitemapParameters;
+
+        return $this;
+    }
+
+    public function getAliasNode(): ?self
+    {
+        return $this->aliasNode;
+    }
+
+    public function setAliasNode(?self $aliasNode): self
+    {
+        $this->aliasNode = $aliasNode;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|self[]
+     */
+    public function getAliasNodes(): Collection
+    {
+        return $this->aliasNodes;
+    }
+
+    public function addAliasNode(self $aliasNode): self
+    {
+        if (!$this->aliasNodes->contains($aliasNode)) {
+            $this->aliasNodes[] = $aliasNode;
+            $aliasNode->setAliasNode($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAliasNode(self $aliasNode): self
+    {
+        if ($this->aliasNodes->removeElement($aliasNode)) {
+            // set the owning side to null (unless already changed)
+            if ($aliasNode->getAliasNode() === $this) {
+                $aliasNode->setAliasNode(null);
+            }
+        }
 
         return $this;
     }

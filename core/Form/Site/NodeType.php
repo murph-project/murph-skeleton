@@ -90,6 +90,7 @@ class NodeType extends AbstractType
         $actions = [
             'New page' => 'new',
             'Use an existing page' => 'existing',
+            'Alias element' => 'alias',
             'No page' => 'none',
         ];
 
@@ -148,6 +149,38 @@ class NodeType extends AbstractType
                         ->orderBy('p.name', 'ASC')
                     ;
                 },
+                'constraints' => [
+                ],
+            ]
+        );
+
+        $builder->add(
+            'aliasNode',
+            EntityType::class,
+            [
+                'label' => false,
+                'required' => true,
+                'mapped' => true,
+                'class' => Node::class,
+                'choice_label' => 'label',
+                'choices' => call_user_func(function() use ($options, $builder) {
+                    $nodes = [];
+
+                    foreach ($options['navigation']->getMenus() as $menu) {
+                        $nodes = array_merge(
+                            $nodes,
+                            $menu->getRootNode()->getAllChildren()->toArray()
+                        );
+                    }
+
+                    foreach ($nodes as $k => $value) {
+                        if ($value->getId() === $builder->getData()->getId()) {
+                            unset($nodes[$k]);
+                        }
+                    }
+
+                    return $nodes;
+                }),
                 'constraints' => [
                 ],
             ]
@@ -213,6 +246,7 @@ class NodeType extends AbstractType
         $resolver->setDefaults([
             'data_class' => Node::class,
             'pages' => [],
+            'navigation' => null,
         ]);
     }
 }

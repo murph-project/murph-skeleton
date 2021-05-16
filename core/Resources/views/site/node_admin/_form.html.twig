@@ -96,14 +96,39 @@
                 </div>
                 <div id="form-node-page-action-none" class="collapse" data-parent="#node-page-action">
                     <div class="card-body">
-                        Aucune action
+                        {{ form_row(form.aliasNode) }}
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                {% set action = form.pageAction[3] %}
+                {% set options = {'attr': {'checked': 'checked'}} %}
+
+                <div class="card-header p-0">
+                    <h2 class="mb-0">
+                        <label class="btn btn-link btn-block text-left"
+                            for="{{ action.vars.id }}"
+                            data-toggle="collapse"
+                            data-target="#form-node-page-action-alias">
+                            {{ action.vars.label|trans }}
+                        </label>
+
+                        <div class="d-none">
+                            {{ form_row(action, options) }}
+                        </div>
+                    </h2>
+                </div>
+                <div id="form-node-page-action-alias" class="collapse" data-parent="#node-page-action">
+                    <div class="card-body">
+                        {{ 'No action'|trans }}
                     </div>
                 </div>
             </div>
 
             {% if entity.id %}
                 <div class="card">
-                    {% set action = form.pageAction[3] %}
+                    {% set action = form.pageAction[4] %}
                     {% set options = {'attr': {'checked': 'checked'}} %}
 
                     <div class="card-header p-0">
@@ -135,6 +160,12 @@
                 <span data-modal="{{ path('admin_site_node_urls', {entity: entity.id}) }}" class="btn" title="{{ 'Show all node URLs'|trans }}">
                     <span class="fa fa-list" data-modal="{{ path('admin_site_node_urls', {entity: entity.id}) }}"></span>
                 </span>
+            </div>
+        {% endif %}
+
+        {% if entity.aliasNode %}
+            <div class="alert alert-warning">
+                {{ 'This element is an alias so the next configuration is ignored.'|trans }}
             </div>
         {% endif %}
 
@@ -215,6 +246,12 @@
         </div>
     </div>
     <div class="tab-pane {% if tab == 'sitemap' %}show active{% endif %}" id="form-node-edit-sitemap">
+        {% if entity.aliasNode %}
+            <div class="alert alert-warning">
+                {{ 'This element is an alias so the next configuration is ignored.'|trans }}
+            </div>
+        {% endif %}
+
         {{ form_row(form.sitemapParameters) }}
     </div>
 </div>

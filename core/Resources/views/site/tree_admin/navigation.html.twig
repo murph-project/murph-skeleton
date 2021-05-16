@@ -79,7 +79,11 @@
                                         {{ node.label }}
 
                                         <span class="ml-3 btn-group d-none d-md-inline-block">
-                                            {% if node.hasExternalUrl %}
+                                            {% if node.aliasNode %}
+                                                <span title="{{ node.aliasNode.label }}" data-toggle="tooltip" data-placement="top" class="btn btn-sm border border-secondary btn-light">
+                                                    <span class="fa fa-file-import"></span>
+                                                </span>
+                                            {% elseif node.hasExternalUrl %}
                                                 <a href="{{ safe_node_url(node) }}" class="btn btn-sm border border-secondary btn-light">
                                                     <span class="fa fa-sign-out-alt text-muted"></span>
                                                 </a>
