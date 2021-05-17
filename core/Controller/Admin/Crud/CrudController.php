@@ -31,6 +31,7 @@ abstract class CrudController extends AdminController
         $configuration = $this->getConfiguration();
 
         $this->applySort('index', $query, $request);
+        $this->updateFilters($request, $session);
 
         $pager = $query
             ->useFilters($this->filters)
@@ -54,7 +55,7 @@ abstract class CrudController extends AdminController
 
         $this->prepareEntity($entity);
 
-        $form = $this->createForm($configuration->getForm('new'), $entity);
+        $form = $this->createForm($configuration->getForm('new'), $entity, $configuration->getFormOptions('new'));
 
         if ($request->isMethod('POST')) {
             $form->handleRequest($request);
@@ -97,7 +98,7 @@ abstract class CrudController extends AdminController
 
         $this->prepareEntity($entity);
 
-        $form = $this->createForm($configuration->getForm('edit'), $entity);
+        $form = $this->createForm($configuration->getForm('edit'), $entity, $configuration->getFormOptions('edit'));
 
         if ($request->isMethod('POST')) {
             $form->handleRequest($request);
