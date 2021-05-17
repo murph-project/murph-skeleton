@@ -1,0 +1,25 @@
+<div class="row">
+    <div class="col-12 p-3">
+        <ul class="list-group">
+            <li class="list-group-item">
+                <span class="font-weight-bold pb-2 d-block">{{ 'Display name'|trans }}</span>
+
+                {{ entity.displayName }}
+            </li>
+            <li class="list-group-item">
+                <span class="font-weight-bold pb-2 d-block">{{ 'E-mail'|trans }}</span>
+
+                {{ entity.email }}
+            </li>
+            <li class="list-group-item">
+                <span class="font-weight-bold pb-2 d-block">{{ 'Permissions'|trans }}</span>
+
+                {{ entity.roles|join('<br>')|replace({
+                    ROLE_USER: 'User'|trans,
+                    ROLE_WRITER: 'Writer'|trans,
+                    ROLE_ADMIN: 'Administrator'|trans,
+                })|raw }}
+            </li>
+        </ul>
+    </div>
+</div>

@@ -2,105 +2,76 @@
 
 namespace App\Core\Controller\User;
 
-use App\Core\Controller\Admin\AdminController;
+use App\Core\Controller\Admin\Crud\CrudController;
+use App\Core\Crud\CrudConfiguration;
+use App\Core\Crud\Field;
+use App\Core\Entity\EntityInterface;
 use App\Core\Event\Account\PasswordRequestEvent;
-use App\Core\Factory\UserFactory as EntityFactory;
-use App\Core\Form\UserType as EntityType;
+use App\Core\Factory\UserFactory as Factory;
+use App\Core\Form\UserType as Type;
 use App\Core\Manager\EntityManager;
 use App\Entity\User as Entity;
 use App\Repository\UserRepositoryQuery as RepositoryQuery;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * @Route("/admin/user")
- */
-class UserAdminController extends AdminController
+class UserAdminController extends CrudController
 {
     /**
-     * @Route("/{page}", name="admin_user_index", requirements={"page": "\d+"})
+     * @Route("/admin/user/{page}", name="admin_user_index", methods={"GET"}, requirements={"page":"\d+"})
      */
-    public function index(int $page = 1, RepositoryQuery $query, Request $request): Response
+    public function index(int $page = 1, RepositoryQuery $query, Request $request, Session $session): Response
     {
-        $pager = $query->paginate($page);
-
-        return $this->render('@Core/user/user_admin/index.html.twig', [
-            'pager' => $pager,
-        ]);
+        return $this->doIndex($page, $query, $request, $session);
     }
 
     /**
-     * @Route("/new", name="admin_user_new")
+     * @Route("/admin/user/new", name="admin_user_new", methods={"GET", "POST"})
      */
-    public function new(
-        EntityFactory $factory,
-        EntityManager $entityManager,
-        Request $request
-    ): Response {
+    public function new(Factory $factory, EntityManager $entityManager, Request $request): Response
+    {
         $entity = $factory->create($this->getUser());
-        $form = $this->createForm(EntityType::class, $entity);
 
-        if ($request->isMethod('POST')) {
-            $form->handleRequest($request);
-
-            if ($form->isValid()) {
-                $entityManager->create($entity);
-                $this->addFlash('success', 'The data has been saved.');
-
-                return $this->redirectToRoute('admin_user_edit', [
-                    'entity' => $entity->getId(),
-                ]);
-            }
-            $this->addFlash('warning', 'The form is not valid.');
-        }
-
-        return $this->render('@Core/user/user_admin/new.html.twig', [
-            'form' => $form->createView(),
-            'entity' => $entity,
-        ]);
+        return $this->doNew($factory->create(), $entityManager, $request);
     }
 
     /**
-     * @Route("/edit/{entity}", name="admin_user_edit")
-     */
-    public function edit(Entity $entity, EntityManager $entityManager, Request $request): Response
-    {
-        $form = $this->createForm(EntityType::class, $entity);
-
-        if ($request->isMethod('POST')) {
-            $form->handleRequest($request);
-
-            if ($form->isValid()) {
-                $entityManager->update($entity);
-                $this->addFlash('success', 'The data has been saved.');
-
-                return $this->redirectToRoute('admin_user_edit', [
-                    'entity' => $entity->getId(),
-                ]);
-            }
-            $this->addFlash('warning', 'The form is not valid.');
-        }
-
-        return $this->render('@Core/user/user_admin/edit.html.twig', [
-            'form' => $form->createView(),
-            'entity' => $entity,
-        ]);
-    }
-
-    /**
-     * @Route("/show/{entity}", name="admin_user_show")
+     * @Route("/admin/user/show/{entity}", name="admin_user_show", methods={"GET"})
      */
     public function show(Entity $entity): Response
     {
-        return $this->render('@Core/user/user_admin/show.html.twig', [
-            'entity' => $entity,
-        ]);
+        return $this->doShow($entity);
     }
 
     /**
-     * @Route("/resetting_request/{entity}", name="admin_user_resetting_request", methods={"POST"})
+     * @Route("/admin/user/filter", name="admin_user_filter", methods={"GET"})
+     */
+    public function filter(Session $session): Response
+    {
+        return $this->doFilter($session);
+    }
+
+    /**
+     * @Route("/admin/user/edit/{entity}", name="admin_user_edit", methods={"GET", "POST"})
+     */
+    public function edit(Entity $entity, EntityManager $entityManager, Request $request): Response
+    {
+        return $this->doEdit($entity, $entityManager, $request);
+    }
+
+    /**
+     * @Route("/admin/user/delete/{entity}", name="admin_user_delete", methods={"DELETE"})
+     */
+    public function delete(Entity $entity, EntityManager $entityManager, Request $request): Response
+    {
+        return $this->doDelete($entity, $entityManager, $request);
+    }
+
+    /**
+     * @Route("/admin/user/resetting_request/{entity}", name="admin_user_resetting_request", methods={"POST"})
      */
     public function requestResetting(Entity $entity, EventDispatcherInterface $eventDispatcher, Request $request): Response
     {
@@ -115,21 +86,43 @@ class UserAdminController extends AdminController
         ]);
     }
 
-    /**
-     * @Route("/delete/{entity}", name="admin_user_delete", methods={"DELETE"})
-     */
-    public function delete(Entity $entity, EntityManager $entityManager, Request $request): Response
+    protected function getConfiguration(): CrudConfiguration
     {
-        if ($this->isCsrfTokenValid('delete'.$entity->getId(), $request->request->get('_token'))) {
-            $entityManager->delete($entity);
+        return CrudConfiguration::create()
+            ->setPageTitle('index', 'Users')
+            ->setPageTitle('edit', '{username}')
+            ->setPageTitle('new', 'New user')
+            ->setPageTitle('show', '{username}')
 
-            $this->addFlash('success', 'The data has been removed.');
-        }
+            ->setPageRoute('index', 'admin_user_index')
+            ->setPageRoute('new', 'admin_user_new')
+            ->setPageRoute('edit', 'admin_user_edit')
+            ->setPageRoute('show', 'admin_user_show')
+            ->setPageRoute('delete', 'admin_user_delete')
+            ->setPageRoute('filter', 'admin_user_filter')
 
-        return $this->redirectToRoute('admin_user_index');
+            ->setForm('edit', Type::class, [])
+            ->setForm('new', Type::class)
+
+            ->setView('show_entity', '@Core/user/user_admin/_show.html.twig')
+            ->setView('edit', '@Core/user/user_admin/edit.html.twig')
+
+            ->setDefaultSort('index', 'username')
+
+            ->setField('index', 'E-mail', Field\TextField::class, [
+                'property' => 'email',
+                'sort' => ['email', '.email'],
+                'attr' => ['class' => 'miw-200'],
+            ])
+            ->setField('index', 'Display name', Field\TextField::class, [
+                'property' => 'displayName',
+                'sort' => ['displayName', '.displayName'],
+                'attr' => ['class' => 'miw-200'],
+            ])
+        ;
     }
 
-    public function getSection(): string
+    protected function getSection(): string
     {
         return 'user';
     }

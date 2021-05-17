@@ -24,6 +24,24 @@
                                 <span class="fa fa-save pr-1"></span>
                                 {{ configuration.actionTitle('new', 'save', 'Save')|trans|build_string(entity) }}
                             </button>
+
+                            {% if header_actions_dropdown_menu is not defined %}
+                                {% set header_actions_dropdown_menu = '' %}
+                            {% endif %}
+
+                            {% block header_actions_dropdown %}
+                                {% if header_actions_dropdown_menu %}
+                                    <button type="button" class="btn btn-white dropdown-toggle dropdown-toggle-hide-after" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <span class="font-weight-bold">
+                                            ⋅⋅⋅
+                                        </span>
+                                    </button>
+
+                                    <div class="dropdown-menu dropdown-menu-right">
+                                        {{ header_actions_dropdown_menu|raw }}
+                                    </div>
+                                {% endif %}
+                            {% endblock %}
                         </div>
                     </div>
                 {% endblock %}
