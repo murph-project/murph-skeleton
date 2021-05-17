@@ -31,7 +31,7 @@ class PageFilterType extends AbstractType
             'navigation',
             EntityType::class,
             [
-                'label' => 'Naviation',
+                'label' => 'Navigation',
                 'class' => Navigation::class,
                 'choice_label' => 'label',
                 'choice_value' => 'id',

@@ -1,0 +1,8 @@
+{% for node in entity.nodes %}
+    <a href="{{ path('admin_site_tree_navigation', {
+        navigation: node.menu.navigation.id,
+        'data-modal': path('admin_site_node_edit', {entity: node.id}),
+    }) }}" class="btn btn-sm btn-light mr-1">
+        {{ node.label }} ({{ node.menu.navigation.label }})
+    </a>
+{% endfor %}
