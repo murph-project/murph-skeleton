@@ -93,7 +93,7 @@ class PageAdminController extends CrudController
             ->setAction('edit', 'show', false)
 
             ->setField('index', 'Name', Field\TextField::class, [
-                'view' => '@Core/site/page_admin/fields/nodes.html.twig',
+                'property' => 'name',
                 'sort' => ['name', '.name'],
             ])
             ->setField('index', 'Elements', Field\TextField::class, [
