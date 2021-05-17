@@ -133,7 +133,7 @@
                                     {% endfor %}
 
                                     {% if configuration.action('index', 'show', true) or configuration.action('index', 'edit', true) or configuration.action('index', 'delete', true) %}
-                                        <td class="col-2 miw-100 text-right">
+                                        <td class="col-2 miw-200 text-right">
                                             {% if configuration.action('index', 'show', true) %}
                                                 <a href="{{ path(configuration.pageRoute('show'), {entity: item.id}) }}" class="btn btn-sm btn-secondary mr-1">
                                                     <span class="fa fa-eye"></span>
