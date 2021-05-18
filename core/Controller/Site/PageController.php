@@ -41,6 +41,7 @@ class PageController extends AbstractController
             '_page' => $this->siteRequest->getPage(),
             '_menu' => $this->siteRequest->getMenu(),
             '_navigation' => $this->siteRequest->getNavigation(),
+            '_domain' => $this->siteRequest->getDomain(),
             '_locale' => $this->siteRequest->getNavigation()->getLocale(),
             '_store' => $this->siteStore,
         ];

@@ -70,7 +70,7 @@ class SiteRouteLoader extends Loader
                         '_menu' => $menu->getId(),
                         '_page' => $node->getPage() ? $node->getPage()->getId() : null,
                         '_navigation' => $navigation->getId(),
-                        'domain' => $navigation->getDomain(),
+                        '_domain' => $navigation->getDomain(),
                     ];
 
                     foreach ($node->getParameters() as $parameter) {
@@ -90,7 +90,7 @@ class SiteRouteLoader extends Loader
                     $additionalDomains = $navigation->getAdditionalDomains();
 
                     if (count($additionalDomains)) {
-                        $host = '{domain}';
+                        $host = '{_domain}';
                         $domains = [
                             preg_quote($navigation->getDomain()),
                         ];
@@ -103,7 +103,7 @@ class SiteRouteLoader extends Loader
                             }
                         }
 
-                        $requirements['domain'] = sprintf('(%s)', implode('|', $domains));
+                        $requirements['_domain'] = sprintf('(%s)', implode('|', $domains));
                     } else {
                         $host = $navigation->getDomain();
                     }

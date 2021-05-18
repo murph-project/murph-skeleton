@@ -66,4 +66,9 @@ class SiteRequest
 
         return null !== $menu ? $menu->getNavigation() : null;
     }
+
+    public function getDomain(): string
+    {
+        return $this->requestStack->getCurrentRequest()->headers->get('host');
+    }
 }
