@@ -1,0 +1,7 @@
+{% extends '@Core/admin/crud/index.html.twig' %}
+
+{% block list_item_actions_before %}
+    <a href="{{ path('admin_site_tree_navigation', {navigation: item.id}) }}" class="btn btn-sm btn-success mr-1">
+        <span class="fa fa-sitemap"></span>
+    </a>
+{% endblock %}

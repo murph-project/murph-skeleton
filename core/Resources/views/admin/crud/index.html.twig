@@ -150,32 +150,34 @@
                                         </td>
                                     {% endfor %}
 
-                                    {% if configuration.action('index', 'show', true) or configuration.action('index', 'edit', true) or configuration.action('index', 'delete', true) %}
-                                        <td class="col-2 miw-200 text-right">
-                                            {% if configuration.action('index', 'show', true) %}
-                                                <a href="{{ path(configuration.pageRoute('show'), {entity: item.id}) }}" class="btn btn-sm btn-secondary mr-1">
-                                                    <span class="fa fa-eye"></span>
-                                                </a>
-                                            {% endif %}
+                                    <td class="col-2 miw-200 text-right">
+                                        {% block list_item_actions_before %}{% endblock %}
 
-                                            {% if configuration.action('index', 'edit', true) %}
-                                                <a href="{{ path(configuration.pageRoute('edit'), {entity: item.id}) }}" class="btn btn-sm btn-primary mr-1">
-                                                    <span class="fa fa-edit"></span>
-                                                </a>
-                                            {% endif %}
+                                        {% if configuration.action('index', 'show', true) %}
+                                            <a href="{{ path(configuration.pageRoute('show'), {entity: item.id}) }}" class="btn btn-sm btn-secondary mr-1">
+                                                <span class="fa fa-eye"></span>
+                                            </a>
+                                        {% endif %}
 
-                                            {% if configuration.action('index', 'delete', true) %}
-                                                <button type="submit" form="form-delete-{{ item.id }}" class="btn btn-sm btn-danger">
-                                                    <span class="fa fa-trash"></span>
-                                                </button>
+                                        {% if configuration.action('index', 'edit', true) %}
+                                            <a href="{{ path(configuration.pageRoute('edit'), {entity: item.id}) }}" class="btn btn-sm btn-primary mr-1">
+                                                <span class="fa fa-edit"></span>
+                                            </a>
+                                        {% endif %}
 
-                                                <form method="post" action="{{ path(configuration.pageRoute('delete'), {entity: item.id}) }}" id="form-delete-{{ item.id }}" data-form-confirm>
-                                                    <input type="hidden" name="_method" value="DELETE">
-                                                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ item.id) }}">
-                                                </form>
-                                            {% endif %}
-                                        </td>
-                                    {% endif %}
+                                        {% if configuration.action('index', 'delete', true) %}
+                                            <button type="submit" form="form-delete-{{ item.id }}" class="btn btn-sm btn-danger">
+                                                <span class="fa fa-trash"></span>
+                                            </button>
+
+                                            <form method="post" action="{{ path(configuration.pageRoute('delete'), {entity: item.id}) }}" id="form-delete-{{ item.id }}" data-form-confirm>
+                                                <input type="hidden" name="_method" value="DELETE">
+                                                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ item.id) }}">
+                                            </form>
+                                        {% endif %}
+
+                                        {% block list_item_actions_after %}{% endblock %}
+                                    </td>
                                 </tr>
                             {% endblock %}
                         {% else %}

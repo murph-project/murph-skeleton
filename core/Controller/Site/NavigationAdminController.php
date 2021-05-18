@@ -83,6 +83,7 @@ class NavigationAdminController extends CrudController
             ->setForm('edit', Type::class, [])
             ->setForm('new', Type::class)
 
+            ->setView('index', '@Core/site/navigation_admin/index.html.twig')
             ->setView('show_entity', '@Core/site/navigation_admin/_show.html.twig')
             ->setView('form', '@Core/site/navigation_admin/_form.html.twig')
 

@@ -26,112 +26,112 @@ class Node implements EntityInterface
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    protected $id;
 
     /**
      * @ORM\ManyToOne(targetEntity=Menu::class, inversedBy="nodes", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
      */
-    private $menu;
+    protected $menu;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $label;
+    protected $label;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $url;
+    protected $url;
 
     /**
      * @ORM\Column(type="boolean", options={"default"=0})
      */
-    private $disableUrl = false;
+    protected $disableUrl = false;
 
     /**
      * @ORM\Column(type="boolean", options={"default"=0})
      */
-    private $isVisible = false;
+    protected $isVisible = false;
 
     /**
      * @Gedmo\TreeLeft
      * @ORM\Column(type="integer")
      */
-    private $treeLeft;
+    protected $treeLeft;
 
     /**
      * @Gedmo\TreeLevel
      * @ORM\Column(type="integer")
      */
-    private $treeLevel;
+    protected $treeLevel;
 
     /**
      * @Gedmo\TreeRight
      * @ORM\Column(type="integer")
      */
-    private $treeRight;
+    protected $treeRight;
 
     /**
      * @Gedmo\TreeRoot
      * @ORM\ManyToOne(targetEntity="Node")
      * @ORM\JoinColumn(referencedColumnName="id", onDelete="CASCADE")
      */
-    private $treeRoot;
+    protected $treeRoot;
 
     /**
      * @Gedmo\TreeParent
      * @ORM\ManyToOne(targetEntity="Node", inversedBy="children")
      * @ORM\JoinColumn(referencedColumnName="id", onDelete="CASCADE")
      */
-    private $parent;
+    protected $parent;
 
     /**
      * @ORM\OneToMany(targetEntity="Node", mappedBy="parent")
      * @ORM\OrderBy({"treeLeft"="ASC"})
      */
-    private $children;
+    protected $children;
 
     /**
      * @ORM\ManyToOne(targetEntity=Page::class, inversedBy="nodes", cascade={"persist"})
      * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
      */
-    private $page;
+    protected $page;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $code;
+    protected $code;
 
     /**
      * @ORM\Column(type="array", nullable=true)
      */
-    private $parameters = [];
+    protected $parameters = [];
 
     /**
      * @ORM\Column(type="array", nullable=true)
      */
-    private $attributes = [];
+    protected $attributes = [];
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $controller;
+    protected $controller;
 
     /**
      * @ORM\Column(type="array", nullable=true)
      */
-    private $sitemapParameters = [];
+    protected $sitemapParameters = [];
 
     /**
      * @ORM\ManyToOne(targetEntity=Node::class, inversedBy="aliasNodes")
      */
-    private $aliasNode;
+    protected $aliasNode;
 
     /**
      * @ORM\OneToMany(targetEntity=Node::class, mappedBy="aliasNode")
      */
-    private $aliasNodes;
+    protected $aliasNodes;
 
     public function __construct()
     {

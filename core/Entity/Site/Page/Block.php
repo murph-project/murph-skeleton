@@ -21,23 +21,23 @@ class Block
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    protected $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $name;
+    protected $name;
 
     /**
      * @ORM\Column(type="text", nullable=true)
      */
-    private $value;
+    protected $value;
 
     /**
      * @ORM\ManyToOne(targetEntity=Page::class, inversedBy="blocks")
      * @ORM\JoinColumn(onDelete="CASCADE")
      */
-    private $page;
+    protected $page;
 
     public function getId(): ?int
     {
