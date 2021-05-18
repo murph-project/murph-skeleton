@@ -111,6 +111,6 @@ class PageAdminController extends CrudController
 
     protected function getSection(): string
     {
-        return 'page';
+        return 'site_page';
     }
 }
