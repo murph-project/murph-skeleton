@@ -73,7 +73,7 @@
                             {% set edit = path('admin_site_node_edit', {entity: node.id}) %}
                             {% set new = path('admin_site_node_new', {node: node.id}) %}
 
-                            <div class="list-group-item">
+                            <div class="list-group-item" id="node-{{ node.id }}">
                                 <div class="row">
                                     <div class="col-6" style="padding-left: {{ (node.treeLevel - 1) * 30 }}px">
                                         {{ node.label }}

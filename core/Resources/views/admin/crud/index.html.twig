@@ -130,7 +130,7 @@
                                     {% endif %}
                                 {% endset -%}
 
-                                <tr data-dblclick="{{ dbClick }}">
+                                <tr data-dblclick="{{ dbClick }}" class="{{ loop.index is odd ? 'is-odd' : 'is-even' }}">
                                     {% for config in configuration.fields('index') %}
                                         {% set attr = config.options.attr is defined ? config.options.attr : [] %}
                                         {% set action = config.options.action is defined ? config.options.action : null %}
