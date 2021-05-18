@@ -71,7 +71,7 @@ class NavigationAdminController extends CrudController
             ->setPageTitle('index', 'Navigations')
             ->setPageTitle('edit', '{label}')
             ->setPageTitle('new', 'New navigation')
-            ->setPageTitle('show', '{id}')
+            ->setPageTitle('show', '{label}')
 
             ->setPageRoute('index', 'admin_site_navigation_index')
             ->setPageRoute('new', 'admin_site_navigation_new')
