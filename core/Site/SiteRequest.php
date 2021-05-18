@@ -71,4 +71,9 @@ class SiteRequest
     {
         return $this->requestStack->getCurrentRequest()->headers->get('host');
     }
+
+    public function getUri(): string
+    {
+        return $this->requestStack->getCurrentRequest()->getUri();
+    }
 }

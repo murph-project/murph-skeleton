@@ -40,6 +40,11 @@ class Navigation implements EntityInterface
     protected $domain;
 
     /**
+     * @ORM\Column(type="boolean", options={"default"=0})
+     */
+    protected $forceDomain = false;
+
+    /**
      * @ORM\Column(type="text", nullable=true)
      */
     protected $additionalDomains = [];
@@ -96,6 +101,18 @@ class Navigation implements EntityInterface
     public function setDomain(string $domain): self
     {
         $this->domain = $domain;
+
+        return $this;
+    }
+
+    public function getForceDomain(): ?bool
+    {
+        return $this->forceDomain;
+    }
+
+    public function setForceDomain(bool $forceDomain): self
+    {
+        $this->forceDomain = $forceDomain;
 
         return $this;
     }

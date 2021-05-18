@@ -11,6 +11,7 @@ use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use App\Core\Form\Site\NavigationAdditionalDomainType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 
 class NavigationType extends AbstractType
 {
@@ -54,6 +55,19 @@ class NavigationType extends AbstractType
                 ],
                 'constraints' => [
                     new NotBlank(),
+                ],
+            ]
+        );
+
+        $builder->add(
+            'forceDomain',
+            CheckboxType::class,
+            [
+                'label' => 'Force this domain',
+                'required' => false,
+                'attr' => [
+                ],
+                'constraints' => [
                 ],
             ]
         );
