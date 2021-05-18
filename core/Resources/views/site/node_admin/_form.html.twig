@@ -103,7 +103,6 @@
 
             <div class="card">
                 {% set action = form.pageAction[3] %}
-                {% set options = {'attr': {'checked': 'checked'}} %}
 
                 <div class="card-header p-0">
                     <h2 class="mb-0">
@@ -115,7 +114,7 @@
                         </label>
 
                         <div class="d-none">
-                            {{ form_row(action, options) }}
+                            {{ form_row(action) }}
                         </div>
                     </h2>
                 </div>
