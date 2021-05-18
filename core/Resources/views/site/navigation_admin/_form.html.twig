@@ -1,12 +1,69 @@
 <div class="row">
     <div class="col-12 p-3">
         <div class="row">
-            {% for item in ['label', 'domain', 'locale', 'code'] %}
+            {% for item in ['label', 'locale', 'code'] %}
                 <div class="col-12">
                     {{ form_row(form[item]) }}
                 </div>
             {% endfor %}
+
+            <div class="col-12">
+                {{ form_row(form.domain) }}
+            </div>
+
+            {% set collection_name = 'additional-domains' %}
+            {% set label_add = 'Add' %}
+            {% set label_delete = 'Delete' %}
+
+            <div data-collection="collection-{{ collection_name }}" class="col-12">
+                {{ form_label(form.additionalDomains) }}
+
+                {% for item in form.additionalDomains %}
+                    <div data-collection-item="{{ loop.index }}">
+                        <div class="row">
+                            {% for child in item %}
+                                <div class="col-12 col-md-3 pr-3">
+                                    {{ form_row(child) }}
+                                </div>
+                            {% endfor %}
+
+                            <div class="col-12 col-md-3">
+                                <span data-collection-delete-container class="btn btn-sm btn-danger" style="margin-top: 2.1rem">
+                                    <span data-collection-delete="{{ loop.index }}">
+                                        {{ label_delete|trans }}
+                                    </span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            <div data-collection-add="collection-{{ collection_name }}" class="collection-add col-12">
+                <span class="btn btn-sm btn-primary" data-collection-add="collection-{{ collection_name }}">
+                    {{ label_add|trans }}
+                </span>
+            </div>
+            <template type="text/template" id="collection-{{ collection_name }}">
+                <div data-collection-item="__name__">
+                    <div class="row">
+                        {% for child in form.additionalDomains.vars.prototype %}
+                            <div class="col-12 col-md-3 pr-3">
+                                {{ form_row(child) }}
+                            </div>
+                        {% endfor %}
+
+                        <div class="col-12 col-md-3">
+                            <span data-collection-delete-container class="btn btn-sm btn-danger" style="margin-top: 2.1rem">
+                                {{ label_delete|trans }}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </template>
         </div>
     </div>
 </div>
 
+<div class="d-none">
+    {{ form_rest(form) }}
+</div>

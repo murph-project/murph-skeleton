@@ -9,6 +9,8 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use App\Core\Form\Site\NavigationAdditionalDomainType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
 class NavigationType extends AbstractType
 {
@@ -53,6 +55,19 @@ class NavigationType extends AbstractType
                 'constraints' => [
                     new NotBlank(),
                 ],
+            ]
+        );
+
+        $builder->add(
+            'additionalDomains',
+            CollectionType::class,
+            [
+                'entry_type' => NavigationAdditionalDomainType::class,
+                'label' => 'Additional domains',
+                'by_reference' => false,
+                'allow_add' => true,
+                'allow_delete' => true,
+                'prototype' => true,
             ]
         );
 

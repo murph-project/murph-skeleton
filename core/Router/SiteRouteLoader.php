@@ -70,6 +70,7 @@ class SiteRouteLoader extends Loader
                         '_menu' => $menu->getId(),
                         '_page' => $node->getPage() ? $node->getPage()->getId() : null,
                         '_navigation' => $navigation->getId(),
+                        'domain' => $navigation->getDomain(),
                     ];
 
                     foreach ($node->getParameters() as $parameter) {
@@ -86,14 +87,35 @@ class SiteRouteLoader extends Loader
 
                     $requirements['_locale'] = $navigation->getLocale();
 
+                    $additionalDomains = $navigation->getAdditionalDomains();
+
+                    if (count($additionalDomains)) {
+                        $host = '{domain}';
+                        $domains = [
+                            preg_quote($navigation->getDomain()),
+                        ];
+
+                        foreach ($additionalDomains as $additionalDomain) {
+                            if ('domain' === $additionalDomain['type']) {
+                                $domains[] = preg_quote($additionalDomain['domain']);
+                            } elseif ('regexp' === $additionalDomain['type']) {
+                                $domains[] = $additionalDomain['domain'];
+                            }
+                        }
+
+                        $requirements['domain'] = sprintf('(%s)', implode('|', $domains));
+                    } else {
+                        $host = $navigation->getDomain();
+                    }
+
                     $url = $node->getUrl();
 
                     if (!$uniqueness[$navigation->getDomain()]) {
                         $url = sprintf('/%s%s', $navigation->getLocale(), $url);
                     }
 
-                    $route = new Route($url, $defaults, $requirements);
-                    $route->setHost($navigation->getDomain());
+                    $route = new Route($url, $defaults, $requirements, [], $host);
+                    //$route->setHost($navigation->getDomain());
 
                     $routes->add($node->getRouteName(), $route);
                 }

@@ -22,32 +22,37 @@ class Navigation implements EntityInterface
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    protected $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $label;
+    protected $label;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $code;
+    protected $code;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $domain;
+    protected $domain;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    protected $additionalDomains = [];
 
     /**
      * @ORM\OneToMany(targetEntity=Menu::class, mappedBy="navigation")
      */
-    private $menus;
+    protected $menus;
 
     /**
      * @ORM\Column(type="string", length=10)
      */
-    private $locale = 'en';
+    protected $locale = 'en';
 
     public function __construct()
     {
@@ -91,6 +96,18 @@ class Navigation implements EntityInterface
     public function setDomain(string $domain): self
     {
         $this->domain = $domain;
+
+        return $this;
+    }
+
+    public function getAdditionalDomains(): array
+    {
+        return (array) json_decode($this->additionalDomains, true);
+    }
+
+    public function setAdditionalDomains(array $additionalDomains): self
+    {
+        $this->additionalDomains = json_encode($additionalDomains);
 
         return $this;
     }
