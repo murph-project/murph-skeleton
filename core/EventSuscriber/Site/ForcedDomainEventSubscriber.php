@@ -26,6 +26,10 @@ class ForcedDomainEventSubscriber implements EventSubscriberInterface
             return;
         }
 
+        if (!$navigation->getForceDomain()) {
+            return;
+        }
+
         if ($navigation->getDomain() === $this->siteRequest->getDomain()) {
             return;
         }
