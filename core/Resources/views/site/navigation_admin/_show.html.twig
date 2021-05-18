@@ -7,11 +7,6 @@
                 {{ entity.label }}
             </li>
             <li class="list-group-item">
-                <span class="font-weight-bold pb-2 d-block">{{ 'Domain'|trans }}</span>
-
-                {{ entity.domain }}
-            </li>
-            <li class="list-group-item">
                 <span class="font-weight-bold pb-2 d-block">{{ 'Locale'|trans }}</span>
 
                 {{ entity.locale }}
@@ -21,6 +16,32 @@
 
                 {{ entity.code }}
             </li>
+
+            <li class="list-group-item">
+                <span class="font-weight-bold pb-2 d-block">{{ 'Domain'|trans }}</span>
+
+                {{ entity.domain }}
+            </li>
+
+            {% set additionalDomains = entity.additionalDomains %}
+
+            {% if additionalDomains|length %}
+                <li class="list-group-item">
+                    <span class="font-weight-bold pb-2 d-block">{{ 'Additional domains'|trans }}</span>
+
+                    {% for item in additionalDomains %}
+                        <div>
+                            {{ item.domain }}
+
+                            {% if item.type == 'domain' %}
+                                ({{ 'Domain'|trans|lower }})
+                            {% else %}
+                                ({{ 'Regular expression'|trans|lower }})
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                </li>
+            {% endif %}
         </ul>
     </div>
 </div>
