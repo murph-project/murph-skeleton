@@ -242,6 +242,10 @@ class Page implements EntityInterface
 
     public function setOgImage($ogImage): self
     {
+        if ($this->ogImage !== null && $ogImage === null) {
+            return $this;
+        }
+
         $this->ogImage = $ogImage;
 
         return $this;
