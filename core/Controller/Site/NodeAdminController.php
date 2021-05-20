@@ -72,7 +72,7 @@ class NodeAdminController extends AdminController
                     $pageLocator
                 );
 
-                $entityManager->update($entity);
+                $entityManager->create($entity);
 
                 $this->addFlash('success', 'The data has been saved.');
 

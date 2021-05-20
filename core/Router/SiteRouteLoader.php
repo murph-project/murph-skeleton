@@ -115,7 +115,6 @@ class SiteRouteLoader extends Loader
                     }
 
                     $route = new Route($url, $defaults, $requirements, [], $host);
-                    //$route->setHost($navigation->getDomain());
 
                     $routes->add($node->getRouteName(), $route);
                 }

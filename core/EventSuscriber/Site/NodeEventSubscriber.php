@@ -50,6 +50,11 @@ class NodeEventSubscriber extends EntityManagerEventSubscriber
         return $entity instanceof Node;
     }
 
+    public function onPreCreate(EntityManagerEvent $event)
+    {
+        return $this->onPreUpdate($event);
+    }
+
     public function onPreUpdate(EntityManagerEvent $event)
     {
         if (!$this->support($event->getEntity())) {

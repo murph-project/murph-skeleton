@@ -5,6 +5,7 @@ namespace App\Core\Controller\Admin;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
 
 abstract class AdminController extends AbstractController
 {
@@ -28,4 +29,12 @@ abstract class AdminController extends AbstractController
     }
 
     abstract protected function getSection(): string;
+
+    /**
+     * @Route("/_ping", name="_ping")
+     */
+    public function ping()
+    {
+        return $this->json(true);
+    }
 }

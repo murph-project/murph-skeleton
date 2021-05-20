@@ -7,6 +7,8 @@ use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\HttpKernel\KernelInterface;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
  * class SymfonyCacheManager.
@@ -16,10 +18,14 @@ use Symfony\Component\HttpKernel\KernelInterface;
 class SymfonyCacheManager
 {
     protected KernelInterface $kernel;
+    protected HttpClientInterface $httpClient;
+    protected UrlGeneratorInterface $urlGenerator;
 
-    public function __construct(KernelInterface $kernel)
+    public function __construct(KernelInterface $kernel, HttpClientInterface $httpClient, UrlGeneratorInterface $urlGenerator)
     {
         $this->kernel = $kernel;
+        $this->httpClient = $httpClient;
+        $this->urlGenerator = $urlGenerator;
     }
 
     public function cleanRouting()
@@ -31,9 +37,14 @@ class SymfonyCacheManager
             ->name('url_*.php*')
         ;
 
+        $pingUrl = $this->urlGenerator->generate('_ping', [], UrlGeneratorInterface::ABSOLUTE_URL);
+
         foreach ($finder as $file) {
             unlink((string) $file->getPathname());
         }
+
+        // Hack: used to regenerate cache of url generator
+        $this->httpClient->request('POST', $pingUrl);
     }
 
     public function cleanAll()
