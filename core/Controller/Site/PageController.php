@@ -31,6 +31,14 @@ class PageController extends AbstractController
     {
         $parameters = array_merge($this->getDefaultRenderParameters(), $parameters);
 
+        if ($response === null) {
+            $contentType = $this->siteRequest->getNode()->getContentType();
+
+            $response = new Response(null, 200, [
+                'Content-Type' => $contentType ?? 'text/html',
+            ]);
+        }
+
         return parent::render($view, $parameters, $response);
     }
 

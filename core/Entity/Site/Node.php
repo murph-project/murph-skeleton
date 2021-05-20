@@ -133,6 +133,11 @@ class Node implements EntityInterface
      */
     protected $aliasNodes;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $contentType;
+
     public function __construct()
     {
         $this->children = new ArrayCollection();
@@ -488,6 +493,18 @@ class Node implements EntityInterface
                 $aliasNode->setAliasNode(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getContentType(): ?string
+    {
+        return $this->contentType;
+    }
+
+    public function setContentType(?string $contentType): self
+    {
+        $this->contentType = $contentType;
 
         return $this;
     }

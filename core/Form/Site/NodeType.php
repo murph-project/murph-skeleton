@@ -74,6 +74,20 @@ class NodeType extends AbstractType
         );
 
         $builder->add(
+            'contentType',
+            TextType::class,
+            [
+                'label' => 'Content type',
+                'required' => false,
+                'help' => 'Leave blank equals "text/html"',
+                'attr' => [
+                ],
+                'constraints' => [
+                ],
+            ]
+        );
+
+        $builder->add(
             'controller',
             TextType::class,
             [
