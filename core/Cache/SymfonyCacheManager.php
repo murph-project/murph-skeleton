@@ -9,6 +9,7 @@ use Symfony\Component\Finder\Finder;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\HttpClient\Exception\ClientException;
 
 /**
  * class SymfonyCacheManager.
@@ -43,8 +44,11 @@ class SymfonyCacheManager
             unlink((string) $file->getPathname());
         }
 
-        // Hack: used to regenerate cache of url generator
-        $this->httpClient->request('POST', $pingUrl);
+        try {
+            // Hack: used to regenerate cache of url generator
+            $this->httpClient->request('POST', $pingUrl);
+        } catch (ClientException $e) {
+        }
     }
 
     public function cleanAll()
