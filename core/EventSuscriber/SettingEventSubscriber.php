@@ -10,7 +10,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
  *
  * @author Simon Vieille <simon@deblan.fr>
  */
-class SettingEventSubscriber implements EventSubscriberInterface
+abstract class SettingEventSubscriber implements EventSubscriberInterface
 {
     protected static int $priority = 0;
 

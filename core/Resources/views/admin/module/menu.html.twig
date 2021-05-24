@@ -69,6 +69,16 @@
         </li>
 
         <li class="nav-item">
+            <a class="nav-link {{ macros_menu.active_class('task', section) }}" href="{{ path('admin_task_index') }}">
+                <span class="fa fa-play"></span>
+
+                <span class="nav-item-label">
+                    {{ 'Tasks'|trans }}
+                </span>
+            </a>
+        </li>
+
+        <li class="nav-item">
             <a class="nav-link {{ macros_menu.active_class('setting', section) }}" href="{{ path('admin_setting_index') }}">
                 <span class="fa fa-sliders-h"></span>
 

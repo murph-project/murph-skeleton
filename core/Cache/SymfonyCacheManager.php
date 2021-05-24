@@ -10,6 +10,7 @@ use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\HttpClient\Exception\ClientException;
+use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * class SymfonyCacheManager.
@@ -51,11 +52,14 @@ class SymfonyCacheManager
         }
     }
 
-    public function cleanAll()
+    public function cleanAll(OutputInterface $output = null)
     {
         $application = new Application($this->kernel);
         $application->setAutoExit(false);
-        $output = new BufferedOutput();
+
+        if (null === $output) {
+            $output = new BufferedOutput();
+        }
 
         $input = new ArrayInput([
             'command' => 'cache:clear',

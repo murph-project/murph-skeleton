@@ -6,19 +6,25 @@ module.exports = function() {
         e.stopPropagation();
 
         let container = $('#modal-container');
+        const body = $('body')
 
         if (!container.length) {
             container = $('<div id="modal-container" class="modal">');
 
-            $('body').append(container);
+            body.append(container);
         }
 
-        container.html('');
+        const loader = $('<div style="position: absolute; top: 25vh; left: 50vw; z-index: 2000">')
+        loader.html('<div class="spinner-border text-primary" role="status"><span class="sr-only">Loading...</span></div>')
+        body.append(loader)
+
+        container.html();
 
         const url = $(e.target).attr('data-modal');
+            $(container).modal('show');
 
         container.load(url, function() {
-            $(container).modal('show');
+            loader.remove()
         });
     });
 
