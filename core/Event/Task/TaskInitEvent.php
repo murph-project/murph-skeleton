@@ -2,8 +2,6 @@
 
 namespace App\Core\Event\Task;
 
-use Symfony\Component\Console\Output\BufferedOutput;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Contracts\EventDispatcher\Event;
 
 /**
@@ -19,8 +17,8 @@ class TaskInitEvent extends Event
 
     public function getTasks(): array
     {
-        usort($this->tasks, function($t1, $t2) {
-            return $t1['section'] <> $t2['section'];
+        usort($this->tasks, function ($t1, $t2) {
+            return $t1['section'] != $t2['section'];
         });
 
         return $this->tasks;

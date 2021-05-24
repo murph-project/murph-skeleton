@@ -4,12 +4,12 @@ namespace App\Core\Controller\Task;
 
 use App\Core\Controller\Admin\AdminController;
 use App\Core\Event\Task\TaskInitEvent;
+use App\Core\Event\Task\TaskRunRequestedEvent;
 use Symfony\Component\Console\Output\BufferedOutput;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Core\Event\Task\TaskRunRequestedEvent;
 
 /**
  * @Route("/admin/task")

@@ -2,10 +2,9 @@
 
 namespace App\Core\EventSuscriber\Task;
 
-use App\Core\Event\Setting\SettingEvent;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use App\Core\Event\Task\TaskRunRequestedEvent;
 use App\Core\Event\Task\TaskInitEvent;
+use App\Core\Event\Task\TaskRunRequestedEvent;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
  * class TaskEventSubscriber.
