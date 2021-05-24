@@ -20,6 +20,7 @@
         "scheb/2fa-google-authenticator": "^5.7",
         "scheb/2fa-qr-code": "^5.7",
         "sensio/framework-extra-bundle": "^6.1",
+        "sensiolabs/ansi-to-html": "^1.2",
         "stof/doctrine-extensions-bundle": "^1.6",
         "symfony/apache-pack": "^1.0",
         "symfony/asset": "5.2.*",

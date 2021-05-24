@@ -65,6 +65,7 @@ class SymfonyCacheManager
             'command' => 'cache:clear',
             '-e' => $this->kernel->getEnvironment(),
             '--no-warmup' => null,
+            '--ansi' => null,
         ]);
 
         $application->run($input, $output);
