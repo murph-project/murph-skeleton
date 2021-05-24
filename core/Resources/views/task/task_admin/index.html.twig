@@ -1,0 +1,56 @@
+{% extends '@Core/admin/layout.html.twig' %}
+
+{% block title %}{{ 'Tasks'|trans }} - {{ parent() }}{% endblock %}
+
+{% block body %}
+    <div class="bg-light pl-5 pr-4 pt-5 pb-5">
+        <div class="crud-header">
+            <h1 class="crud-header-title">{{ 'Tasks'|trans }}</h1>
+        </div>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table">
+            <thead class="thead-light">
+                <tr>
+                    <th class="col-5">{{ 'Label'|trans }}</th>
+                    <th class="col-5">{{ 'Section'|trans }}</th>
+                    <th class="col-2 miw-100 text-right">{{ 'Actions'|trans }}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in pager %}
+                    {% set run = path('admin_task_run', {
+                        task: item.task,
+                        _token: csrf_token('task_run')
+                    }) %}
+
+                    <tr>
+                        <td class="col-5">
+                            {{ item.label|trans }}
+                        </td>
+                        <td class="col-5">
+                            <span class="btn btn-light">{{ item.section|trans }}</span>
+                        </td>
+                        <td class="col-2 miw-100 text-right">
+                            <span data-modal="{{ run }}" class="btn btn-sm btn-primary mr-1">
+                                <span data-modal="{{ run }}" class="fa fa-play"></span>
+                            </span>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td class="col-12 text-center p-4 text-black-50" colspan="3">
+                            <div class="display-1">
+                                <span class="fa fa-search"></span>
+                            </div>
+                            <div class="display-5 mt-3">
+                                {{ 'No result'|trans }}
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
