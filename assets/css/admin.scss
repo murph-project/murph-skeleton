@@ -1,14 +1,16 @@
+@import "./_admin_vars.scss";
+
 $theme-colors: (
   "primary": #1ab5dc,
   "primary-light": lighten(#3183aa, 40%),
   "dark-blue": #1e2430,
-);
+) !default;
 
-$grid-gutter-width: 0px;
-$pagination-color: #343a40;
-$pagination-bg: #ffffff;
-$pagination-active-color: #ffffff;
-$pagination-active-bg: #343a40;
+$grid-gutter-width: 0px !default;
+$pagination-color: #343a40 !default;
+$pagination-bg: #ffffff !default;
+$pagination-active-color: #ffffff !default;
+$pagination-active-bg: #343a40 !default;
 
 @import "~choices.js/src/styles/choices.scss";
 @import "~bootstrap/scss/bootstrap.scss";
@@ -477,3 +479,5 @@ fieldset.form-group {
         line-height: normal;
     }
 }
+
+@import "./_admin_extend.scss";
