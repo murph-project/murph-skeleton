@@ -2,6 +2,8 @@ core:
     site:
         name: "Murph"
         logo: "build/images/core/logo.svg"
+        # controllers:
+        #     - {name: 'Foo', action: 'App\Controller\ExampleController::foo'}
         pages:
             App\Entity\Page\SimplePage:
                 name: 'Page simple'

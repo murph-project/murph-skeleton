@@ -12,7 +12,7 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 class PageLocator
 {
     protected array $params;
-    protected array $pages;
+    protected array $pages = [];
 
     public function __construct(ParameterBagInterface $bag)
     {

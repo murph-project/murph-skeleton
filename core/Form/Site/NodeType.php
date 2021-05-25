@@ -89,15 +89,20 @@ class NodeType extends AbstractType
 
         $builder->add(
             'controller',
-            TextType::class,
+            ChoiceType::class,
             [
                 'label' => 'Controller',
                 'required' => false,
-                'help' => 'Leave blank to use the default one. Example: App\\Controller\\FooController::barAction',
-                'attr' => [
-                ],
-                'constraints' => [
-                ],
+                'help' => 'Leave blank to use the default one',
+                'choices' => call_user_func(function () use ($options) {
+                    $choices = [];
+
+                    foreach ($options['controllers'] as $controller) {
+                        $choices[$controller->getName()] = $controller->getAction();
+                    }
+
+                    return $choices;
+                }),
             ]
         );
 
@@ -259,6 +264,7 @@ class NodeType extends AbstractType
         $resolver->setDefaults([
             'data_class' => Node::class,
             'pages' => [],
+            'controllers' => [],
             'navigation' => null,
         ]);
     }

@@ -20,6 +20,7 @@ use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Core\Site\ControllerLocator;
 
 /**
  * @Route("/admin/site/node")
@@ -36,11 +37,13 @@ class NodeAdminController extends AdminController
         EntityManager $entityManager,
         NodeRepository $nodeRepository,
         PageLocator $pageLocator,
+        ControllerLocator $controllerLocator,
         Request $request
     ): Response {
         $entity = $factory->create($node->getMenu());
         $form = $this->createForm(EntityType::class, $entity, [
             'pages' => $pageLocator->getPages(),
+            'controllers' => $controllerLocator->getControllers(),
             'navigation' => $node->getMenu()->getNavigation(),
         ]);
 
@@ -105,10 +108,12 @@ class NodeAdminController extends AdminController
         EntityManager $entityManager,
         PageFactory $pageFactory,
         PageLocator $pageLocator,
+        ControllerLocator $controllerLocator,
         Request $request
     ): Response {
         $form = $this->createForm(EntityType::class, $entity, [
             'pages' => $pageLocator->getPages(),
+            'controllers' => $controllerLocator->getControllers(),
             'navigation' => $entity->getMenu()->getNavigation(),
         ]);
 
