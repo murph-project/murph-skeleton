@@ -59,6 +59,14 @@ class <?= $class_name; ?> extends CrudController
     }
 
     /**
+     * @Route("/admin/<?= $route; ?>/sort/{page}", name="admin_<?= $route; ?>_sort", methods={"POST"})
+     */
+    public function sort(int $page = 1, RepositoryQuery $query, EntityManager $entityManager, Request $request, Session $session): Response
+    {
+        return $this->doSort($page, $query, $entityManager, $request, $session);
+    }
+
+    /**
      * @Route("/admin/<?= $route; ?>/delete/{entity}", name="admin_<?= $route; ?>_delete", methods={"DELETE"})
      */
     public function delete(Entity $entity, EntityManager $entityManager, Request $request): Response

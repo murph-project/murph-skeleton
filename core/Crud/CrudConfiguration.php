@@ -23,6 +23,8 @@ class CrudConfiguration
     protected array $maxPerPage = [];
     protected array $locales = [];
     protected array $defaultSort = [];
+    protected array $isSortableCollection = [];
+    protected string $sortableCollectionProperty = 'sortOrder';
     protected ?string $defaultLocale = null;
 
     protected static $self;
@@ -244,5 +246,29 @@ class CrudConfiguration
     public function getDefaultSort(string $context)
     {
         return $this->defaultSort[$context] ?? null;
+    }
+
+    public function setIsSortableCollection(string $page, bool $isSortableCollection): self
+    {
+        $this->isSortableCollection[$page] = $isSortableCollection;
+
+        return $this;
+    }
+
+    public function getIsSortableCollection(string $page): bool
+    {
+        return $this->isSortableCollection[$page] ?? false;
+    }
+
+    public function setSortableCollectionProperty(string $sortableCollectionProperty): self
+    {
+        $this->sortableCollectionProperty = $sortableCollectionProperty;
+
+        return $this;
+    }
+
+    public function getSortableCollectionProperty(): string
+    {
+        return $this->sortableCollectionProperty;
     }
 }

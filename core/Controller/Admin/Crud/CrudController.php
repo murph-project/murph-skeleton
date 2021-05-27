@@ -31,11 +31,11 @@ abstract class CrudController extends AdminController
         $configuration = $this->getConfiguration();
 
         $this->applySort('index', $query, $request);
-        $this->updateFilters($request, $session);
+        $this->updatefilters($request, $session);
 
         $pager = $query
-            ->useFilters($this->filters)
-            ->paginate($page, $configuration->getMaxPerPage('index'))
+            ->usefilters($this->filters)
+            ->paginate($page, $configuration->getmaxperpage('index'))
         ;
 
         return $this->render($this->getConfiguration()->getView('index'), [
@@ -125,6 +125,44 @@ abstract class CrudController extends AdminController
         ]);
     }
 
+    protected function doSort(int $page = 1, RepositoryQuery $query, EntityManager $entityManager, Request $request, Session $session): Response
+    {
+        $configuration = $this->getConfiguration();
+        $context = $request->query->get('context', 'index');
+
+        if (!$configuration->getIsSortableCollection($context)) {
+            throw $this->createNotFoundException();
+        }
+
+        $this->applySort($context, $query, $request);
+        $this->updateFilters($request, $session);
+
+        $pager = $query
+            ->useFilters($this->filters)
+            ->paginate($page, $configuration->getMaxPerPage($context))
+        ;
+
+        if ($this->isCsrfTokenValid('sort', $request->query->get('_token'))) {
+            $items = $request->request->get('items', []);
+            $setter = 'set'.$configuration->getSortableCollectionProperty();
+            $orderStart = ($page - 1) * $configuration->getMaxPerPage($context);
+
+            foreach ($pager as $key => $entity) {
+                if (isset($items[$key + 1])) {
+                    $entity->$setter($items[$key + 1] + $orderStart);
+
+                    $entityManager->update($entity);
+                }
+            }
+
+            $this->addFlash('success', 'The data has been saved.');
+        } else {
+            $this->addFlash('warning', 'The form is not valid.');
+        }
+
+        return $this->json([]);
+    }
+
     protected function doDelete(EntityInterface $entity, EntityManager $entityManager, Request $request, callable $beforeDelete = null): Response
     {
         $configuration = $this->getConfiguration();
@@ -208,6 +246,13 @@ abstract class CrudController extends AdminController
     protected function applySort(string $context, RepositoryQuery $query, Request $request)
     {
         $configuration = $this->getConfiguration();
+
+        if ($configuration->getIsSortableCollection($context)) {
+            $query->orderBy(sprintf('.%s', $configuration->getSortableCollectionProperty()));
+
+            return;
+        }
+
         $defaultSort = $configuration->getDefaultSort($context);
 
         $name = $request->query->get('_sort', $defaultSort['label'] ?? null);

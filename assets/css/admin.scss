@@ -1,16 +1,14 @@
-@import "./_admin_vars.scss";
-
 $theme-colors: (
   "primary": #1ab5dc,
   "primary-light": lighten(#3183aa, 40%),
   "dark-blue": #1e2430,
-) !default;
+);
 
-$grid-gutter-width: 0px !default;
-$pagination-color: #343a40 !default;
-$pagination-bg: #ffffff !default;
-$pagination-active-color: #ffffff !default;
-$pagination-active-bg: #343a40 !default;
+$grid-gutter-width: 0px;
+$pagination-color: #343a40;
+$pagination-bg: #ffffff;
+$pagination-active-color: #ffffff;
+$pagination-active-bg: #343a40;
 
 @import "~choices.js/src/styles/choices.scss";
 @import "~bootstrap/scss/bootstrap.scss";
@@ -23,16 +21,16 @@ $pagination-active-bg: #343a40 !default;
     }
 }
 
-.flag-icon-en {
-    background-image: url(~flag-icon-css/flags/4x3/gb.svg);
-}
-
 body {
     overflow-x: hidden;
 }
 
 #logo {
     width: 30px;
+}
+
+.flag-icon-en {
+  background-image: url(~flag-icon-css/flags/4x3/gb.svg);
 }
 
 .choices__list--dropdown {
@@ -95,9 +93,9 @@ body {
     padding-right: 25px;
 }
 
-.table .thead-light {
+.thead-light {
     a, th {
-        color: map-get($theme-colors, 'dark-blue');
+        color: #333333;
     }
 }
 
@@ -125,7 +123,7 @@ tr.table-primary-light {
 }
 
 .bg-dark-blue {
-    background: map-get($theme-colors, 'dark-blue');
+    background: #242b3b;
     color: #fff;
 
     .nav-item-label {
@@ -184,6 +182,12 @@ tr.table-primary-light {
 }
 
 *[data-selectable-selector] {
+    &:hover {
+        cursor: pointer;
+    }
+}
+
+*[data-sortable-item] {
     &:hover {
         cursor: pointer;
     }
@@ -271,13 +275,6 @@ th {
         z-index: 1060;
         width: 300px;
     }
-}
-
-.bg-tiles {
-    background-color: #c1c1c1;
-    background-image: linear-gradient(45deg, #646464 25%, transparent 25%, transparent 75%, #646464 75%), linear-gradient(45deg, #646464 25%, transparent 25%, transparent 75%, #646464 75%);
-    background-size: 20px 20px;
-    background-position: 0 0, 10px 10px;
 }
 
 .tab-form {
@@ -486,5 +483,3 @@ fieldset.form-group {
         line-height: normal;
     }
 }
-
-@import "./_admin_extend.scss";
