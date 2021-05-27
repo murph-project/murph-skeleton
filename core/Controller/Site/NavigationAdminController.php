@@ -58,6 +58,14 @@ class NavigationAdminController extends CrudController
     }
 
     /**
+     * @Route("/admin/site/navigation/sort/{page}", name="admin_site_navigation_sort", methods={"POST"}, requirements={"page":"\d+"})
+     */
+    public function sort(int $page = 1, RepositoryQuery $query, EntityManager $entityManager, Request $request, Session $session): Response
+    {
+        return $this->doSort($page, $query, $entityManager, $request, $session);
+    }
+
+    /**
      * @Route("/admin/site/navigation/delete/{entity}", name="admin_site_navigation_delete", methods={"DELETE"})
      */
     public function delete(Entity $entity, EntityManager $entityManager, Request $request): Response
@@ -77,6 +85,7 @@ class NavigationAdminController extends CrudController
             ->setPageRoute('new', 'admin_site_navigation_new')
             ->setPageRoute('edit', 'admin_site_navigation_edit')
             ->setPageRoute('show', 'admin_site_navigation_show')
+            ->setPageRoute('sort', 'admin_site_navigation_sort')
             ->setPageRoute('delete', 'admin_site_navigation_delete')
             ->setPageRoute('filter', 'admin_site_navigation_filter')
 
@@ -87,21 +96,20 @@ class NavigationAdminController extends CrudController
             ->setView('show_entity', '@Core/site/navigation_admin/_show.html.twig')
             ->setView('form', '@Core/site/navigation_admin/_form.html.twig')
 
+            ->setIsSortableCollection('index', true)
+
             ->setField('index', 'Label', Field\TextField::class, [
                 'property' => 'label',
                 'attr' => ['class' => 'miw-200'],
-                'sort' => ['label', '.label'],
             ])
             ->setField('index', 'Domain', Field\ButtonField::class, [
                 'property' => 'domain',
                 'button_attr' => ['class' => 'btn btn-light'],
                 'attr' => ['class' => 'miw-200'],
-                'sort' => ['domain', '.domain'],
             ])
             ->setField('index', 'Locale', Field\ButtonField::class, [
                 'property' => 'locale',
                 'button_attr' => ['class' => 'btn btn-light'],
-                'sort' => ['locale', '.locale'],
             ])
         ;
     }

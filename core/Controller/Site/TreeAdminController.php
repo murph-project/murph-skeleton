@@ -31,7 +31,9 @@ class TreeAdminController extends AdminController
         }
 
         if (null === $navigation) {
-            $navigation = $navigationQuery->create()->findOne();
+            $navigation = $navigationQuery->create()
+                ->orderBy('.sortOrder')
+                ->findOne();
         }
 
         if (null === $navigation) {
@@ -55,7 +57,7 @@ class TreeAdminController extends AdminController
         Session $session
     ): Response {
         $navigations = $navigationQuery->create()
-            ->orderBy('.label, .domain')
+            ->orderBy('.sortOrder')
             ->find()
         ;
 

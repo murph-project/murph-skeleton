@@ -47,7 +47,7 @@ class Navigation implements EntityInterface
     /**
      * @ORM\Column(type="text", nullable=true)
      */
-    protected $additionalDomains = [];
+    protected $additionalDomains = '[]';
 
     /**
      * @ORM\OneToMany(targetEntity=Menu::class, mappedBy="navigation")
@@ -58,6 +58,11 @@ class Navigation implements EntityInterface
      * @ORM\Column(type="string", length=10)
      */
     protected $locale = 'en';
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $sortOrder;
 
     public function __construct()
     {
@@ -183,6 +188,18 @@ class Navigation implements EntityInterface
     public function setLocale(string $locale): self
     {
         $this->locale = $locale;
+
+        return $this;
+    }
+
+    public function getSortOrder(): ?int
+    {
+        return $this->sortOrder;
+    }
+
+    public function setSortOrder(?int $sortOrder): self
+    {
+        $this->sortOrder = $sortOrder;
 
         return $this;
     }

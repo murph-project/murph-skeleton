@@ -59,7 +59,7 @@ class <?= $class_name; ?> extends CrudController
     }
 
     /**
-     * @Route("/admin/<?= $route; ?>/sort/{page}", name="admin_<?= $route; ?>_sort", methods={"POST"})
+     * @Route("/admin/<?= $route; ?>/sort/{page}", name="admin_<?= $route; ?>_sort", methods={"POST"}, requirements={"page":"\d+"})
      */
     public function sort(int $page = 1, RepositoryQuery $query, EntityManager $entityManager, Request $request, Session $session): Response
     {
