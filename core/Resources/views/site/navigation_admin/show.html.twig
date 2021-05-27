@@ -1,0 +1,8 @@
+{% extends '@Core/admin/crud/show.html.twig' %}
+
+{% block header_actions_after %}
+    <a href="{{ path('admin_site_tree_navigation', {navigation: entity.id}) }}" class="btn btn-success">
+        <span class="fa fa-sitemap"></span>
+        {{ 'Tree'|trans }}
+    </a>
+{% endblock %}
