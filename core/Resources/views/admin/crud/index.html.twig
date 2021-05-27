@@ -1,22 +1,36 @@
 {% extends '@Core/admin/layout.html.twig' %}
 
-{% block title %}{{ configuration.pageTitle('index')|trans }} - {{ parent() }}{% endblock %}
+{% set context = context ?? 'index' %}
+
+{% block title %}{{ configuration.pageTitle(context)|trans }} - {{ parent() }}{% endblock %}
 
 {% block body %}
     {% block header %}
-        <div class="bg-light pl-5 pr-4 pt-5 {% if pager.paginationData.pageCount < 2 %}{% if filters.show %}pb-3{% else %}pb-5{% endif %}{% endif %}">
+        {%- set pb -%}
+            {% if pager.paginationData.pageCount < 2 %}
+                {% if filters.show %}
+                    pb-3
+                {% else %}
+                    pb-5
+                {% endif %}
+            {% else %}
+                pb-3
+            {% endif %}
+        {%- endset -%}
+
+        <div class="bg-light pl-5 pr-4 pt-5 {{ pb }}">
             <div class="crud-header">
                 {% block header_title %}
-                    <h1 class="crud-header-title">{{ configuration.pageTitle('index')|trans }}</h1>
+                    <h1 class="crud-header-title">{{ configuration.pageTitle(context)|trans }}</h1>
                 {% endblock %}
 
                 {% block header_actions %}
                     <div class="crud-header-actions">
                         <div class="btn-group">
-                            {% if configuration.action('index', 'new', true) %}
+                            {% if configuration.action(context, 'new', true) %}
                                 <a href="{{ path(configuration.pageRoute('new')) }}" class="btn btn-primary">
                                     <span class="fa fa-plus pr-1"></span>
-                                    {{ configuration.actionTitle('index', 'new', 'New')|trans }}
+                                    {{ configuration.actionTitle(context, 'new', 'New')|trans }}
                                 </a>
                             {% endif %}
 
@@ -62,14 +76,14 @@
     {% endblock %}
 
     {% block list %}
-        {% set isSortable = configuration.isSortableCollection('index') %}
+        {% set isSortable = configuration.isSortableCollection(context) %}
 
         <div class="table-responsive">
             <table class="table">
                 {% block list_header %}
                     <thead class="thead-light">
                         <tr>
-                            {% for label, config in configuration.fields('index') %}
+                            {% for label, config in configuration.fields(context) %}
                                 {% set attr = config.options.attr is defined ? config.options.attr : [] %}
                                 {% set isSortable = config.options.sort ?? false %}
 
@@ -85,12 +99,12 @@
                                                     {% set icon = 'fa fa-sort-amount-up-alt' %}
                                                 {% endif %}
 
-                                                {% set url = path(configuration.getPageRoute('index'), {
+                                                {% set url = path(configuration.getPageRoute(context), {
                                                     _sort: config.options.sort[0],
                                                     _sort_direction: newDirection,
                                                 }) %}
                                             {% else %}
-                                                {% set url = path(configuration.getPageRoute('index'), {
+                                                {% set url = path(configuration.getPageRoute(context), {
                                                     _sort: config.options.sort[0],
                                                     _sort_direction: 'asc',
                                                 }) %}
@@ -128,7 +142,7 @@
                             {
                                 _token: csrf_token('sort'),
                                 page: pager.currentPageNumber,
-                                context: 'index',
+                                context: context,
                             }
                         ) ~ '"' %}
                     {% else %}
@@ -146,15 +160,15 @@
 
                             {% block list_item %}
                                 {%- set dbClick %}
-                                    {% if configuration.action('index', 'show', true) %}
+                                    {% if configuration.action(context, 'show', true) %}
                                         {{ path(configuration.pageRoute('show'), {entity: item.id}) }}
-                                    {% elseif configuration.action('index', 'edit', true) %}
+                                    {% elseif configuration.action(context, 'edit', true) %}
                                         {{ path(configuration.pageRoute('edit'), {entity: item.id}) }}
                                     {% endif %}
                                 {% endset -%}
 
                                 <tr {{ dataSortableItem|raw }} data-dblclick="{{ dbClick }}" class="{{ loop.index is odd ? 'is-odd' : 'is-even' }}">
-                                    {% for config in configuration.fields('index') %}
+                                    {% for config in configuration.fields(context) %}
                                         {% set attr = config.options.attr is defined ? config.options.attr : [] %}
                                         {% set action = config.options.action is defined ? config.options.action : null %}
 
@@ -176,19 +190,19 @@
                                     <td class="col-2 miw-200 text-right">
                                         {% block list_item_actions_before %}{% endblock %}
 
-                                        {% if configuration.action('index', 'show', true) %}
+                                        {% if configuration.action(context, 'show', true) %}
                                             <a href="{{ path(configuration.pageRoute('show'), {entity: item.id}) }}" class="btn btn-sm btn-secondary mr-1">
                                                 <span class="fa fa-eye"></span>
                                             </a>
                                         {% endif %}
 
-                                        {% if configuration.action('index', 'edit', true) %}
+                                        {% if configuration.action(context, 'edit', true) %}
                                             <a href="{{ path(configuration.pageRoute('edit'), {entity: item.id}) }}" class="btn btn-sm btn-primary mr-1">
                                                 <span class="fa fa-edit"></span>
                                             </a>
                                         {% endif %}
 
-                                        {% if configuration.action('index', 'delete', true) %}
+                                        {% if configuration.action(context, 'delete', true) %}
                                             <button type="submit" form="form-delete-{{ item.id }}" class="btn btn-sm btn-danger">
                                                 <span class="fa fa-trash"></span>
                                             </button>
@@ -206,7 +220,7 @@
 
                             {% if loop.last and isSortable %}
                                 <tr>
-                                    <td class="col-12 text-black-50 border-0" colspan="{{ configuration.fields('index')|length + 1 }}">
+                                    <td class="col-12 text-black-50 border-0" colspan="{{ configuration.fields(context)|length + 1 }}">
                                         <span class="fa fa-hand-pointer"></span>
                                         {{ 'You can sort items by drag & drop'|trans }}
                                     </td>
@@ -214,7 +228,7 @@
                             {% endif %}
                         {% else %}
                             <tr>
-                                <td class="col-12 text-center p-4 text-black-50" colspan="{{ configuration.fields('index')|length + 1 }}">
+                                <td class="col-12 text-center p-4 text-black-50" colspan="{{ configuration.fields(context)|length + 1 }}">
                                     <div class="display-1">
                                         <span class="fa fa-search"></span>
                                     </div>

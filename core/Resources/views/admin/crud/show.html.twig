@@ -1,30 +1,32 @@
 {% extends '@Core/admin/layout.html.twig' %}
 
-{% block title %}{{ configuration.pageTitle('show')|trans|build_string(entity) }} - {{ parent() }}{% endblock %}
+{% set context = context ?? 'show' %}
+
+{% block title %}{{ configuration.pageTitle(context)|trans|build_string(entity) }} - {{ parent() }}{% endblock %}
 
 {% block body %}
     {% block header %}
         <div class="bg-light pl-5 pr-4 pt-5 pb-5">
             <div class="crud-header">
                 {% block header_title %}
-                    <h1 class="crud-header-title">{{ configuration.pageTitle('show')|trans|build_string(entity) }}</h1>
+                    <h1 class="crud-header-title">{{ configuration.pageTitle(context)|trans|build_string(entity) }}</h1>
                 {% endblock %}
 
                 {% block header_actions %}
                     <div class="crud-header-actions">
                         <div class="btn-group">
-                            {% if configuration.action('show', 'back', true) %}
+                            {% if configuration.action(context, 'back', true) %}
                                 <a href="{{ path(configuration.pageRoute('index')) }}" class="btn btn-light">
                                     <span class="fa fa-list pr-1"></span>
-                                    {{ configuration.actionTitle('show', 'back', 'Back to the list')|trans }}
+                                    {{ configuration.actionTitle(context, 'back', 'Back to the list')|trans }}
                                 </a>
                             {% endif %}
 
-                            {% if configuration.action('show', 'edit', true) %}
+                            {% if configuration.action(context, 'edit', true) %}
                                 <a href="{{ path(configuration.pageRoute('edit'), {entity: entity.id}) }}" class="btn btn-primary">
                                     <span class="fa fa-edit pr-1"></span>
 
-                                    {{ configuration.actionTitle('show', 'edit', 'Edit')|trans|build_string(entity) }}
+                                    {{ configuration.actionTitle(context, 'edit', 'Edit')|trans|build_string(entity) }}
                                 </a>
                             {% endif %}
 

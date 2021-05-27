@@ -1,28 +1,30 @@
 {% extends '@Core/admin/layout.html.twig' %}
 
-{% block title %}{{ configuration.pageTitle('new')|trans|build_string(entity) }} - {{ parent() }}{% endblock %}
+{% set context = context ?? 'new' %}
+
+{% block title %}{{ configuration.pageTitle(context)|trans|build_string(entity) }} - {{ parent() }}{% endblock %}
 
 {% block body %}
     {% block header %}
         <div class="bg-light pl-5 pr-4 pt-5 pb-5">
             <div class="crud-header">
                 {% block header_title %}
-                    <h1 class="crud-header-title">{{ configuration.pageTitle('new')|trans|build_string(entity) }}</h1>
+                    <h1 class="crud-header-title">{{ configuration.pageTitle(context)|trans|build_string(entity) }}</h1>
                 {% endblock %}
 
                 {% block header_actions %}
                     <div class="crud-header-actions">
                         <div class="btn-group">
-                            {% if configuration.action('new', 'back', true) %}
+                            {% if configuration.action(context, 'back', true) %}
                                 <a href="{{ path(configuration.pageRoute('index')) }}" class="btn btn-light">
                                     <span class="fa fa-list pr-1"></span>
-                                    {{ configuration.actionTitle('new', 'back', 'Back to the list')|trans }}
+                                    {{ configuration.actionTitle(context, 'back', 'Back to the list')|trans }}
                                 </a>
                             {% endif %}
 
                             <button type="submit" form="form-main" class="btn btn-primary">
                                 <span class="fa fa-save pr-1"></span>
-                                {{ configuration.actionTitle('new', 'save', 'Save')|trans|build_string(entity) }}
+                                {{ configuration.actionTitle(context, 'save', 'Save')|trans|build_string(entity) }}
                             </button>
 
                             {% if header_actions_dropdown_menu is not defined %}
