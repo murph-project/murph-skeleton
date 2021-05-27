@@ -84,48 +84,50 @@
                     <thead class="thead-light">
                         <tr>
                             {% for label, config in configuration.fields(context) %}
-                                {% set attr = config.options.attr is defined ? config.options.attr : [] %}
-                                {% set isSortable = config.options.sort ?? false %}
+                                {% block list_header_item %}
+                                    {% set attr = config.options.attr is defined ? config.options.attr : [] %}
+                                    {% set isSortable = config.options.sort ?? false %}
 
-                                <th {% for key, value in attr %}{{ key }}="{{ value }}"{% endfor %}>
-                                    {% if isSortable %}
-                                        {% if sort %}
-                                            {% if sort.label == label %}
-                                                {% if sort.direction == 'asc' %}
-                                                    {% set newDirection = 'desc' %}
-                                                    {% set icon = 'fa fa-sort-amount-down-alt' %}
+                                    <th {% for key, value in attr %}{{ key }}="{{ value }}"{% endfor %}>
+                                        {% if isSortable %}
+                                            {% if sort %}
+                                                {% if sort.label == label %}
+                                                    {% if sort.direction == 'asc' %}
+                                                        {% set newDirection = 'desc' %}
+                                                        {% set icon = 'fa fa-sort-amount-down-alt' %}
+                                                    {% else %}
+                                                        {% set newDirection = 'asc' %}
+                                                        {% set icon = 'fa fa-sort-amount-up-alt' %}
+                                                    {% endif %}
+
+                                                    {% set url = path(configuration.getPageRoute(context), {
+                                                        _sort: config.options.sort[0],
+                                                        _sort_direction: newDirection,
+                                                    }) %}
                                                 {% else %}
-                                                    {% set newDirection = 'asc' %}
-                                                    {% set icon = 'fa fa-sort-amount-up-alt' %}
+                                                    {% set url = path(configuration.getPageRoute(context), {
+                                                        _sort: config.options.sort[0],
+                                                        _sort_direction: 'asc',
+                                                    }) %}
+
+                                                    {% set icon = null %}
                                                 {% endif %}
 
-                                                {% set url = path(configuration.getPageRoute(context), {
-                                                    _sort: config.options.sort[0],
-                                                    _sort_direction: newDirection,
-                                                }) %}
+                                                <a href="{{ url }}">
+                                                    {% if icon is defined %}
+                                                        <span class="{{ icon }}"></span>
+                                                    {% endif %}
+
+                                                    {{ label|trans }}
+                                                </a>
                                             {% else %}
-                                                {% set url = path(configuration.getPageRoute(context), {
-                                                    _sort: config.options.sort[0],
-                                                    _sort_direction: 'asc',
-                                                }) %}
-
-                                                {% set icon = null %}
-                                            {% endif %}
-
-                                            <a href="{{ url }}">
-                                                {% if icon is defined %}
-                                                    <span class="{{ icon }}"></span>
-                                                {% endif %}
-
                                                 {{ label|trans }}
-                                            </a>
+                                            {% endif %}
                                         {% else %}
                                             {{ label|trans }}
                                         {% endif %}
-                                    {% else %}
-                                        {{ label|trans }}
-                                    {% endif %}
-                                </th>
+                                    </th>
+                                {% endblock %}
                             {% endfor %}
                             <th class="col-2 miw-100 text-right">
                                 {{ 'Actions'|trans }}
@@ -222,7 +224,7 @@
                                 <tr>
                                     <td class="col-12 text-black-50 border-0" colspan="{{ configuration.fields(context)|length + 1 }}">
                                         <span class="fa fa-hand-pointer"></span>
-                                        {{ 'You can sort items by drag & drop'|trans }}
+                                        {{ 'You can sort items with drag & drop'|trans }}
                                     </td>
                                 </tr>
                             {% endif %}
