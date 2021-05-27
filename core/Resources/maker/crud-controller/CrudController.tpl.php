@@ -86,6 +86,7 @@ class <?= $class_name; ?> extends CrudController
             ->setPageRoute('new', 'admin_<?= $route; ?>_new')
             ->setPageRoute('edit', 'admin_<?= $route; ?>_edit')
             ->setPageRoute('show', 'admin_<?= $route; ?>_show')
+            ->setPageRoute('sort', 'admin_<?= $route; ?>_sort')
             ->setPageRoute('delete', 'admin_<?= $route; ?>_delete')
             ->setPageRoute('filter', 'admin_<?= $route; ?>_filter')
 
@@ -94,6 +95,9 @@ class <?= $class_name; ?> extends CrudController
             // ->setForm('filter', Type::class)
 
             // ->setMaxPerPage('index', 20)
+
+            // ->setIsSortableCollection('index', false)
+            // ->setSortableCollectionProperty('sortOrder')
 
             // ->setAction('index', 'new', true)
             // ->setAction('index', 'show', true)
@@ -105,7 +109,7 @@ class <?= $class_name; ?> extends CrudController
             // ->setAction('edit', 'delete', true)
 
             // ->setField('index', 'Label', Field\TextField::class, [
-            //   'property' => 'label',
+            //     'property' => 'label',
             // ])
         ;
     }
