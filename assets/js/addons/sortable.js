@@ -9,6 +9,8 @@ module.exports = () => {
         new Sortable(list, {
             handle: '*[data-sortable-item]',
             sort: true,
+            animation: 150,
+            fallbackTolerance: 3,
             onEnd: (e) => {
                 if (!route) {
                     return;

@@ -193,6 +193,10 @@ tr.table-primary-light {
     &:hover {
         cursor: pointer;
     }
+
+    &.sortable-chosen {
+        background: map-get($theme-colors, 'primary-light');
+    }
 }
 
 .footer {
