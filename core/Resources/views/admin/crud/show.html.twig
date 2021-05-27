@@ -15,6 +15,8 @@
                 {% block header_actions %}
                     <div class="crud-header-actions">
                         <div class="btn-group">
+                            {% block header_actions_before %}{% endblock %}
+
                             {% if configuration.action(context, 'back', true) %}
                                 <a href="{{ path(configuration.pageRoute('index')) }}" class="btn btn-light">
                                     <span class="fa fa-list pr-1"></span>
@@ -29,6 +31,8 @@
                                     {{ configuration.actionTitle(context, 'edit', 'Edit')|trans|build_string(entity) }}
                                 </a>
                             {% endif %}
+
+                            {% block header_actions_after %}{% endblock %}
 
                             {% if header_actions_dropdown_menu is not defined %}
                                 {% set header_actions_dropdown_menu = '' %}

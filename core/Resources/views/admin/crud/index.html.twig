@@ -27,6 +27,8 @@
                 {% block header_actions %}
                     <div class="crud-header-actions">
                         <div class="btn-group">
+                            {% block header_actions_before %}{% endblock %}
+
                             {% if configuration.action(context, 'new', true) %}
                                 <a href="{{ path(configuration.pageRoute('new')) }}" class="btn btn-primary">
                                     <span class="fa fa-plus pr-1"></span>
@@ -37,6 +39,8 @@
                             {% if header_actions_dropdown_menu is not defined %}
                                 {% set header_actions_dropdown_menu = '' %}
                             {% endif %}
+
+                            {% block header_actions_after %}{% endblock %}
 
                             {% block header_actions_dropdown %}
                                 {% if header_actions_dropdown_menu %}
