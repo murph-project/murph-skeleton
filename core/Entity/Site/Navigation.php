@@ -4,6 +4,7 @@ namespace App\Core\Entity\Site;
 
 use App\Core\Doctrine\Timestampable;
 use App\Core\Entity\EntityInterface;
+use App\Core\Entity\NavigationSetting;
 use App\Core\Repository\Site\NavigationRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -64,9 +65,15 @@ class Navigation implements EntityInterface
      */
     private $sortOrder;
 
+    /**
+     * @ORM\OneToMany(targetEntity=NavigationSetting::class, mappedBy="navigation", orphanRemoval=true)
+     */
+    private $navigationSettings;
+
     public function __construct()
     {
         $this->menus = new ArrayCollection();
+        $this->navigationSettings = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -200,6 +207,36 @@ class Navigation implements EntityInterface
     public function setSortOrder(?int $sortOrder): self
     {
         $this->sortOrder = $sortOrder;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|NavigationSetting[]
+     */
+    public function getNavigationSettings(): Collection
+    {
+        return $this->navigationSettings;
+    }
+
+    public function addNavigationSetting(NavigationSetting $navigationSetting): self
+    {
+        if (!$this->navigationSettings->contains($navigationSetting)) {
+            $this->navigationSettings[] = $navigationSetting;
+            $navigationSetting->setNavigation($this);
+        }
+
+        return $this;
+    }
+
+    public function removeNavigationSetting(NavigationSetting $navigationSetting): self
+    {
+        if ($this->navigationSettings->removeElement($navigationSetting)) {
+            // set the owning side to null (unless already changed)
+            if ($navigationSetting->getNavigation() === $this) {
+                $navigationSetting->setNavigation(null);
+            }
+        }
 
         return $this;
     }

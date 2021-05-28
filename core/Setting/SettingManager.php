@@ -36,7 +36,6 @@ class SettingManager
         }
 
         $entity
-            ->setCode($code)
             ->setSection($section)
             ->setLabel($label)
         ;

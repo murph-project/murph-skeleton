@@ -6,10 +6,13 @@ use App\Core\Controller\Admin\Crud\CrudController;
 use App\Core\Crud\CrudConfiguration;
 use App\Core\Crud\Field;
 use App\Core\Entity\Site\Navigation as Entity;
+use App\Core\Event\Setting\NavigationSettingEvent;
 use App\Core\Factory\Site\NavigationFactory as Factory;
 use App\Core\Form\Site\NavigationType as Type;
 use App\Core\Manager\EntityManager;
+use App\Core\Repository\NavigationSettingRepositoryQuery;
 use App\Core\Repository\Site\NavigationRepositoryQuery as RepositoryQuery;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
@@ -36,8 +39,24 @@ class NavigationAdminController extends CrudController
     /**
      * @Route("/admin/site/navigation/show/{entity}", name="admin_site_navigation_show", methods={"GET"})
      */
-    public function show(Entity $entity): Response
-    {
+    public function show(
+        Entity $entity,
+        EventDispatcherInterface $eventDispatcher,
+        NavigationSettingRepositoryQuery $settingQuery
+    ): Response {
+        $eventDispatcher->dispatch(new NavigationSettingEvent([
+            'navigation' => $entity,
+        ]), NavigationSettingEvent::INIT_EVENT);
+
+        $settings = $settingQuery
+            ->where('.navigation = :navigation')
+            ->orderBy('.section, .label')
+            ->setParameter(':navigation', $entity->getId())
+            ->paginate(1, 1000)
+        ;
+
+        $this->getConfiguration()->addViewData('show', 'settings', $settings);
+
         return $this->doShow($entity);
     }
 
