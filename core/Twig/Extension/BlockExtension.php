@@ -33,6 +33,7 @@ class BlockExtension extends AbstractExtension
             $url = null;
 
             try {
+                $block['params'] = $block['params'] ?? '';
                 $block['params'] = str_replace(['&amp;', ' '], ['&', '%20'], $block['params']);
                 $route = $block['route'];
                 parse_str($block['params'], $params);
