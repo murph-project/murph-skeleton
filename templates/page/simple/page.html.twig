@@ -48,7 +48,7 @@
 
 <h1>{{ _page.title.value }}</h1>
 
-<pre>{{ _page.content.value }}</pre>
+<pre>{{ _page.content.value|murph_url }}</pre>
 
 {% set image = _page.image.value %}
 
