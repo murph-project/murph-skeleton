@@ -11,6 +11,7 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\HttpClient\Exception\ClientException;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\HttpClient\Exception\TransportException;
 
 /**
  * class SymfonyCacheManager.
@@ -49,6 +50,7 @@ class SymfonyCacheManager
             // Hack: used to regenerate cache of url generator
             $this->httpClient->request('POST', $pingUrl);
         } catch (ClientException $e) {
+        } catch (TransportException $e) {
         }
     }
 
