@@ -170,8 +170,34 @@
 
         {{ form_row(form.url) }}
 
-        <div class="pb-1">
-            {{ 'Route name: <code>%routeName%</code>'|trans({'%routeName%': entity.routeName})|raw }}
+        <div class="pb-3">
+            <details>
+                <summary>
+                    {{ 'Technical information'|trans }}
+                </summary>
+                <p class="pt-2">
+                    {% set code = 'url://' ~ entity.routeName %}
+                    {% if entity.parameters|length %}
+                        {% set code = code ~ '?' %}
+                        {% for param in entity.parameters %}
+                            {% set code = code ~ param.name ~ '=&' %}
+                        {% endfor %}
+                        {% set code = code|trim('&') %}
+                    {% endif %}
+                    {% set code = '{{' ~ code ~ '}}' %}
+
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <div>{{ 'Route name'|trans }}</div>
+                            <code>{{ entity.routeName }}</code>
+                        </li>
+                        <li class="list-group-item">
+                            <div>{{ 'Tag to insert in content'|trans }}</div>
+                            <code>{{ code }}</code>
+                        </li>
+                    </ul>
+                </p>
+            </details>
         </div>
 
         {{ form_row(form.disableUrl) }}
