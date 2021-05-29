@@ -1,6 +1,8 @@
 {
+    "name": "murph/murph-skeleton",
+    "description": "A powerful CMS framework",
     "type": "project",
-    "license": "proprietary",
+    "license": "MIT",
     "minimum-stability": "dev",
     "prefer-stable": true,
     "require": {
