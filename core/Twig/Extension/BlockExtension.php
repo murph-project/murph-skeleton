@@ -42,7 +42,7 @@ class BlockExtension extends AbstractExtension
             } catch (\Exception $e) {
             }
 
-            $content = str_replace($match[0], $url, $content);
+            $content = str_replace($block[0], $url, $content);
         }
 
         return $content;
