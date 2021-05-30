@@ -125,6 +125,7 @@ class Node implements EntityInterface
 
     /**
      * @ORM\ManyToOne(targetEntity=Node::class, inversedBy="aliasNodes")
+     * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
      */
     protected $aliasNode;
 
