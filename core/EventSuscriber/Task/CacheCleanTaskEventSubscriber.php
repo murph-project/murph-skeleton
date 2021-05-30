@@ -22,7 +22,7 @@ class CacheCleanTaskEventSubscriber extends TaskEventSubscriber
 
     public function onInit(TaskInitEvent $event)
     {
-        $event->addTask('cache:clear', 'Clean all cache', '♻️ Cache');
+        $event->addTask('cache:clear', '♻️ Cache', 'Clean all cache');
     }
 
     public function onRunRequest(TaskRunRequestedEvent $event)

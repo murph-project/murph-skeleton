@@ -24,7 +24,7 @@ class TaskInitEvent extends Event
         return $this->tasks;
     }
 
-    public function addTask(string $task, string $label, string $section): self
+    public function addTask(string $task, string $section, string $label): self
     {
         $this->tasks[$task] = [
             'label' => $label,
