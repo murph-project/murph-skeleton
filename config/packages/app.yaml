@@ -6,6 +6,6 @@ core:
         #     - {name: 'Foo', action: 'App\Controller\ExampleController::foo'}
         pages:
             App\Entity\Page\SimplePage:
-                name: 'Page simple'
+                name: 'Simple page'
                 templates:
-                    - {name: "Template 1", file: "page/simple/page.html.twig"}
+                    - {name: "Default", file: "page/simple/default.html.twig"}
