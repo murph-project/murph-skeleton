@@ -119,10 +119,6 @@ class NodeEventSubscriber extends EntityManagerEventSubscriber
                 }
             }
 
-            if (!u($generatedUrl)->startsWith('https://') && !u($generatedUrl)->startsWith('http://')) {
-                $generatedUrl = str_replace('//', '/', $generatedUrl);
-            }
-
             $node->setParameters($parameters);
 
             $urlExists = $this->nodeRepository->urlExists($generatedUrl, $node);
@@ -137,8 +133,9 @@ class NodeEventSubscriber extends EntityManagerEventSubscriber
                 $generatedUrl = $generatedUrl.'-'.$number;
             }
 
-            if (!u($generatedUrl)->startsWith('/')) {
+            if (!u($generatedUrl)->startsWith('https://') && !u($generatedUrl)->startsWith('http://')) {
                 $generatedUrl = '/'.$generatedUrl;
+                $generatedUrl = preg_replace('#/{2,}#', '/', $generatedUrl);
             }
 
             $node->setUrl($generatedUrl);
