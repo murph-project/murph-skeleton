@@ -31,6 +31,8 @@ abstract class Field
             'view' => null,
             'raw' => false,
             'sort' => null,
+            'href' => null,
+            'href_attr' => [],
             'attr' => [],
         ]);
 
@@ -38,6 +40,8 @@ abstract class Field
         $resolver->setAllowedTypes('property', ['null', 'string']);
         $resolver->setAllowedTypes('view', 'string');
         $resolver->setAllowedTypes('attr', 'array');
+        $resolver->setAllowedTypes('href', ['null', 'string', 'callable']);
+        $resolver->setAllowedTypes('href_attr', 'array', 'callable');
         $resolver->setAllowedTypes('raw', 'boolean');
         $resolver->setAllowedTypes('property_builder', ['null', 'callable']);
         $resolver->setAllowedValues('sort', function($value) {

@@ -39,6 +39,32 @@ class CrudExtension extends AbstractExtension
         $instance = new $field();
         $resolver = $instance->configureOptions(new OptionsResolver());
 
-        return $instance->buildView($this->twig, $entity, $resolver->resolve($config['options']), $locale);
+        $render = $instance->buildView($this->twig, $entity, $resolver->resolve($config['options']), $locale);
+
+        if (isset($config['options']['href'])) {
+            $hrefAttrConfig = $config['options']['href_attr'] ?? [];
+            $hrefConfig = $config['options']['href'] ?? null;
+            $attributes = '';
+
+            if (is_callable($hrefAttrConfig)) {
+                $attrs = (array) call_user_func($hrefAttrConfig, $entity, $config['options']);
+            } else {
+                $attrs = $hrefAttrConfig;
+            }
+
+            if (is_callable($hrefConfig)) {
+                $href = call_user_func($hrefConfig, $entity, $config['options']);
+            } else {
+                $href = $hrefConfig;
+            }
+
+            foreach ($attrs as $k => $v) {
+                $attributes .= sprintf('%s="%s" ', htmlspecialchars($k), htmlspecialchars($v));
+            }
+
+            $render = sprintf('<a href="%s" %s>%s</a>', htmlspecialchars($href), $attributes, $render);
+        }
+
+        return $render;
     }
 }
