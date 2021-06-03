@@ -236,8 +236,7 @@
                                 </tr>
                             {% endblock %}
 
-
-                            {% if loop.last and (isSortable or configuration.hasBatchAction(context)) %}
+                            {% if loop.last %}
                                 {% block list_footer %}
                                     {% set count = configuration.fields(context)|length + 1 %}
                                     {% if configuration.hasBatchAction(context) %}
@@ -246,6 +245,8 @@
 
                                     <tr>
                                         <td class="col-12 text-black-50 border-0" colspan="{{ count }}">
+                                            {% block list_footer_before %}{% endblock %}
+
                                             {% if isSortable %}
                                                 <div class="d-block mb-2">
                                                     <span class="fa fa-hand-pointer"></span>
@@ -277,6 +278,8 @@
                                                     </form>
                                                 </div>
                                             {% endif %}
+
+                                            {% block list_footer_after %}{% endblock %}
                                         </td>
                                     </tr>
                                 {% endblock %}
