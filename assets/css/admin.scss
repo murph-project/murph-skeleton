@@ -486,6 +486,21 @@ fieldset.form-group {
     }
 }
 
+th.crud-batch-column {
+    width: 20px !important;
+    max-width: 20px;
+}
+
+form {
+    .loader {
+        display: none;
+    }
+
+    &.is-loading .loader {
+        display: inline-block;
+    }
+}
+
 .modal-dialog-large {
     max-width: 80%;
 }
