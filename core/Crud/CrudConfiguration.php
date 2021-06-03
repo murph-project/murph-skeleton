@@ -14,6 +14,7 @@ class CrudConfiguration
     protected array $pageTitles = [];
     protected array $pageRoutes = [];
     protected array $actions = [];
+    protected array $batchActions = [];
     protected array $actionTitles = [];
     protected array $forms = [];
     protected array $formOptions = [];
@@ -108,6 +109,35 @@ class CrudConfiguration
     public function getAction(string $page, string $action, bool $default = true)
     {
         return $this->actions[$page][$action] ?? $default;
+    }
+
+    public function setBatchAction(string $page, string $action, string $label, callable $callback): self
+    {
+        if (!isset($this->actions[$page])) {
+            $this->batchActions[$page] = [];
+        }
+
+        $this->batchActions[$page][$action] = [
+            'label' => $label,
+            'callback' => $callback,
+        ];
+
+        return $this;
+    }
+
+    public function getBatchActions(string $page)
+    {
+        return $this->batchActions[$page] ?? [];
+    }
+
+    public function getBatchAction(string $page, string $action)
+    {
+        return $this->batchActions[$page][$action] ?? null;
+    }
+
+    public function hasBatchAction(string $page)
+    {
+        return !empty($this->batchActions[$page]);
     }
 
     /* -- */

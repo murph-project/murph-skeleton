@@ -53,16 +53,16 @@ class CrudExtension extends AbstractExtension
             }
 
             if (is_callable($hrefConfig)) {
-                $href = call_user_func($hrefConfig, $entity, $config['options']);
+                $attrs['href'] = call_user_func($hrefConfig, $entity, $config['options']);
             } else {
-                $href = $hrefConfig;
+                $attrs['href'] = $hrefConfig;
             }
 
             foreach ($attrs as $k => $v) {
-                $attributes .= sprintf('%s="%s" ', htmlspecialchars($k), htmlspecialchars($v));
+                $attributes .= sprintf(' %s="%s" ', htmlspecialchars($k), htmlspecialchars($v));
             }
 
-            $render = sprintf('<a href="%s" %s>%s</a>', htmlspecialchars($href), $attributes, $render);
+            $render = sprintf('<a%s>%s</a>', $attributes, $render);
         }
 
         return $render;

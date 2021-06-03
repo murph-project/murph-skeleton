@@ -67,6 +67,14 @@ class <?= $class_name; ?> extends CrudController
     }
 
     /**
+     * @Route("/admin/<?= $route; ?>/batch/{page}", name="admin_<?= $route; ?>_batch", methods={"POST"}, requirements={"page":"\d+"})
+     */
+    public function batch(int $page = 1, RepositoryQuery $query, EntityManager $entityManager, Request $request, Session $session): Response
+    {
+        return $this->doBatch($page, $query, $entityManager, $request, $session);
+    }
+
+    /**
      * @Route("/admin/<?= $route; ?>/delete/{entity}", name="admin_<?= $route; ?>_delete", methods={"DELETE"})
      */
     public function delete(Entity $entity, EntityManager $entityManager, Request $request): Response
@@ -87,6 +95,7 @@ class <?= $class_name; ?> extends CrudController
             ->setPageRoute('edit', 'admin_<?= $route; ?>_edit')
             ->setPageRoute('show', 'admin_<?= $route; ?>_show')
             ->setPageRoute('sort', 'admin_<?= $route; ?>_sort')
+            ->setPageRoute('batch', 'admin_<?= $route; ?>_batch')
             ->setPageRoute('delete', 'admin_<?= $route; ?>_delete')
             ->setPageRoute('filter', 'admin_<?= $route; ?>_filter')
 
@@ -108,9 +117,16 @@ class <?= $class_name; ?> extends CrudController
             // ->setAction('edit', 'show', true)
             // ->setAction('edit', 'delete', true)
 
+            // ->setAction('show', 'back', true)
+            // ->setAction('show', 'edit', true)
+
             // ->setField('index', 'Label', Field\TextField::class, [
             //     'property' => 'label',
             // ])
+
+            // ->setBatchAction('index', 'delete', 'Delete', function(EntityInterface $entity, EntityManager $manager) {
+            //     $manager->delete($entity);
+            // })
         ;
     }
 

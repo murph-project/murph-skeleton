@@ -87,6 +87,12 @@
                 {% block list_header %}
                     <thead class="thead-light">
                         <tr>
+                            {% if configuration.hasBatchAction(context) %}
+                                <th class="crud-batch-column">
+                                    <input type="checkbox">
+                                </th>
+                            {% endif %}
+
                             {% for label, config in configuration.fields(context) %}
                                 {% block list_header_item %}
                                     {% set attr = config.options.attr is defined ? config.options.attr : [] %}
@@ -133,7 +139,7 @@
                                     </th>
                                 {% endblock %}
                             {% endfor %}
-                            <th class="col-2 miw-100 text-right">
+                            <th class="crud-action-column col-2 miw-100 text-right">
                                 {{ 'Actions'|trans }}
                             </th>
                         </tr>
@@ -174,6 +180,12 @@
                                 {% endset -%}
 
                                 <tr {{ dataSortableItem|raw }} data-dblclick="{{ dbClick }}" class="{{ loop.index is odd ? 'is-odd' : 'is-even' }}">
+                                    {% if configuration.hasBatchAction(context) %}
+                                        <td class="crud-batch-column">
+                                            <input type="checkbox" class="batch_form" name="batch[items][{{ loop.index }}]" form="form-batch" value="{{ loop.index }}">
+                                        </td>
+                                    {% endif %}
+
                                     {% for config in configuration.fields(context) %}
                                         {% set attr = config.options.attr is defined ? config.options.attr : [] %}
                                         {% set action = config.options.action is defined ? config.options.action : null %}
@@ -193,7 +205,7 @@
                                         </td>
                                     {% endfor %}
 
-                                    <td class="col-2 miw-200 text-right">
+                                    <td class="crud-action-column col-2 miw-200 text-right">
                                         {% block list_item_actions_before %}{% endblock %}
 
                                         {% if configuration.action(context, 'show', true) %}
@@ -224,17 +236,59 @@
                                 </tr>
                             {% endblock %}
 
-                            {% if loop.last and isSortable %}
-                                <tr>
-                                    <td class="col-12 text-black-50 border-0" colspan="{{ configuration.fields(context)|length + 1 }}">
-                                        <span class="fa fa-hand-pointer"></span>
-                                        {{ 'You can sort items with drag & drop'|trans }}
-                                    </td>
-                                </tr>
+
+                            {% if loop.last and (isSortable or configuration.hasBatchAction(context)) %}
+                                {% block list_footer %}
+                                    {% set count = configuration.fields(context)|length + 1 %}
+                                    {% if configuration.hasBatchAction(context) %}
+                                        {% set count = count + 1 %}
+                                    {% endif %}
+
+                                    <tr>
+                                        <td class="col-12 text-black-50 border-0" colspan="{{ count }}">
+                                            {% if isSortable %}
+                                                <div class="d-block mb-2">
+                                                    <span class="fa fa-hand-pointer"></span>
+                                                    {{ 'You can sort items with drag & drop'|trans }}
+                                                </div>
+                                            {% endif %}
+
+                                            {% if configuration.hasBatchAction(context) %}
+                                                <div class="d-block">
+                                                    <form class="form-inline" action="{{ path(configuration.pageRoute('batch'), {page: pager.currentPageNumber}) }}" id="form-batch" method="POST">
+                                                        <select class="form-control my-1 mr-sm-2" name="batch[target]">
+                                                            <option value="selection">{{ 'For selection'|trans }}</option>
+                                                            <option value="all">{{ 'For all items'|trans }}</option>
+                                                        </select>
+                                                        <select class="form-control my-1 mr-sm-2" name="batch[action]">
+                                                            <option value=""></option>
+                                                            {% for action, conf in configuration.batchActions(context) %}
+                                                                <option value="{{ action }}">
+                                                                    {{ conf.label|trans }}
+                                                                </option>
+                                                            {% endfor %}
+                                                        </select>
+                                                        <input type="hidden" name="batch[_token]" value="{{ csrf_token('batch') }}">
+                                                        <button type="submit" class="btn btn-primary my-1">
+                                                            <span class="loader spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+
+                                                            {{ 'Run'|trans }}
+                                                        </button>
+                                                    </form>
+                                                </div>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                {% endblock %}
                             {% endif %}
                         {% else %}
+                            {% set count = configuration.fields(context)|length + 1 %}
+                            {% if configuration.hasBatchAction(context) %}
+                                {% set count = count + 1 %}
+                            {% endif %}
+
                             <tr>
-                                <td class="col-12 text-center p-4 text-black-50" colspan="{{ configuration.fields(context)|length + 1 }}">
+                                <td class="col-12 text-center p-4 text-black-50" colspan="{{ count }}">
                                     <div class="display-1">
                                         <span class="fa fa-search"></span>
                                     </div>

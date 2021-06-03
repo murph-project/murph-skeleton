@@ -163,6 +163,54 @@ abstract class CrudController extends AdminController
         return $this->json([]);
     }
 
+    protected function doBatch(int $page = 1, RepositoryQuery $query, EntityManager $entityManager, Request $request, Session $session): Response
+    {
+        $configuration = $this->getConfiguration();
+        $datas = $request->request->get('batch', []);
+
+        $context = $datas['context'] ?? 'index';
+        $target = $datas['target'] ?? null;
+        $action = $datas['action'] ?? null;
+        $token = $datas['_token'] ?? null;
+        $items = $datas['items'] ?? [];
+        $batchAction = $configuration->getBatchAction($context, $action);
+
+        if (empty($context) || empty($action) || empty($target)) {
+            return $this->json([]);
+        }
+
+        if (!$this->isCsrfTokenValid('batch', $token) || empty($batchAction)) {
+            $this->addFlash('warning', 'The form is not valid.');
+
+            return $this->json([]);
+        }
+
+        $callback = $batchAction['callback'];
+
+        $this->applySort($context, $query, $request);
+        $this->updateFilters($request, $session);
+
+        $query->useFilters($this->filters);
+
+        if ($target === 'selection') {
+            $isSelection = true;
+            $pager = $query->paginate($page, $configuration->getMaxPerPage($context));
+        } else {
+            $isSelection = false;
+            $pager = $query->find();
+        }
+
+        foreach ($pager as $key => $entity) {
+            if (($isSelection && isset($items[$key + 1])) || !$isSelection) {
+                $callback($entity, $entityManager);
+            }
+        }
+
+        $this->addFlash('success', 'Batch action done.');
+
+        return $this->json([]);
+    }
+
     protected function doDelete(EntityInterface $entity, EntityManager $entityManager, Request $request, callable $beforeDelete = null): Response
     {
         $configuration = $this->getConfiguration();
