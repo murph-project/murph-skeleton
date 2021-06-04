@@ -13,11 +13,11 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use function Symfony\Component\String\u;
 
-class MakeEntityFactory extends AbstractMaker
+class MakeFactory extends AbstractMaker
 {
     public static function getCommandName(): string
     {
-        return 'make:entity-factory';
+        return 'make:factory';
     }
 
     public static function getCommandDescription(): string
@@ -29,14 +29,14 @@ class MakeEntityFactory extends AbstractMaker
     {
         $command
             ->addArgument(
-                'entity-class',
-                InputArgument::OPTIONAL,
-                'Define the entity (e.g. <fg=yellow>MyEntity</>)'
-            )
-            ->addArgument(
                 'factory-class',
                 InputArgument::OPTIONAL,
                 'Choose a name for your factory (e.g. <fg=yellow>MyEntityFactory</>)'
+            )
+            ->addArgument(
+                'entity-class',
+                InputArgument::OPTIONAL,
+                'Define the entity (e.g. <fg=yellow>MyEntity</>)'
             )
             ->setHelp('')
         ;
@@ -62,7 +62,7 @@ class MakeEntityFactory extends AbstractMaker
 
         $factoryPath = $generator->generateController(
             $factoryDetails->getFullName(),
-            __DIR__.'/../Resources/maker/entity/EntityFactory.tpl.php',
+            __DIR__.'/../Resources/maker/factory/Factory.tpl.php',
             $options
         );
 
