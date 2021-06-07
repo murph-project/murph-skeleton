@@ -5,12 +5,11 @@ namespace App\Core\Controller\User;
 use App\Core\Controller\Admin\Crud\CrudController;
 use App\Core\Crud\CrudConfiguration;
 use App\Core\Crud\Field;
-use App\Core\Entity\EntityInterface;
 use App\Core\Event\Account\PasswordRequestEvent;
 use App\Core\Factory\UserFactory as Factory;
-use App\Core\Form\UserType as Type;
 use App\Core\Manager\EntityManager;
 use App\Entity\User as Entity;
+use App\Form\UserType as Type;
 use App\Repository\UserRepositoryQuery as RepositoryQuery;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -104,6 +103,10 @@ class UserAdminController extends CrudController
             ->setForm('edit', Type::class, [])
             ->setForm('new', Type::class)
 
+            ->setView('form', '@Core/user/user_admin/_form.html.twig')
+            ->setView('index', '@Core/user/user_admin/index.html.twig')
+            ->setView('new', '@Core/user/user_admin/new.html.twig')
+            ->setView('show', '@Core/user/user_admin/show.html.twig')
             ->setView('show_entity', '@Core/user/user_admin/_show.html.twig')
             ->setView('edit', '@Core/user/user_admin/edit.html.twig')
 
