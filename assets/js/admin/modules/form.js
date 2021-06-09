@@ -17,8 +17,6 @@ module.exports = function() {
             return
         }
 
-        console.log(href)
-
         const tab = $('.tab-pane ' + href)
 
         if (!tab.length) {
