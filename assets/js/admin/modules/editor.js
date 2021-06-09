@@ -83,8 +83,6 @@ const doInitEditor = () => {
         conf.mode = 'exact'
         conf.elements = id
 
-        console.log(conf);
-
         tinymce.init(conf);
     })
 }
