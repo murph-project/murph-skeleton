@@ -112,3 +112,29 @@
         </div>
     </template>
 {% endblock %}
+
+{% block form_row -%}
+    {%- set widget_attr = {} -%}
+
+    {%- if help is not empty -%}
+        {%- set widget_attr = {attr: {'aria-describedby': id ~ "_help"}} -%}
+    {%- endif -%}
+
+    {%- if compound is defined and compound -%}
+        {%- set element = 'fieldset' -%}
+    {% else %}
+        {%- set element = 'div' -%}
+    {%- endif -%}
+
+    {% if element == 'fieldset' and not ('col-' in form.vars.row_attr.class|default('')) %}
+        {% set class = row_attr.class|default('') ~ ' col-md-12 form-group' %}
+    {% else %}
+        {% set class = row_attr.class|default('') ~ ' form-group' %}
+    {% endif %}
+
+    <{{ element }}{% with {attr: row_attr|merge({class: class|trim})} %}{{ block('attributes') }}{% endwith %}>
+        {{- form_label(form) -}}
+        {{- form_widget(form) -}}
+        {{- form_help(form) -}}
+    </{{ element|default('div') }}>
+{%- endblock form_row %}

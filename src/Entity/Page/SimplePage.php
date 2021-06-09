@@ -22,7 +22,9 @@ class SimplePage extends Page
             'title',
             TextBlockType::class,
             [
-                'label' => 'Titre',
+                'label' => 'Titre'
+                'row_attr' => [
+                ],
                 'options' => [
                     'required' => true,
                     'attr' => [
@@ -38,6 +40,8 @@ class SimplePage extends Page
             TextareaBlockType::class,
             [
                 'label' => 'Content',
+                'row_attr' => [
+                ],
                 'options' => [
                     'attr' => [
                         'data-tinymce' => '',
@@ -54,6 +58,8 @@ class SimplePage extends Page
             ImageBlockType::class,
             [
                 'label' => 'Image',
+                'row_attr' => [
+                ],
                 'options' => [
                     'attr' => [
                     ],
