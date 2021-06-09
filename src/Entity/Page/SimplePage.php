@@ -23,10 +23,12 @@ class SimplePage extends Page
             TextBlockType::class,
             [
                 'label' => 'Titre',
-                'required' => true,
-                'attr' => [
-                ],
-                'constraints' => [
+                'options' => [
+                    'required' => true,
+                    'attr' => [
+                    ],
+                    'constraints' => [
+                    ],
                 ],
             ]
         );
