@@ -128,7 +128,7 @@ class FsFileManager
             return false;
         }
 
-        $filesystem->mkdir($path, 0700);
+        $filesystem->mkdir($path, 0755);
 
         return true;
     }
