@@ -19,3 +19,4 @@ require('./modules/form-collection.js')();
 require('./modules/datepicker.js')();
 require('./modules/sortable.js')();
 require('./modules/batch.js')();
+require('./modules/file-manager.js')();

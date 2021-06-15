@@ -49,5 +49,6 @@ security:
         - { path: ^/admin/task, roles: ROLE_ADMIN }
         - { path: ^/admin/setting, roles: ROLE_ADMIN }
         - { path: ^/admin/site, roles: ROLE_WRITER }
+        - { path: ^/admin/file_manager, roles: ROLE_WRITER }
         - { path: ^/admin, roles: ROLE_USER }
         - { path: ^/_internal, roles: IS_AUTHENTICATED_ANONYMOUSLY }

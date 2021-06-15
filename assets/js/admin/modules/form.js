@@ -1,7 +1,7 @@
 const $ = require('jquery');
 
 module.exports = function() {
-    $('.custom-file-input').on('change', function(event) {
+    $('body').on('change', '.custom-file-input', function(event) {
         let inputFile = event.currentTarget;
 
         $(inputFile).parent()
