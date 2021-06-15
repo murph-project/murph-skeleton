@@ -171,6 +171,8 @@ import FileIcon from './FileIcon'
 const axios = require('axios').default
 const routes = require('../../../../../public/js/fos_js_routes.json')
 
+Routing.setRoutingData(routes)
+
 export default {
   name: 'Files',
   components: {
@@ -240,7 +242,6 @@ export default {
     }
   },
   mounted () {
-    Routing.setRoutingData(routes)
     const view = localStorage.getItem('file-manager.view')
 
     if (['grid', 'list'].indexOf(view) !== -1) {
