@@ -1,11 +1,11 @@
-const $ = require('jquery');
+const $ = require('jquery')
 
-module.exports = function() {
-    $('.toast').toast({
-        animation: true,
-        autohide: true,
-        delay: 5000,
-    });
+module.exports = function () {
+  $('.toast').toast({
+    animation: true,
+    autohide: true,
+    delay: 5000
+  })
 
-    $('.toast').toast('show');
-};
+  $('.toast').toast('show')
+}

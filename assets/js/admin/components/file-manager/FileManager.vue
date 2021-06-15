@@ -15,9 +15,9 @@
 import Files from './Files'
 
 export default {
-    name: "FileManager",
-    components: {
-        Files,
-    }
+  name: 'FileManager',
+  components: {
+    Files
+  }
 }
 </script>

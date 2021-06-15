@@ -165,121 +165,120 @@ tr {
 </style>
 
 <script>
+import Routing from '../../../../../vendor/friendsofsymfony/jsrouting-bundle/Resources/public/js/router.min.js'
+import FileIcon from './FileIcon'
+
 const axios = require('axios').default
 const routes = require('../../../../../public/js/fos_js_routes.json')
 
-import Routing from '../../../../../vendor/friendsofsymfony/jsrouting-bundle/Resources/public/js/router.min.js';
-import FileIcon from './FileIcon';
-
-Routing.setRoutingData(routes);
-
 export default {
-    name: "Files",
-    components: {
-        FileIcon,
-    },
-    data() {
-        return {
-            view: 'list',
-            directory: null,
-            directories: [],
-            breadcrumb: [],
-            files: [],
-            parent: null,
-        }
-    },
-    methods: {
-        setDirectory(directory) {
-            this.directory = directory
-        },
-        setView(view) {
-            this.view = view
-
-            localStorage.setItem('file-manager.view', view)
-        },
-        generateInfoLink(item, directory) {
-            if (directory) {
-                return Routing.generate('admin_file_manager_info', {
-                    file: item.path
-                })
-            } else {
-                return Routing.generate('admin_file_manager_info', {
-                    file: item.path + '/' + item.basename
-                })
-            }
-        },
-        generateUploadLink(directory) {
-            return Routing.generate('admin_file_manager_upload', {
-                file: directory
-            })
-        },
-        generateNewDirectoryLink(directory) {
-            return Routing.generate('admin_file_manager_directory_new', {
-                file: directory
-            })
-        },
-        buildBreadcrum(elements) {
-            let path = '/'
-            this.breadcrumb = []
-
-            for (let i in elements) {
-                const element = elements[i]
-
-                if (element !== '/') {
-                    path = path + '/' + element
-
-                    this.breadcrumb.push({
-                        path: path,
-                        label: element,
-                    })
-                } else {
-                    this.breadcrumb.push({
-                        path: '/',
-                        label: 'Files',
-                    })
-                }
-            }
-        }
-    },
-    mounted() {
-        let view = localStorage.getItem('file-manager.view')
-
-        if (['grid', 'list'].indexOf(view) !== -1) {
-            this.view = view
-        }
-
-        const query = new URLSearchParams(window.location.search)
-
-        if (query.has('path')) {
-            this.setDirectory(query.get('path'))
-        } else {
-            this.setDirectory('/')
-        }
-    },
-    watch: {
-        directory(directory) {
-            axios.get(Routing.generate('admin_file_manager_api_directory', {
-                directory: this.directory
-            }))
-            .then((response) => {
-                this.buildBreadcrum(response.data.breadcrumb)
-                this.parent = response.data.parent
-                this.directories = response.data.directories
-                this.files = response.data.files
-
-                const query = new URLSearchParams(window.location.search)
-                query.set('path', directory)
-
-                history.pushState(
-                    null,
-                    '',
-                    window.location.pathname + '?' + query.toString()
-                )
-            })
-            .catch(() => {
-                alert('An error occured')
-            })
-        }
+  name: 'Files',
+  components: {
+    FileIcon
+  },
+  data () {
+    return {
+      view: 'list',
+      directory: null,
+      directories: [],
+      breadcrumb: [],
+      files: [],
+      parent: null
     }
+  },
+  methods: {
+    setDirectory (directory) {
+      this.directory = directory
+    },
+    setView (view) {
+      this.view = view
+
+      localStorage.setItem('file-manager.view', view)
+    },
+    generateInfoLink (item, directory) {
+      if (directory) {
+        return Routing.generate('admin_file_manager_info', {
+          file: item.path
+        })
+      } else {
+        return Routing.generate('admin_file_manager_info', {
+          file: item.path + '/' + item.basename
+        })
+      }
+    },
+    generateUploadLink (directory) {
+      return Routing.generate('admin_file_manager_upload', {
+        file: directory
+      })
+    },
+    generateNewDirectoryLink (directory) {
+      return Routing.generate('admin_file_manager_directory_new', {
+        file: directory
+      })
+    },
+    buildBreadcrum (elements) {
+      let path = '/'
+      this.breadcrumb = []
+
+      for (const i in elements) {
+        const element = elements[i]
+
+        if (element !== '/') {
+          path = path + '/' + element
+
+          this.breadcrumb.push({
+            path: path,
+            label: element
+          })
+        } else {
+          this.breadcrumb.push({
+            path: '/',
+            label: 'Files'
+          })
+        }
+      }
+    }
+  },
+  mounted () {
+    Routing.setRoutingData(routes)
+    const view = localStorage.getItem('file-manager.view')
+
+    if (['grid', 'list'].indexOf(view) !== -1) {
+      this.view = view
+    }
+
+    const query = new URLSearchParams(window.location.search)
+
+    if (query.has('path')) {
+      this.setDirectory(query.get('path'))
+    } else {
+      this.setDirectory('/')
+    }
+  },
+  watch: {
+    directory (directory) {
+      axios.get(Routing.generate('admin_file_manager_api_directory', {
+        directory: this.directory
+      }))
+        .then((response) => {
+          this.buildBreadcrum(response.data.breadcrumb)
+          this.parent = response.data.parent
+          this.directories = response.data.directories
+          this.files = response.data.files
+
+          const query = new URLSearchParams(window.location.search)
+          query.set('path', directory)
+
+          history.pushState(
+            null,
+            '',
+            window.location.pathname + '?' + query.toString()
+          )
+        })
+        .catch(() => {
+          alert('An error occured')
+        })
+    }
+  }
 }
 </script>

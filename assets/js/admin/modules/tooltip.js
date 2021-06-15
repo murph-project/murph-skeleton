@@ -1,5 +1,5 @@
-const $ = require('jquery');
+const $ = require('jquery')
 
-module.exports = function() {
-    $('*[data-toggle="tooltip"]').tooltip();
-};
+module.exports = function () {
+  $('*[data-toggle="tooltip"]').tooltip()
+}

@@ -1,47 +1,47 @@
-const $ = require('jquery');
+const $ = require('jquery')
 
-let Pannel = () => {
-    let panels = $('.panel');
+const Pannel = () => {
+  const panels = $('.panel')
 
-    panels.each((i, p) => {
-        let panel = $(p);
-        let content = panel.find('.panel-content').first();
-        let togglers = panel.find('.panel-toggler');
+  panels.each((i, p) => {
+    const panel = $(p)
+    const content = panel.find('.panel-content').first()
+    const togglers = panel.find('.panel-toggler')
 
-        togglers.each((k, t) => {
-            let toggler = $(t);
+    togglers.each((k, t) => {
+      const toggler = $(t)
 
-            if (!toggler.is('.fa')) {
-                return;
-            }
+      if (!toggler.is('.fa')) {
+        return
+      }
 
-            if (content.is('.active')) {
-                toggler.removeClass('fa-arrow-down');
-                toggler.addClass('fa-arrow-up');
-            } else {
-                toggler.removeClass('fa-arrow-up');
-                toggler.addClass('fa-arrow-down');
-            }
-        })
+      if (content.is('.active')) {
+        toggler.removeClass('fa-arrow-down')
+        toggler.addClass('fa-arrow-up')
+      } else {
+        toggler.removeClass('fa-arrow-up')
+        toggler.addClass('fa-arrow-down')
+      }
+    })
 
-        togglers.click(function(e) {
-            e.stopPropagation();
+    togglers.click(function (e) {
+      e.stopPropagation()
 
-            content.toggleClass('active');
+      content.toggleClass('active')
 
-            togglers.each((k, t) => {
-                let toggler = $(t);
+      togglers.each((k, t) => {
+        const toggler = $(t)
 
-                if (!toggler.is('.fa')) {
-                    return;
-                }
+        if (!toggler.is('.fa')) {
+          return
+        }
 
-                toggler
-                    .toggleClass('fa-arrow-down')
-                    .toggleClass('fa-arrow-up');
-            })
-        });
-    });
+        toggler
+          .toggleClass('fa-arrow-down')
+          .toggleClass('fa-arrow-up')
+      })
+    })
+  })
 }
 
-module.exports = Pannel;
+module.exports = Pannel
