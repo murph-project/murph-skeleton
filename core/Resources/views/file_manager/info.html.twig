@@ -1,0 +1,93 @@
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title">
+                {{ 'Information'|trans }}
+            </h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            {% if info.type == 'file' %}
+                <div class="form-group">
+                    <label for="file-manager-url">{{ 'Absolute URL'|trans }}</label><br>
+                    <input class="form-control" type="text" readonly value="{{ absolute_url(asset(path)) }}" id="file-manager-url" />
+                </div>
+
+                <p>
+                    <label for="file-manager-url2">{{ 'Relative URL'|trans }}</label><br>
+                    <input class="form-control" type="text" readonly value="{{ asset(path) }}" id="file-manager-url2" />
+                </p>
+            {% endif %}
+
+            <ul class="list-group mb-3">
+                {% if info.type == 'file' %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        {{ 'File size'|trans }}
+
+                        <button class="btn btn-sm btn-light">{{ info.size|readable_filesize }}</button>
+                    </li>
+                {% endif %}
+
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    {{ 'Creation date'|trans }}
+
+                    <button class="btn btn-sm btn-light">{{ info.mTime|date('Y-m-d H:i') }}</button>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    {{ 'Modification date'|trans }}
+
+                    <button class="btn btn-sm btn-light">{{ info.cTime|date('Y-m-d H:i') }}</button>
+                </li>
+            </ul>
+
+            {% if info.extension in ['jpeg', 'jpg', 'gif', 'png', 'svg'] %}
+                <div class="card">
+                    <div class="card-img-top bg-tiles text-center">
+                        <a href="{{ asset(path) }}" target="_blank">
+                            <img src="{{ asset(path) }}" class="img-fluid">
+                        </a>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+        <div class="modal-footer justify-content-between">
+            {% if not isLocked %}
+                <div>
+                    <button type="submit" form="form-file-delete" class="btn btn-danger" form="form-file-delete">
+                        {{ 'Delete'|trans }}
+                    </button>
+
+                    {% if info.isDir %}
+                        <button form="form-file-delete" class="btn btn-primary" data-modal="{{ path('admin_file_manager_directory_rename', {file: info.relativePathname}) }}">
+                            {{ 'Rename'|trans }}
+                        </button>
+                    {% endif %}
+                </div>
+            {% else %}
+                <span class="btn btn-light">
+                    <span class="fa fa-lock"></span>
+                </span>
+            {% endif %}
+
+            <div class="div">
+                {% if info.type == 'file' %}
+                    <a class="btn btn-primary" href="{{ asset(path) }}" target="_blank">
+                        {{ 'Download'|trans }}
+                    </a>
+                {% endif %}
+
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ 'Close'|trans }}</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% if not isLocked %}
+    <form method="post" action="{{ path('admin_file_manager_delete') }}" id="form-file-delete" data-form-confirm>
+        <input type="hidden" name="file" value="{{ info.relativePathname }}">
+        <input type="hidden" name="_token" value="{{ csrf_token('delete') }}">
+        <input type="hidden" name="_method" value="DELETE">
+    </form>
+{% endif %}

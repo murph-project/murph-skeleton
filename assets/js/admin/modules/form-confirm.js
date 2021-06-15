@@ -1,7 +1,7 @@
 const $ = require('jquery');
 
 module.exports = function() {
-    $('*[data-form-confirm]').submit(function(e) {
+    $('body').on('submit', '*[data-form-confirm]', function(e) {
         let message = $(this).attr('data-form-confirm');
 
         if (!message) {

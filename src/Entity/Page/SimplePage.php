@@ -22,7 +22,7 @@ class SimplePage extends Page
             'title',
             TextBlockType::class,
             [
-                'label' => 'Titre'
+                'label' => 'Title',
                 'row_attr' => [
                 ],
                 'options' => [
