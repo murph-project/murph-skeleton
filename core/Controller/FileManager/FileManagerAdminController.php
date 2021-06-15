@@ -189,7 +189,7 @@ class FileManagerAdminController extends AdminController
             }
 
             return $this->redirectToRoute('admin_file_manager_index', [
-                'path' => $info->getRelativePath(),
+                'path' => $info->getRelativePathname(),
             ]);
         }
 
