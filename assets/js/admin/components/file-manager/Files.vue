@@ -171,6 +171,8 @@ const routes = require('../../../../../public/js/fos_js_routes.json')
 import Routing from '../../../../../vendor/friendsofsymfony/jsrouting-bundle/Resources/public/js/router.min.js';
 import FileIcon from './FileIcon';
 
+Routing.setRoutingData(routes);
+
 export default {
     name: "Files",
     components: {
@@ -240,7 +242,6 @@ export default {
         }
     },
     mounted() {
-        Routing.setRoutingData(routes)
         let view = localStorage.getItem('file-manager.view')
 
         if (['grid', 'list'].indexOf(view) !== -1) {

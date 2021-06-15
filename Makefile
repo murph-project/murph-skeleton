@@ -15,9 +15,12 @@ dep:
 asset-watch:
 	$(WEBPACK) -w
 
-asset:
+asset: js-routing
 	$(YARN)
 	$(WEBPACK)
+
+js-routing:
+	$(PHP) bin/console fos:js-routing:dump --format=json --target=public/js/fos_js_routes.json
 
 clean:
 	rm -fr var/cache/dev/*
