@@ -10,25 +10,33 @@ core:
                 templates:
                     - {name: "Default", file: "page/simple/default.html.twig"}
     file_manager:
-    #     mimes:
-    #         - image/png
-    #         - image/jpg
-    #         - image/jpeg
-    #         - image/gif
-    #         - application/pdf
-    #         - application/ogg
-    #         - video/mp4
-    #         - application/zip
-    #         - multipart/x-zip
-    #         - application/rar
-    #         - application/x-rar-compressed
-    #         - application/x-zip-compressed
-    #         - application/tar
-    #         - application/x-tar
-    #         - text/plain
-    #         - text/x-asm
-    #         - application/octet-stream
-    #     path: "%kernel.project_dir%/public/uploads"
-    #     path_uri: "/uploads"
-    #     path_locked:
-    #         - "%kernel.project_dir%/public/uploads"
+        # mimes:
+        #     - image/png
+        #     - image/jpg
+        #     - image/jpeg
+        #     - image/gif
+        #     - image/svg+xml
+        #     - video/mp4
+        #     - audio/mpeg3
+        #     - audio/x-mpeg-3
+        #     - multipart/x-zip
+        #     - multipart/x-gzip
+        #     - application/pdf
+        #     - application/ogg
+        #     - application/zip
+        #     - application/rar
+        #     - application/x-rar-compressed
+        #     - application/x-zip-compressed
+        #     - application/tar
+        #     - application/x-tar
+        #     - application/x-bzip
+        #     - application/x-bzip2
+        #     - application/x-gzip
+        #     - application/octet-stream
+        #     - application/msword
+        #     - text/plain
+        #     - text/css
+        # path: "%kernel.project_dir%/public/uploads"
+        # path_uri: "/uploads"
+        # path_locked:
+        #     - "%kernel.project_dir%/public/uploads"
