@@ -157,7 +157,9 @@
             {% if context == 'tinymce' %}
                 <div>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ 'Close'|trans }}</button>
-                    <button type="button" class="btn btn-primary" id="file-manager-insert" data-value="{{ asset(path) }}">{{ 'Insert'|trans }}</button>
+                    {% if splInfo.isFile %}
+                        <button type="button" class="btn btn-primary" id="file-manager-insert" data-value="{{ asset(path) }}">{{ 'Insert'|trans }}</button>
+                    {% endif %}
                 </div>
             {% else %}
                 <div>
