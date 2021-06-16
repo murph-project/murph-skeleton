@@ -7,13 +7,13 @@ use App\Core\Entity\Site\Page\Page;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\NotBlank;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 
 class NodeType extends AbstractType
 {
@@ -181,7 +181,7 @@ class NodeType extends AbstractType
                 'required' => false,
                 'class' => Node::class,
                 'choice_label' => 'label',
-                'choices' => call_user_func(function() use ($options, $builder) {
+                'choices' => call_user_func(function () use ($options, $builder) {
                     $nodes = [];
 
                     foreach ($options['navigation']->getMenus() as $menu) {

@@ -17,6 +17,14 @@ abstract class AdminController extends AbstractController
     }
 
     /**
+     * @Route("/_ping", name="_ping")
+     */
+    public function ping()
+    {
+        return $this->json(true);
+    }
+
+    /**
      * {@inheritdoc}
      */
     protected function render(string $view, array $parameters = [], Response $response = null): Response
@@ -29,12 +37,4 @@ abstract class AdminController extends AbstractController
     }
 
     abstract protected function getSection(): string;
-
-    /**
-     * @Route("/_ping", name="_ping")
-     */
-    public function ping()
-    {
-        return $this->json(true);
-    }
 }

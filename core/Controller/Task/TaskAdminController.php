@@ -5,13 +5,13 @@ namespace App\Core\Controller\Task;
 use App\Core\Controller\Admin\AdminController;
 use App\Core\Event\Task\TaskInitEvent;
 use App\Core\Event\Task\TaskRunRequestedEvent;
+use SensioLabs\AnsiConverter\AnsiToHtmlConverter;
+use SensioLabs\AnsiConverter\Theme\SolarizedTheme;
 use Symfony\Component\Console\Output\BufferedOutput;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use SensioLabs\AnsiConverter\AnsiToHtmlConverter;
-use SensioLabs\AnsiConverter\Theme\SolarizedTheme;
 
 /**
  * @Route("/admin/task")

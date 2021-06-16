@@ -1,9 +1,6 @@
 <template>
     <div>
         <nav aria-label="breadcrumb bg-light">
-            <div class="float-right">
-            </div>
-
             <ol class="breadcrumb mb-0 float-right file-manager-views">
                 <li class="breadcrumb-item">
                     <span class="fa fa-grip-horizontal" v-on:click="setView('grid')"></span>
@@ -13,7 +10,7 @@
                 </li>
             </ol>
 
-            <ol class="breadcrumb mb-0 float-right file-manager-actions">
+            <ol v-if="['crud'].indexOf(context) > -1" class="breadcrumb mb-0 float-right file-manager-actions">
                 <li class="breadcrumb-item">
                     <span class="fa fa-upload text-primary" v-bind:data-modal="generateUploadLink(directory)"></span>
                     <span class="fa fa-folder-plus text-primary" v-bind:data-modal="generateNewDirectoryLink(directory)"></span>
@@ -44,7 +41,7 @@
 
             <div v-for="item in directories" class="card mt-3 ml-3 mb-3 border-0">
                 <div class="card-body p-2">
-                    <div class="card-text" v-on:dblclick="setDirectory(item.path)" v-bind:data-modal="generateInfoLink(item, true)">
+                    <div class="card-text" v-on:dblclick="setDirectory(item.path)" v-bind:data-modal="generateInfoLink(item, true, context)">
                         <div class="text-center">
                             <div class="display-4 text-warning">
                                 <span class="fa fa-folder"></span>
@@ -63,7 +60,7 @@
                     </div>
                 </div>
             </div>
-            <div v-for="item in files" class="card mt-3 ml-3 mb-3 border-0" v-bind:data-modal="generateInfoLink(item)">
+            <div v-for="item in files" class="card mt-3 ml-3 mb-3 border-0" v-bind:data-modal="generateInfoLink(item, null, context)">
                 <div class="card-body p-2">
                     <div class="card-text">
                         <div class="text-center">
@@ -97,7 +94,7 @@
                     </td>
                 </tr>
 
-                <tr v-for="item in directories" v-on:dblclick="setDirectory(item.path)" v-bind:data-modal="generateInfoLink(item, true)">
+                <tr v-for="item in directories" v-on:dblclick="setDirectory(item.path)" v-bind:data-modal="generateInfoLink(item, true, context)">
                     <td width="10">
                         <span class="fa fa-folder text-warning"></span>
                     </td>
@@ -115,7 +112,7 @@
                     <td width="10">
                         <FileIcon v-bind:mime="item.mime" />
                     </td>
-                    <td v-bind:data-modal="generateInfoLink(item)">
+                    <td v-bind:data-modal="generateInfoLink(item, null, context)">
                         <div v-if="item.locked" class="float-right">
                             <span class="btn btn-sm btn-light">
                                 <span class="fa fa-lock"></span>
@@ -178,6 +175,12 @@ export default {
   components: {
     FileIcon
   },
+  props: {
+    context: {
+      type: String,
+      required: false
+    }
+  },
   data () {
     return {
       view: 'list',
@@ -197,14 +200,16 @@ export default {
 
       localStorage.setItem('file-manager.view', view)
     },
-    generateInfoLink (item, directory) {
+    generateInfoLink (item, directory, context) {
       if (directory) {
         return Routing.generate('admin_file_manager_info', {
-          file: item.path
+          file: item.path,
+          context: context
         })
       } else {
         return Routing.generate('admin_file_manager_info', {
-          file: item.path + '/' + item.basename
+          file: item.path + '/' + item.basename,
+          context: context
         })
       }
     },
@@ -259,7 +264,8 @@ export default {
   watch: {
     directory (directory) {
       axios.get(Routing.generate('admin_file_manager_api_directory', {
-        directory: this.directory
+        directory: this.directory,
+        context: this.context
       }))
         .then((response) => {
           this.buildBreadcrum(response.data.breadcrumb)

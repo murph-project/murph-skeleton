@@ -3,7 +3,6 @@
 namespace App\Core\Entity\Site\Page;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\HttpFoundation\File\File;
 
 /**
  * @ORM\Entity

@@ -6,7 +6,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 
-class BlockExtension extends AbstractExtension
+class UrlExtension extends AbstractExtension
 {
     protected UrlGeneratorInterface $urlGenerator;
 
@@ -25,7 +25,7 @@ class BlockExtension extends AbstractExtension
         ];
     }
 
-    public function replaceUrl($content)
+    public function replaceUrl(?string $content)
     {
         preg_match_all('#\{\{\s*url://(?P<route>[a-z_]+)(\?(?P<params>.*))?\s*\}\}#isU', $content, $match, PREG_SET_ORDER);
 

@@ -33,7 +33,8 @@ class TreeAdminController extends AdminController
         if (null === $navigation) {
             $navigation = $navigationQuery->create()
                 ->orderBy('.sortOrder')
-                ->findOne();
+                ->findOne()
+            ;
         }
 
         if (null === $navigation) {

@@ -61,7 +61,7 @@ abstract class CrudController extends AdminController
             $form->handleRequest($request);
 
             if ($form->isValid()) {
-                if ($beforeCreate !== null) {
+                if (null !== $beforeCreate) {
                     call_user_func_array($beforeCreate, [$entity, $form, $request]);
                 }
 
@@ -104,7 +104,7 @@ abstract class CrudController extends AdminController
             $form->handleRequest($request);
 
             if ($form->isValid()) {
-                if ($beforeUpdate !== null) {
+                if (null !== $beforeUpdate) {
                     call_user_func_array($beforeUpdate, [$entity, $form, $request]);
                 }
 
@@ -149,7 +149,7 @@ abstract class CrudController extends AdminController
 
             foreach ($pager as $key => $entity) {
                 if (isset($items[$key + 1])) {
-                    $entity->$setter($items[$key + 1] + $orderStart);
+                    $entity->{$setter}($items[$key + 1] + $orderStart);
 
                     $entityManager->update($entity);
                 }
@@ -192,7 +192,7 @@ abstract class CrudController extends AdminController
 
         $query->useFilters($this->filters);
 
-        if ($target === 'selection') {
+        if ('selection' === $target) {
             $isSelection = true;
             $pager = $query->paginate($page, $configuration->getMaxPerPage($context));
         } else {
@@ -216,7 +216,7 @@ abstract class CrudController extends AdminController
         $configuration = $this->getConfiguration();
 
         if ($this->isCsrfTokenValid('delete'.$entity->getId(), $request->request->get('_token'))) {
-            if ($beforeDelete !== null) {
+            if (null !== $beforeDelete) {
                 call_user_func($beforeDelete, $entity);
             }
 

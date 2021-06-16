@@ -2,7 +2,10 @@
 
 namespace App\Core\FileManager;
 
+use App\Core\Entity\FileInformation;
+use App\Core\Factory\FileInformationFactory;
 use App\Core\Form\FileUploadHandler;
+use App\Core\Repository\FileInformationRepositoryQuery;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
@@ -21,12 +24,21 @@ class FsFileManager
     protected string $pathUri;
     protected array $pathLocked;
     protected FileUploadHandler $uploadHandler;
+    protected FileInformationFactory $fileInformationFactory;
+    protected FileInformationRepositoryQuery $fileInformationRepositoryQuery;
 
-    public function __construct(ParameterBagInterface $params, FileUploadHandler $uploadHandler)
-    {
+    public function __construct(
+        ParameterBagInterface $params,
+        FileUploadHandler $uploadHandler,
+        FileInformationFactory $fileInformationFactory,
+        FileInformationRepositoryQuery $fileInformationRepositoryQuery
+    ) {
         $config = $params->get('core')['file_manager'];
 
         $this->uploadHandler = $uploadHandler;
+        $this->fileInformationFactory = $fileInformationFactory;
+        $this->fileInformationRepositoryQuery = $fileInformationRepositoryQuery;
+
         $this->mimes = $config['mimes'];
         $this->path = $config['path'];
         $this->pathUri = $this->normalizePath($config['path_uri']);
@@ -85,7 +97,7 @@ class FsFileManager
         return $data;
     }
 
-    public function info(string $path): ?SplFileInfo
+    public function getSplInfo(string $path): ?SplFileInfo
     {
         $path = $this->normalizePath($path);
 
@@ -95,6 +107,7 @@ class FsFileManager
 
         $finder = new Finder();
         $finder->in($this->path)
+            ->depth('== '.substr_count($path, '/'))
             ->name(basename($path))
         ;
 
@@ -113,9 +126,36 @@ class FsFileManager
         return null;
     }
 
+    public function getFileInformation(string $path): ?FileInformation
+    {
+        $file = $this->getSplInfo($path);
+
+        if (!$file) {
+            return null;
+        }
+
+        if ($file->isDir()) {
+            return null;
+        }
+
+        $hash = hash_file('sha384', $file->getPathName());
+
+        $info = $this->fileInformationRepositoryQuery
+            ->where('.id = :hash')
+            ->setParameter(':hash', $hash)
+            ->findOne()
+        ;
+
+        if (!$info) {
+            $info = $this->fileInformationFactory->create($hash);
+        }
+
+        return $info;
+    }
+
     public function createDirectory(string $name, string $path): bool
     {
-        $file = $this->info($path);
+        $file = $this->getSplInfo($path);
 
         if (!$file || $this->isLocked($path)) {
             return false;
@@ -135,7 +175,7 @@ class FsFileManager
 
     public function renameDirectory(string $name, string $path): bool
     {
-        $file = $this->info($path);
+        $file = $this->getSplInfo($path);
 
         if (!$file || $this->isLocked($path)) {
             return false;
@@ -166,7 +206,7 @@ class FsFileManager
 
     public function delete(string $path): bool
     {
-        $file = $this->info($path);
+        $file = $this->getSplInfo($path);
 
         if ($this->isLocked($file)) {
             return false;
@@ -182,7 +222,7 @@ class FsFileManager
 
     public function isLocked($path): bool
     {
-        $file = $this->info($path);
+        $file = $this->getSplInfo($path);
 
         if (!$file) {
             return false;

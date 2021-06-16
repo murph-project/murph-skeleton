@@ -501,6 +501,10 @@ form {
     }
 }
 
+.modal {
+    z-index: 3000;
+}
+
 .modal-dialog-large {
     max-width: 80%;
 }

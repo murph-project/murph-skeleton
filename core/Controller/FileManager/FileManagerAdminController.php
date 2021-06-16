@@ -6,7 +6,9 @@ use App\Core\Controller\Admin\AdminController;
 use App\Core\FileManager\FsFileManager;
 use App\Core\Form\FileManager\DirectoryCreateType;
 use App\Core\Form\FileManager\DirectoryRenameType;
+use App\Core\Form\FileManager\FileInformationType;
 use App\Core\Form\FileManager\FileUploadType;
+use App\Core\Manager\EntityManager;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -35,22 +37,53 @@ class FileManagerAdminController extends AdminController
     }
 
     /**
-     * @Route("/info", name="admin_file_manager_info", options={"expose"=true})
+     * @Route("/info/{tab}/{context}", name="admin_file_manager_info", options={"expose"=true})
      */
-    public function info(FsFileManager $manager, Request $request): Response
-    {
-        $info = $manager->info($request->query->get('file'));
+    public function info(
+        FsFileManager $manager,
+        Request $request,
+        EntityManager $entityManager,
+        string $context = 'crud',
+        string $tab = 'information'
+    ): Response {
+        $splInfo = $manager->getSplInfo($request->query->get('file'));
 
-        if (!$info) {
+        if (!$splInfo) {
             throw $this->createNotFoundException();
         }
 
-        $path = $manager->getPathUri().'/'.$info->getRelativePathname();
+        $fileInfo = $manager->getFileInformation($request->query->get('file'));
+        $path = $manager->getPathUri().'/'.$splInfo->getRelativePathname();
+
+        $form = $this->createForm(FileInformationType::class, $fileInfo);
+
+        if ($request->isMethod('POST')) {
+            $form->handleRequest($request);
+
+            if ($form->isValid()) {
+                $entityManager->update($fileInfo);
+
+                $this->addFlash('success', 'The data has been saved.');
+            } else {
+                $this->addFlash('warning', 'The form is not valid.');
+            }
+
+            return $this->redirectToRoute('admin_file_manager_index', [
+                'data-modal' => $this->generateUrl('admin_file_manager_info', [
+                    'file' => $request->query->get('file'),
+                    'tab' => 'attributes',
+                ]),
+                'path' => $splInfo->getRelativePath(),
+            ]);
+        }
 
         return $this->render('@Core/file_manager/info.html.twig', [
-            'info' => $info,
+            'splInfo' => $splInfo,
             'path' => $path,
-            'isLocked' => $manager->isLocked($info->getRelativePathname()),
+            'isLocked' => $manager->isLocked($splInfo->getRelativePathname()),
+            'tab' => $tab,
+            'form' => $form->createView(),
+            'context' => $context,
         ]);
     }
 
@@ -59,13 +92,13 @@ class FileManagerAdminController extends AdminController
      */
     public function directoryNew(FsFileManager $manager, Request $request): Response
     {
-        $info = $manager->info($request->query->get('file'));
+        $splInfo = $manager->getSplInfo($request->query->get('file'));
 
-        if (!$info) {
+        if (!$splInfo) {
             throw $this->createNotFoundException();
         }
 
-        if (!$info->isDir()) {
+        if (!$splInfo->isDir()) {
             throw $this->createNotFoundException();
         }
 
@@ -92,7 +125,7 @@ class FileManagerAdminController extends AdminController
             }
 
             return $this->redirectToRoute('admin_file_manager_index', [
-                'path' => $info->getRelativePath(),
+                'path' => $splInfo->getRelativePath(),
             ]);
         }
 
@@ -108,13 +141,13 @@ class FileManagerAdminController extends AdminController
      */
     public function directoryRename(FsFileManager $manager, Request $request): Response
     {
-        $info = $manager->info($request->query->get('file'));
+        $splInfo = $manager->getSplInfo($request->query->get('file'));
 
-        if (!$info) {
+        if (!$splInfo) {
             throw $this->createNotFoundException();
         }
 
-        if (!$info->isDir()) {
+        if (!$splInfo->isDir()) {
             throw $this->createNotFoundException();
         }
 
@@ -142,7 +175,7 @@ class FileManagerAdminController extends AdminController
             }
 
             return $this->redirectToRoute('admin_file_manager_index', [
-                'path' => $info->getRelativePath(),
+                'path' => $splInfo->getRelativePath(),
             ]);
         }
 
@@ -158,13 +191,13 @@ class FileManagerAdminController extends AdminController
      */
     public function upload(FsFileManager $manager, Request $request): Response
     {
-        $info = $manager->info($request->query->get('file'));
+        $splInfo = $manager->getSplInfo($request->query->get('file'));
 
-        if (!$info) {
+        if (!$splInfo) {
             throw $this->createNotFoundException();
         }
 
-        if (!$info->isDir()) {
+        if (!$splInfo->isDir()) {
             throw $this->createAccessDeniedException();
         }
 
@@ -189,7 +222,7 @@ class FileManagerAdminController extends AdminController
             }
 
             return $this->redirectToRoute('admin_file_manager_index', [
-                'path' => $info->getRelativePathname(),
+                'path' => $splInfo->getRelativePathname(),
             ]);
         }
 
@@ -206,9 +239,9 @@ class FileManagerAdminController extends AdminController
     public function delete(FsFileManager $manager, Request $request): Response
     {
         $path = $request->request->get('file');
-        $info = $manager->info($request->request->get('file'));
+        $splInfo = $manager->getSplInfo($request->request->get('file'));
 
-        if (!$info) {
+        if (!$splInfo) {
             throw $this->createNotFoundException();
         }
 
@@ -221,7 +254,7 @@ class FileManagerAdminController extends AdminController
         }
 
         return $this->redirectToRoute('admin_file_manager_index', [
-            'path' => $info->getRelativePath(),
+            'path' => $splInfo->getRelativePath(),
         ]);
     }
 

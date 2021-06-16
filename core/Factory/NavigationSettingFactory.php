@@ -18,7 +18,8 @@ class NavigationSettingFactory implements FactoryInterface
 
         $entity
             ->setNavigation($navigation)
-            ->setCode($code);
+            ->setCode($code)
+        ;
 
         return $entity;
     }

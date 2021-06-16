@@ -1,4 +1,3 @@
-// file-manager
 const Vue = require('vue').default
 
 const FileManager = require('../components/file-manager/FileManager').default

@@ -5,18 +5,16 @@ namespace App\Core\Controller\Site;
 use App\Core\Controller\Admin\Crud\CrudController;
 use App\Core\Crud\CrudConfiguration;
 use App\Core\Crud\Field;
-use App\Core\Entity\EntityInterface;
-use App\Core\Manager\EntityManager;
 use App\Core\Entity\Site\Page\Page as Entity;
-use App\Core\Form\Site\Page\PageType as Type;
 use App\Core\Form\Site\Page\Filter\PageFilterType as FilterType;
+use App\Core\Form\Site\Page\PageType as Type;
+use App\Core\Manager\EntityManager;
 use App\Core\Repository\Site\Page\PageRepositoryQuery as RepositoryQuery;
+use App\Core\Site\PageLocator;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Core\Site\PageLocator;
-use App\Core\Repository\Site\Page\PageRepositoryQuery;
 
 class PageAdminController extends CrudController
 {
@@ -53,8 +51,7 @@ class PageAdminController extends CrudController
         RepositoryQuery $repositoryQuery,
         PageLocator $pageLocator,
         Request $request
-    ): Response
-    {
+    ): Response {
         $entity = $repositoryQuery->filterById($entity)->findOne();
 
         $this->getConfiguration()->setFormOptions('edit', [
@@ -98,12 +95,13 @@ class PageAdminController extends CrudController
             ])
             ->setField('index', 'Elements', Field\TextField::class, [
                 'view' => '@Core/site/page_admin/fields/nodes.html.twig',
-                'sort' => ['navigation', function(RepositoryQuery $query, $direction) {
+                'sort' => ['navigation', function (RepositoryQuery $query, $direction) {
                     $query
                         ->leftJoin('.nodes', 'node')
                         ->leftJoin('node.menu', 'menu')
                         ->leftJoin('menu.navigation', 'navigation')
-                        ->orderBy('navigation.label', $direction);
+                        ->orderBy('navigation.label', $direction)
+                    ;
                 }],
             ])
         ;

@@ -1,3 +1,5 @@
+{% set tab = tab ?? 'information' %}
+
 <div class="modal-dialog">
     <div class="modal-content">
         <div class="modal-header">
@@ -9,85 +11,216 @@
             </button>
         </div>
         <div class="modal-body">
-            {% if info.type == 'file' %}
-                <div class="form-group">
-                    <label for="file-manager-url">{{ 'Absolute URL'|trans }}</label><br>
-                    <input class="form-control" type="text" readonly value="{{ absolute_url(asset(path)) }}" id="file-manager-url" />
-                </div>
+            <ul class="nav nav-pills" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link {% if tab == 'information' %}active{% endif %}" data-toggle="tab" href="#tab-fm-information">
+                        {{ 'Information'|trans }}
+                    </a>
+                </li>
 
-                <p>
-                    <label for="file-manager-url2">{{ 'Relative URL'|trans }}</label><br>
-                    <input class="form-control" type="text" readonly value="{{ asset(path) }}" id="file-manager-url2" />
-                </p>
-            {% endif %}
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link {% if tab == 'attributes' %}active{% endif %}" data-toggle="tab" href="#tab-fm-attributes">
+                        {{ 'Attributes'|trans }}
+                    </a>
+                </li>
 
-            <ul class="list-group mb-3">
-                {% if info.type == 'file' %}
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        {{ 'File size'|trans }}
-
-                        <button class="btn btn-sm btn-light">{{ info.size|readable_filesize }}</button>
+                {% if splInfo.extension in ['jpeg', 'jpg', 'gif', 'png', 'svg'] %}
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link {% if tab == 'preview' %}active{% endif %}" data-toggle="tab" href="#tab-fm-preview">
+                            {{ 'Preview'|trans }}
+                        </a>
                     </li>
                 {% endif %}
-
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                    {{ 'Creation date'|trans }}
-
-                    <button class="btn btn-sm btn-light">{{ info.mTime|date('Y-m-d H:i') }}</button>
-                </li>
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                    {{ 'Modification date'|trans }}
-
-                    <button class="btn btn-sm btn-light">{{ info.cTime|date('Y-m-d H:i') }}</button>
-                </li>
             </ul>
 
-            {% if info.extension in ['jpeg', 'jpg', 'gif', 'png', 'svg'] %}
-                <div class="card">
-                    <div class="card-img-top bg-tiles text-center">
-                        <a href="{{ asset(path) }}" target="_blank">
-                            <img src="{{ asset(path) }}" class="img-fluid">
-                        </a>
-                    </div>
-                </div>
-            {% endif %}
-        </div>
-        <div class="modal-footer justify-content-between">
-            {% if not isLocked %}
-                <div>
-                    <button type="submit" form="form-file-delete" class="btn btn-danger" form="form-file-delete">
-                        {{ 'Delete'|trans }}
-                    </button>
+            <div class="tab-content pt-4">
+                <div class="tab-pane {% if tab == 'information' %}show active{% endif %}" id="tab-fm-information">
+                    {% if splInfo.type == 'file' %}
+                        <div class="form-group">
+                            <label for="file-manager-url">{{ 'Absolute URL'|trans }}</label><br>
+                            <input class="form-control" type="text" readonly value="{{ absolute_url(asset(path)) }}" id="file-manager-url" />
+                        </div>
 
-                    {% if info.isDir %}
-                        <button form="form-file-delete" class="btn btn-primary" data-modal="{{ path('admin_file_manager_directory_rename', {file: info.relativePathname}) }}">
-                            {{ 'Rename'|trans }}
-                        </button>
+                        <p>
+                            <label for="file-manager-url2">{{ 'Relative URL'|trans }}</label><br>
+                            <input class="form-control" type="text" readonly value="{{ asset(path) }}" id="file-manager-url2" />
+                        </p>
+                    {% endif %}
+
+                    <ul class="list-group mb-3">
+                        {% if splInfo.type == 'file' %}
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                {{ 'File size'|trans }}
+
+                                <button class="btn btn-sm btn-light">{{ splInfo.size|readable_filesize }}</button>
+                            </li>
+                        {% endif %}
+
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            {{ 'Creation date'|trans }}
+
+                            <button class="btn btn-sm btn-light">{{ splInfo.mTime|date('Y-m-d H:i') }}</button>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            {{ 'Modification date'|trans }}
+
+                            <button class="btn btn-sm btn-light">{{ splInfo.cTime|date('Y-m-d H:i') }}</button>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="tab-pane {% if tab == 'attributes' %}show active{% endif %}" id="tab-fm-attributes">
+                    {% if context == 'tinymce' %}
+                        <div class="accordion mb-3" id="fm-attributes">
+                            {% for item in form.attributes %}
+                                <div class="card">
+                                    <div class="card-header p-0">
+                                        <span class="btn btn-link btn-block text-left" data-toggle="collapse" data-target="#fm-attribute-{{ loop.index }}">
+                                            {{ item.vars.data.label }}
+                                        </span>
+                                    </div>
+                                    <div class="collapse" data-parent="#fm-attributes" id="fm-attribute-{{ loop.index }}">
+                                        <div class="card-body">
+                                            <div>{{ 'Value'|trans }}</div>
+                                            <code>{{ item.vars.data.value }}</code>
+
+                                            {% set code = 'fattr://' ~ form.vars.data.id ~ '/' ~ item.vars.data.label %}
+                                            {% set code = '{{' ~ code ~ '}}' %}
+
+                                            <div class="mt-1">{{ 'Tag to insert in content'|trans }}</div>
+                                            <code>{{ code }}</code>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <form method="post" action="{{ path('admin_file_manager_info', {tab: 'attributes', file: splInfo.relativePathname}) }}" id="form-fm-attributes">
+                            <div class="accordion mb-3" data-collection="collection-fm-attributes" id="form-fm-attributes-collection">
+                                {% for item in form.attributes %}
+                                    <div class="card" data-collection-item="{{ loop.index }}">
+                                        <div class="card-header p-0">
+                                            <span class="btn btn-link btn-block text-left" data-toggle="collapse" data-target="#form-fm-attribute-{{ loop.index }}">
+                                                {{ item.vars.data.label }}
+                                            </span>
+                                        </div>
+                                        <div class="collapse" data-parent="#form-fm-attributes-collection" id="form-fm-attribute-{{ loop.index }}">
+                                            <div class="card-body">
+                                                {{ form_row(item.label) }}
+                                                {{ form_row(item.value) }}
+
+                                                {% set code = 'fattr://' ~ form.vars.data.id ~ '/' ~ item.vars.data.label %}
+                                                {% set code = '{{' ~ code ~ '}}' %}
+
+                                                <div>{{ 'Tag to insert in content'|trans }}</div>
+                                                <code>{{ code }}</code>
+
+
+                                                <div class="text-right">
+                                                    <span data-collection-delete-container class="btn btn-sm btn-danger">
+                                                        <span data-collection-delete="{{ loop.index }}" class="fa fa-trash"></span>
+                                                    </span>
+                                                </div>
+
+                                                {{ form_rest(item) }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                            <div data-collection-add="collection-fm-attributes" class="collection-add">
+                                <span class="btn btn-primary" data-collection-add="collection-fm-attributes">
+                                    <span class="fa fa-plus"></span>
+                                    {{ 'New attribut'|trans }}
+                                </span>
+                            </div>
+
+                            {{ form_row(form._token) }}
+                        </form>
                     {% endif %}
                 </div>
-            {% else %}
-                <span class="btn btn-light">
-                    <span class="fa fa-lock"></span>
-                </span>
-            {% endif %}
 
-            <div class="div">
-                {% if info.type == 'file' %}
-                    <a class="btn btn-primary" href="{{ asset(path) }}" target="_blank">
-                        {{ 'Download'|trans }}
-                    </a>
+                {% if splInfo.extension in ['jpeg', 'jpg', 'gif', 'png', 'svg'] %}
+                    <div class="tab-pane {% if tab == 'preview' %}show active{% endif %}" id="tab-fm-preview">
+                        <div class="card">
+                            <div class="card-img-top bg-tiles text-center">
+                                <a href="{{ asset(path) }}" target="_blank">
+                                    <img src="{{ asset(path) }}" class="img-fluid">
+                                </a>
+                            </div>
+                        </div>
+                    </div>
                 {% endif %}
-
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ 'Close'|trans }}</button>
             </div>
+        </div>
+        <div class="modal-footer {% if context != 'tinymce' %}justify-content-between{% endif %}">
+            {% if context == 'tinymce' %}
+                <div>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ 'Close'|trans }}</button>
+                    <button type="button" class="btn btn-primary" id="file-manager-insert" data-value="{{ asset(path) }}">{{ 'Insert'|trans }}</button>
+                </div>
+            {% else %}
+                <div>
+                    {% if not isLocked %}
+                        <button type="submit" form="form-fm-delete" class="btn btn-danger">
+                            {{ 'Delete'|trans }}
+                        </button>
+
+                        {% if splInfo.isDir %}
+                            <button form="form-file-delete" class="btn btn-primary" data-modal="{{ path('admin_file_manager_directory_rename', {file: splInfo.relativePathname}) }}">
+                                {{ 'Rename'|trans }}
+                            </button>
+                        {% endif %}
+
+                    {% else %}
+                        <span class="btn btn-light">
+                            <span class="fa fa-lock"></span>
+                        </span>
+                    {% endif %}
+
+                    {% if splInfo.type == 'file' %}
+                        <a class="btn btn-success" href="{{ asset(path) }}" target="_blank">
+                            {{ 'Download'|trans }}
+                        </a>
+                    {% endif %}
+                </div>
+
+                <div>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ 'Close'|trans }}</button>
+                    <button type="submit" class="btn btn-primary" form="form-fm-attributes">{{ 'Save'|trans }}</button>
+                </div>
+            {% endif %}
         </div>
     </div>
 </div>
 
 {% if not isLocked %}
-    <form method="post" action="{{ path('admin_file_manager_delete') }}" id="form-file-delete" data-form-confirm>
-        <input type="hidden" name="file" value="{{ info.relativePathname }}">
+    <form method="post" action="{{ path('admin_file_manager_delete') }}" id="form-fm-delete" data-form-confirm>
+        <input type="hidden" name="file" value="{{ splInfo.relativePathname }}">
         <input type="hidden" name="_token" value="{{ csrf_token('delete') }}">
         <input type="hidden" name="_method" value="DELETE">
     </form>
 {% endif %}
+
+<template type="text/template" id="collection-fm-attributes">
+    <div class="card" data-collection-item="__name__">
+        <div class="card-header p-0">
+            <span class="btn btn-link btn-block text-left" data-toggle="collapse" data-target="#form-fm-attribute-__name__">
+                {{ 'New attribut'|trans }}
+            </span>
+        </div>
+        <div class="collapse show" id="form-fm-__name__" data-parent="#form-fm-attributes-collection">
+            <div class="card-body">
+                {{ form_row(form.attributes.vars.prototype.label) }}
+                {{ form_row(form.attributes.vars.prototype.value) }}
+
+                <div class="text-right">
+                    <span data-collection-delete-container class="btn btn-sm btn-danger"></span>
+                </div>
+
+                {{ form_rest(form.attributes.vars.prototype) }}
+            </div>
+        </div>
+    </div>
+</template>
+

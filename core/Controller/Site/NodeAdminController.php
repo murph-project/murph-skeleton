@@ -13,6 +13,7 @@ use App\Core\Form\Site\NodeMoveType;
 use App\Core\Form\Site\NodeType as EntityType;
 use App\Core\Manager\EntityManager;
 use App\Core\Repository\Site\NodeRepository;
+use App\Core\Site\ControllerLocator;
 use App\Core\Site\PageLocator;
 use App\Core\Sitemap\SitemapBuilder;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -20,7 +21,6 @@ use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Core\Site\ControllerLocator;
 
 /**
  * @Route("/admin/site/node")
@@ -278,7 +278,8 @@ class NodeAdminController extends AdminController
 
             $entity
                 ->setPage($page)
-                ->setAliasNode(null);
+                ->setAliasNode(null)
+            ;
         } elseif ('existing' === $pageAction) {
             if ($pageEntity) {
                 $entity->setPage($pageEntity);
@@ -291,7 +292,8 @@ class NodeAdminController extends AdminController
         } elseif ('none' === $pageAction) {
             $entity
                 ->setPage(null)
-                ->setAliasNode(null);
+                ->setAliasNode(null)
+            ;
         }
     }
 }
