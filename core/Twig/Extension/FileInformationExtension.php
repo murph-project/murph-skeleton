@@ -72,7 +72,7 @@ class FileInformationExtension extends AbstractExtension
             if ($fileInfo) {
                 foreach ($fileInfo->getAttributes() as $attribute) {
                     if ($attribute['label'] === $label) {
-                        $value = $attribute['value'];
+                        $value = htmlspecialchars($attribute['value'], ENT_HTML5 | ENT_QUOTES);
                     }
                 }
             }

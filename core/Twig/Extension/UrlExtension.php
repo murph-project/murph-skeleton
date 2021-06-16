@@ -27,7 +27,7 @@ class UrlExtension extends AbstractExtension
 
     public function replaceUrl(?string $content)
     {
-        preg_match_all('#\{\{\s*url://(?P<route>[a-z_]+)(\?(?P<params>.*))?\s*\}\}#isU', $content, $match, PREG_SET_ORDER);
+        preg_match_all('#\{\{\s*url://(?P<route>[a-z0-9_]+)(\?(?P<params>.*))?\s*\}\}#isU', $content, $match, PREG_SET_ORDER);
 
         foreach ($match as $block) {
             $url = null;

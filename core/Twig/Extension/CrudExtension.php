@@ -38,6 +38,7 @@ class CrudExtension extends AbstractExtension
         $field = $config['field'];
         $instance = new $field();
         $resolver = $instance->configureOptions(new OptionsResolver());
+        $flags = ENT_HTML5 | ENT_QUOTES;
 
         $render = $instance->buildView($this->twig, $entity, $resolver->resolve($config['options']), $locale);
 
@@ -59,7 +60,7 @@ class CrudExtension extends AbstractExtension
             }
 
             foreach ($attrs as $k => $v) {
-                $attributes .= sprintf(' %s="%s" ', htmlspecialchars($k), htmlspecialchars($v));
+                $attributes .= sprintf(' %s="%s" ', htmlspecialchars($k, $flags), htmlspecialchars($v, $flags));
             }
 
             $render = sprintf('<a%s>%s</a>', $attributes, $render);
