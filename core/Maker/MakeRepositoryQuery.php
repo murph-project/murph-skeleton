@@ -48,9 +48,9 @@ class MakeRepositoryQuery extends AbstractMaker
         );
 
         $queryDetails = $generator->createClassNameDetails(
-            $repositoryClass,
+            $repositoryClass.'Query',
             'Repository\\',
-            'Query'
+            ''
         );
 
         $id = u($queryDetails->getShortName())
