@@ -2,6 +2,7 @@
 
 namespace App\Core\Entity\Site\Page;
 
+use App\Core\File\FileAttribute;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
 
@@ -12,17 +13,7 @@ class FileBlock extends Block
 {
     public function getValue()
     {
-        $value = parent::getValue();
-
-        if (is_string($value)) {
-            if (file_exists($value)) {
-                return new File($value);
-            }
-
-            return null;
-        }
-
-        return $value;
+        return FileAttribute::handleFile(parent::getValue());
     }
 
     public function setValue($value): self

@@ -11,6 +11,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\HttpFoundation\File\File;
+use App\Core\File\FileAttribute;
 
 /**
  * @ORM\Entity(repositoryClass=PageRepository::class)
@@ -229,15 +230,7 @@ class Page implements EntityInterface
 
     public function getOgImage()
     {
-        if (is_string($this->ogImage)) {
-            if (file_exists($this->ogImage)) {
-                return new File($this->ogImage);
-            }
-
-            return null;
-        }
-
-        return $this->ogImage;
+        return FileAttribute::handleFile($this->ogImage);
     }
 
     public function setOgImage($ogImage): self
