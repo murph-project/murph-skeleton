@@ -215,6 +215,8 @@ class FsFileManager
         if ($file) {
             $filesystem = new Filesystem();
             $filesystem->remove($file);
+
+            return true;
         }
 
         return false;

@@ -10,7 +10,7 @@
                 </li>
             </ol>
 
-            <ol v-if="['crud'].indexOf(context) > -1" class="breadcrumb mb-0 float-right file-manager-actions">
+            <ol class="breadcrumb mb-0 float-right file-manager-actions">
                 <li class="breadcrumb-item">
                     <span class="fa fa-upload text-primary" v-bind:data-modal="generateUploadLink(directory)"></span>
                     <span class="fa fa-folder-plus text-primary" v-bind:data-modal="generateNewDirectoryLink(directory)"></span>
@@ -60,7 +60,7 @@
                     </div>
                 </div>
             </div>
-            <div v-for="item in files" class="card mt-3 ml-3 mb-3 border-0" v-bind:data-modal="generateInfoLink(item, null, context)">
+            <div v-for="item in files" class="card mt-3 ml-3 mb-3 border-0" v-on:click="modalUrl = generateInfoLink(item, null, context)" v-bind:data-modal="generateInfoLink(item, null, context)">
                 <div class="card-body p-2">
                     <div class="card-text">
                         <div class="text-center">
@@ -112,7 +112,7 @@
                     <td width="10">
                         <FileIcon v-bind:mime="item.mime" />
                     </td>
-                    <td v-bind:data-modal="generateInfoLink(item, null, context)">
+                    <td v-on:click="modalUrl = generateInfoLink(item, null, context)" v-bind:data-modal="generateInfoLink(item, null, context)">
                         <div v-if="item.locked" class="float-right">
                             <span class="btn btn-sm btn-light">
                                 <span class="fa fa-lock"></span>
@@ -166,6 +166,7 @@ import Routing from '../../../../../vendor/friendsofsymfony/jsrouting-bundle/Res
 import FileIcon from './FileIcon'
 
 const axios = require('axios').default
+const $ = require('jquery')
 const routes = require('../../../../../public/js/fos_js_routes.json')
 
 Routing.setRoutingData(routes)
@@ -188,11 +189,16 @@ export default {
       directories: [],
       breadcrumb: [],
       files: [],
-      parent: null
+      parent: null,
+      modalUrl: null,
+      ajax: 0,
     }
   },
   methods: {
     setDirectory (directory) {
+      if (!directory) {
+        directory = '/'
+      }
       this.directory = directory
     },
     setView (view) {
@@ -204,23 +210,27 @@ export default {
       if (directory) {
         return Routing.generate('admin_file_manager_info', {
           file: item.path,
-          context: context
+          context: context,
+          ajax: this.ajax
         })
       } else {
         return Routing.generate('admin_file_manager_info', {
           file: item.path + '/' + item.basename,
-          context: context
+          context: context,
+          ajax: this.ajax
         })
       }
     },
     generateUploadLink (directory) {
       return Routing.generate('admin_file_manager_upload', {
-        file: directory
+        file: directory,
+        ajax: this.ajax
       })
     },
     generateNewDirectoryLink (directory) {
       return Routing.generate('admin_file_manager_directory_new', {
-        file: directory
+        file: directory,
+        ajax: this.ajax
       })
     },
     buildBreadcrum (elements) {
@@ -244,6 +254,33 @@ export default {
           })
         }
       }
+    },
+    refresh () {
+      const that = this
+
+      axios.get(Routing.generate('admin_file_manager_api_directory', {
+        directory: that.directory,
+        context: that.context,
+        ajax: this.ajax,
+      }))
+        .then((response) => {
+          that.buildBreadcrum(response.data.breadcrumb)
+          that.parent = response.data.parent
+          that.directories = response.data.directories
+          that.files = response.data.files
+
+          const query = new URLSearchParams(window.location.search)
+          query.set('path', that.directory)
+
+          history.pushState(
+            null,
+            '',
+            window.location.pathname + '?' + query.toString()
+          )
+        })
+        .catch((e) => {
+          alert('An error occured')
+        })
     }
   },
   mounted () {
@@ -260,31 +297,27 @@ export default {
     } else {
       this.setDirectory('/')
     }
+
+    this.ajax = (['crud'].indexOf(this.context) === -1 ? 1 : 0)
+
+    const body = $('body')
+    const events = ['file_manager.file.new', 'file_manager.directory.new', 'file_manager.directory.rename']
+    const that = this
+
+    $(events).each((k, event) => {
+      body.on(event + '.success', () => {
+        $('#modal-container').modal('hide')
+        that.refresh()
+      })
+    })
+
+    body.on('file_manager.info.update.success', () => {
+      $('*[data-modal="' + that.modalUrl + '"]').click()
+    })
   },
   watch: {
     directory (directory) {
-      axios.get(Routing.generate('admin_file_manager_api_directory', {
-        directory: this.directory,
-        context: this.context
-      }))
-        .then((response) => {
-          this.buildBreadcrum(response.data.breadcrumb)
-          this.parent = response.data.parent
-          this.directories = response.data.directories
-          this.files = response.data.files
-
-          const query = new URLSearchParams(window.location.search)
-          query.set('path', directory)
-
-          history.pushState(
-            null,
-            '',
-            window.location.pathname + '?' + query.toString()
-          )
-        })
-        .catch(() => {
-          alert('An error occured')
-        })
+      this.refresh()
     }
   }
 }

@@ -12,6 +12,7 @@ use App\Core\Manager\EntityManager;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * @Route("/admin/file_manager")
@@ -37,14 +38,16 @@ class FileManagerAdminController extends AdminController
     }
 
     /**
-     * @Route("/info/{tab}/{context}", name="admin_file_manager_info", options={"expose"=true})
+     * @Route("/info/{tab}/{context}/{ajax}", name="admin_file_manager_info", options={"expose"=true})
      */
     public function info(
         FsFileManager $manager,
         Request $request,
         EntityManager $entityManager,
+        TranslatorInterface $translator,
         string $context = 'crud',
-        string $tab = 'information'
+        string $tab = 'information',
+        bool $ajax = false
     ): Response {
         $splInfo = $manager->getSplInfo($request->query->get('file'));
 
@@ -63,9 +66,27 @@ class FileManagerAdminController extends AdminController
             if ($form->isValid()) {
                 $entityManager->update($fileInfo);
 
-                $this->addFlash('success', 'The data has been saved.');
+                if (!$request->isXmlHttpRequest()) {
+                    $this->addFlash('success', 'The data has been saved.');
+                } else {
+                    return $this->json([
+                        '_error' => 0,
+                        '_message' => $translator->trans('The data has been saved.'),
+                        '_level' => 'success',
+                        '_dispatch' => 'file_manager.info.update.success',
+                    ]);
+                }
             } else {
-                $this->addFlash('warning', 'The form is not valid.');
+                if (!$request->isXmlHttpRequest()) {
+                    $this->addFlash('warning', 'The form is not valid.');
+                } else {
+                    return $this->json([
+                        '_error' => 1,
+                        '_message' => $translator->trans('The form is not valid.'),
+                        '_level' => 'warning',
+                        '_dispatch' => 'file_manager.info.update.error',
+                    ]);
+                }
             }
 
             return $this->redirectToRoute('admin_file_manager_index', [
@@ -84,13 +105,14 @@ class FileManagerAdminController extends AdminController
             'tab' => $tab,
             'form' => $form->createView(),
             'context' => $context,
+            'ajax' => $ajax,
         ]);
     }
 
     /**
-     * @Route("/directory/new", name="admin_file_manager_directory_new", options={"expose"=true}, methods={"GET", "POST"})
+     * @Route("/directory/new/{ajax}", name="admin_file_manager_directory_new", options={"expose"=true}, methods={"GET", "POST"})
      */
-    public function directoryNew(FsFileManager $manager, Request $request): Response
+    public function directoryNew(FsFileManager $manager, Request $request, TranslatorInterface $translator, bool $ajax = false): Response
     {
         $splInfo = $manager->getSplInfo($request->query->get('file'));
 
@@ -116,9 +138,27 @@ class FileManagerAdminController extends AdminController
                 $status = $manager->createDirectory($form->get('name')->getData(), $request->query->get('file'));
 
                 if (true === $status) {
-                    $this->addFlash('success', 'Directory created.');
+                    if (!$request->isXmlHttpRequest()) {
+                        $this->addFlash('success', 'Directory created.');
+                    } else {
+                        return $this->json([
+                            '_error' => 0,
+                            '_message' => $translator->trans('Directory created.'),
+                            '_level' => 'success',
+                            '_dispatch' => 'file_manager.directory.new.success',
+                        ]);
+                    }
                 } else {
-                    $this->addFlash('warning', 'Directory not created.');
+                    if (!$request->isXmlHttpRequest()) {
+                        $this->addFlash('warning', 'Directory not created.');
+                    } else {
+                        return $this->json([
+                            '_error' => 1,
+                            '_message' => $translator->trans('Directory not created.'),
+                            '_level' => 'warning',
+                            '_dispatch' => 'file_manager.directory.new.error',
+                        ]);
+                    }
                 }
             } else {
                 $this->addFlash('warning', 'Unauthorized char(s).');
@@ -132,14 +172,15 @@ class FileManagerAdminController extends AdminController
         return $this->render('@Core/file_manager/directory_new.html.twig', [
             'form' => $form->createView(),
             'file' => $request->query->get('file'),
+            'ajax' => $ajax,
             'locked' => false,
         ]);
     }
 
     /**
-     * @Route("/directory/rename", name="admin_file_manager_directory_rename", methods={"GET", "POST"})
+     * @Route("/directory/rename/{ajax}", name="admin_file_manager_directory_rename", methods={"GET", "POST"})
      */
-    public function directoryRename(FsFileManager $manager, Request $request): Response
+    public function directoryRename(FsFileManager $manager, Request $request, TranslatorInterface $translator, bool $ajax = false): Response
     {
         $splInfo = $manager->getSplInfo($request->query->get('file'));
 
@@ -166,9 +207,27 @@ class FileManagerAdminController extends AdminController
                 $status = $manager->renameDirectory($form->get('name')->getData(), $request->query->get('file'));
 
                 if (true === $status) {
-                    $this->addFlash('success', 'Directory renamed.');
+                    if (!$request->isXmlHttpRequest()) {
+                        $this->addFlash('success', 'Directory renamed.');
+                    } else {
+                        return $this->json([
+                            '_error' => 0,
+                            '_message' => $translator->trans('Directory renamed.'),
+                            '_level' => 'success',
+                            '_dispatch' => 'file_manager.directory.rename.success',
+                        ]);
+                    }
                 } else {
-                    $this->addFlash('warning', 'Directory not renamed.');
+                    if (!$request->isXmlHttpRequest()) {
+                        $this->addFlash('warning', 'Directory not renamed.');
+                    } else {
+                        return $this->json([
+                            '_error' => 1,
+                            '_message' => $translator->trans('Directory not renamed.'),
+                            '_level' => 'warning',
+                            '_dispatch' => 'file_manager.directory.rename.error',
+                        ]);
+                    }
                 }
             } else {
                 $this->addFlash('warning', 'Unauthorized char(s).');
@@ -183,13 +242,14 @@ class FileManagerAdminController extends AdminController
             'form' => $form->createView(),
             'file' => $request->query->get('file'),
             'locked' => false,
+            'ajax' => $ajax,
         ]);
     }
 
     /**
-     * @Route("/upload", name="admin_file_manager_upload", options={"expose"=true}, methods={"GET", "POST"})
+     * @Route("/upload/{ajax}", name="admin_file_manager_upload", options={"expose"=true}, methods={"GET", "POST"})
      */
-    public function upload(FsFileManager $manager, Request $request): Response
+    public function upload(FsFileManager $manager, Request $request, TranslatorInterface $translator, bool $ajax = false): Response
     {
         $splInfo = $manager->getSplInfo($request->query->get('file'));
 
@@ -216,9 +276,27 @@ class FileManagerAdminController extends AdminController
             if ($form->isValid()) {
                 $manager->upload($form->get('files')->getData(), $request->query->get('file'));
 
-                $this->addFlash('success', 'Files uploaded.');
+                if (!$request->isXmlHttpRequest()) {
+                    $this->addFlash('success', 'Files uploaded.');
+                } else {
+                    return $this->json([
+                        '_error' => 0,
+                        '_message' => $translator->trans('Files uploaded.'),
+                        '_level' => 'success',
+                        '_dispatch' => 'file_manager.file.new.success',
+                    ]);
+                }
             } else {
-                $this->addFlash('warning', 'Unauthorized file type(s).');
+                if (!$request->isXmlHttpRequest()) {
+                    $this->addFlash('warning', 'Unauthorized file type(s).');
+                } else {
+                    return $this->json([
+                        '_error' => 1,
+                        '_message' => $translator->trans('Unauthorized file type(s).'),
+                        '_level' => 'warning',
+                        '_dispatch' => 'file_manager.file.new.error',
+                    ]);
+                }
             }
 
             return $this->redirectToRoute('admin_file_manager_index', [
@@ -230,6 +308,7 @@ class FileManagerAdminController extends AdminController
             'form' => $form->createView(),
             'file' => $request->query->get('file'),
             'locked' => false,
+            'ajax' => $ajax,
         ]);
     }
 

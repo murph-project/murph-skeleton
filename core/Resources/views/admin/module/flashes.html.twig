@@ -1,51 +1,49 @@
 {% set flashes = app.flashes %}
 
-{% if flashes|length %}
-    {% set colors = {
-        'info': 'text-body',
-        'notice': 'text-body',
-        'success': 'text-success font-weight-bold',
-        'warning': 'text-warning font-weight-bold',
-        'danger': 'text-danger font-weight-bold',
-        'error': 'text-danger font-weight-bold',
-    } %}
+{% set colors = {
+    'info': 'text-body',
+    'notice': 'text-body',
+    'success': 'text-success font-weight-bold',
+    'warning': 'text-warning font-weight-bold',
+    'danger': 'text-danger font-weight-bold',
+    'error': 'text-danger font-weight-bold',
+} %}
 
-    {% set titles = {
-        'notice': 'Information',
-        'info': 'Information',
-        'success': 'Success',
-        'warning': 'Warning',
-        'danger': 'Danger',
-        'error': 'Error',
-    } %}
+{% set titles = {
+    'notice': 'Information',
+    'info': 'Information',
+    'success': 'Success',
+    'warning': 'Warning',
+    'danger': 'Danger',
+    'error': 'Error',
+} %}
 
-    {% set borders = {
-        'notice': '',
-        'info': 'border border-primary',
-        'success': 'border border-success',
-        'warning': 'border border-warning',
-        'danger': 'border border-danger',
-        'error': 'border border-danger',
-    } %}
+{% set borders = {
+    'notice': '',
+    'info': 'border border-primary',
+    'success': 'border border-success',
+    'warning': 'border border-warning',
+    'danger': 'border border-danger',
+    'error': 'border border-danger',
+} %}
 
-    <div aria-live="polite" aria-atomic="true" class="toast-container">
-        <div class="toast-wrapper">
-            {% for label, messages in flashes %}
-                {% for message in messages %}
-                    <div class="toast {{ borders[label] }}" role="alert" aria-live="assertive" aria-atomic="true">
-                        <div class="toast-header">
-                            <strong class="mr-auto">{{ titles[label]|trans }}</strong>
-                            <small>{{ 'now'|date('H:i') }}</small>
-                            <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="toast-body text-{{ colors[label] }}">
-                            {{ message|trans|nl2br }}
-                        </div>
+<div aria-live="polite" aria-atomic="true" class="toast-container">
+    <div class="toast-wrapper" id="toast-wrapper-main">
+        {% for label, messages in flashes %}
+            {% for message in messages %}
+                <div class="toast {{ borders[label] }}" role="alert" aria-live="assertive" aria-atomic="true">
+                    <div class="toast-header">
+                        <strong class="mr-auto">{{ titles[label]|trans }}</strong>
+                        <small>{{ 'now'|date('H:i') }}</small>
+                        <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
                     </div>
-                {% endfor %}
+                    <div class="toast-body text-{{ colors[label] }}">
+                        {{ message|trans|nl2br }}
+                    </div>
+                </div>
             {% endfor %}
-        </div>
+        {% endfor %}
     </div>
-{% endif %}
+</div>

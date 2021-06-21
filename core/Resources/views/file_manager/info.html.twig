@@ -18,11 +18,13 @@
                     </a>
                 </li>
 
-                <li class="nav-item" role="presentation">
-                    <a class="nav-link {% if tab == 'attributes' %}active{% endif %}" data-toggle="tab" href="#tab-fm-attributes">
-                        {{ 'Attributes'|trans }}
-                    </a>
-                </li>
+                {% if splInfo.isFile %}
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link {% if tab == 'attributes' %}active{% endif %}" data-toggle="tab" href="#tab-fm-attributes">
+                            {{ 'Attributes'|trans }}
+                        </a>
+                    </li>
+                {% endif %}
 
                 {% if splInfo.extension in ['jpeg', 'jpg', 'gif', 'png', 'svg'] %}
                     <li class="nav-item" role="presentation">
@@ -69,33 +71,9 @@
                     </ul>
                 </div>
 
-                <div class="tab-pane {% if tab == 'attributes' %}show active{% endif %}" id="tab-fm-attributes">
-                    {% if context == 'tinymce' %}
-                        <div class="accordion mb-3" id="fm-attributes">
-                            {% for item in form.attributes %}
-                                <div class="card">
-                                    <div class="card-header p-0">
-                                        <span class="btn btn-link btn-block text-left" data-toggle="collapse" data-target="#fm-attribute-{{ loop.index }}">
-                                            {{ item.vars.data.label }}
-                                        </span>
-                                    </div>
-                                    <div class="collapse" data-parent="#fm-attributes" id="fm-attribute-{{ loop.index }}">
-                                        <div class="card-body">
-                                            <div>{{ 'Value'|trans }}</div>
-                                            <code>{{ item.vars.data.value }}</code>
-
-                                            {% set code = 'fattr://' ~ form.vars.data.id ~ '/' ~ item.vars.data.label %}
-                                            {% set code = '{{' ~ code ~ '}}' %}
-
-                                            <div class="mt-1">{{ 'Tag to insert in content'|trans }}</div>
-                                            <code>{{ code }}</code>
-                                        </div>
-                                    </div>
-                                </div>
-                            {% endfor %}
-                        </div>
-                    {% else %}
-                        <form method="post" action="{{ path('admin_file_manager_info', {tab: 'attributes', file: splInfo.relativePathname}) }}" id="form-fm-attributes">
+                {% if splInfo.isFile %}
+                    <div class="tab-pane {% if tab == 'attributes' %}show active{% endif %}" id="tab-fm-attributes">
+                        <form method="post" action="{{ path('admin_file_manager_info', {tab: 'attributes', file: splInfo.relativePathname}) }}" id="form-fm-attributes" {% if ajax %}data-form-ajax{% endif %}>
                             <div class="accordion mb-3" data-collection="collection-fm-attributes" id="form-fm-attributes-collection">
                                 {% for item in form.attributes %}
                                     <div class="card" data-collection-item="{{ loop.index }}">
@@ -137,8 +115,8 @@
 
                             {{ form_row(form._token) }}
                         </form>
-                    {% endif %}
-                </div>
+                    </div>
+                {% endif %}
 
                 {% if splInfo.extension in ['jpeg', 'jpg', 'gif', 'png', 'svg'] %}
                     <div class="tab-pane {% if tab == 'preview' %}show active{% endif %}" id="tab-fm-preview">
@@ -157,9 +135,12 @@
             {% if context == 'tinymce' %}
                 <div>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ 'Close'|trans }}</button>
+
                     {% if splInfo.isFile %}
-                        <button type="button" class="btn btn-primary" id="file-manager-insert" data-value="{{ asset(path) }}">{{ 'Insert'|trans }}</button>
+                        <button type="submit" class="btn btn-primary" form="form-fm-attributes">{{ 'Save'|trans }}</button>
+                        <button type="button" class="btn btn-success ml-3" id="file-manager-insert" data-value="{{ asset(path) }}">{{ 'Insert'|trans }}</button>
                     {% endif %}
+
                 </div>
             {% else %}
                 <div>

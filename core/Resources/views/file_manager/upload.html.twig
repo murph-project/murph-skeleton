@@ -18,7 +18,7 @@
                     {{ 'Directory locked.'|trans }}
                 </p>
             {% else %}
-                <form action="{{ path('admin_file_manager_upload', {file: file}) }}" id="form-file-manager-upload" method="POST" enctype="multipart/form-data">
+                <form action="{{ path('admin_file_manager_upload', {file: file}) }}" {% if ajax %}data-form-ajax{% endif %} id="form-file-manager-upload" method="POST" enctype="multipart/form-data">
                     {{ include('@Core/file_manager/_form.html.twig') }}
                 </form>
             {% endif %}
