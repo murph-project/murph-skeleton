@@ -113,6 +113,61 @@
     </template>
 {% endblock %}
 
+{% block file_picker_widget %}
+    <div class="form-filepicker">
+        {% set value = form.vars.data %}
+
+        <div class="card">
+            {% if value %}
+                {% if value.extension is defined and value.extension in ['jpeg', 'jpg', 'gif', 'png', 'svg'] %}
+                    <div class="card-img-top bg-tiles text-center">
+                        <a href="{{ asset(value.pathname) }}" target="_blank">
+                            <img src="{{ asset(value.pathname) }}" class="img-fluid">
+                        </a>
+                    </div>
+                {% else %}
+                    {% for extension in ['.jpeg', '.jpg', '.gif', '.png', '.svg'] %}
+                        {% if value ends with extension %}
+                            <div class="card-img-top bg-tiles text-center">
+                                <a href="{{ asset(value) }}" target="_blank">
+                                    <img src="{{ asset(value) }}" class="img-fluid">
+                                </a>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+            {% endif %}
+
+            <div class="card-body">
+                <div class="d-none">
+                    {{- form_widget(form) -}}
+                </div>
+
+                <div class="p-2 text-center">
+                    <span class="form-filepicker-container">
+                        <input class="form-control form-filepicker-picker mb-3" data-target="{{ id }}" readonly type="text" value="{{ value }}">
+                        <span class="btn btn-primary form-filepicker-picker" data-target="{{ id }}">
+                            {{ 'Choose'|trans }}
+                        </span>
+                    </span>
+
+                    {% if value %}
+                        {% if value.pathname is defined %}
+                            <a class="btn btn-success ml-1" href="{{ asset(value.pathname) }}" target="_blank">
+                                {{ 'Download'|trans }}
+                            </a>
+                        {% else %}
+                            <a class="btn btn-success ml-1" href="{{ asset(value) }}" target="_blank">
+                                {{ 'Download'|trans }}
+                            </a>
+                        {% endif %}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
 {% block form_row -%}
     {%- set widget_attr = {} -%}
 

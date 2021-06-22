@@ -2,12 +2,12 @@ const $ = require('jquery')
 const Vue = require('vue').default
 const FileManager = require('../components/file-manager/FileManager').default
 
-const createModal = function (url) {
-  let container = $('#file-manager-modal-container')
+const createModal = function () {
+  let container = $('#fm-modal')
   const body = $('body')
 
   if (!container.length) {
-    container = $('<div id="file-manager-modal-container" class="modal">')
+    container = $('<div id="fm-modal" class="modal">')
 
     body.append(container)
   }
@@ -16,7 +16,7 @@ const createModal = function (url) {
 <div class="modal-dialog modal-dialog-large">
     <div class="modal-content">
         <div class="modal-body">
-            <div id="file-manager-modal-content">
+            <div id="fm-modal-content">
             </div>
         </div>
         <div class="modal-footer">
@@ -34,14 +34,18 @@ const createModal = function (url) {
 const fileManagerBrowser = function (callback) {
   const container = createModal()
 
-  $('body').on('click', '#file-manager-insert', (e) => {
+  const clickCallback = (e) => {
     callback($(e.target).attr('data-value'), {})
     $('#modal-container').modal('hide')
     container.modal('hide')
-  })
+
+    $('body').off('click', '#file-manager-insert', clickCallback)
+  }
+
+  $('body').on('click', '#file-manager-insert', clickCallback)
 
   new Vue({
-    el: '#file-manager-modal-content',
+    el: '#fm-modal-content',
     template: '<FileManager context="tinymce" />',
     components: {
       FileManager
