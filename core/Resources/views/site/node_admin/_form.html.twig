@@ -188,12 +188,12 @@
 
                     <ul class="list-group">
                         <li class="list-group-item">
-                            <div>{{ 'Route name'|trans }}</div>
-                            <code>{{ entity.routeName }}</code>
+                            <label>{{ 'Route name'|trans }}</label><br>
+                            <input class="form-control" type="text" readonly value="{{ entity.routeName }}" />
                         </li>
                         <li class="list-group-item">
-                            <div>{{ 'Tag to insert in content'|trans }}</div>
-                            <code>{{ code }}</code>
+                            <label>{{ 'Tag to insert in content'|trans }}</label><br>
+                            <input class="form-control" type="text" readonly value="{{ code }}" />
                         </li>
                     </ul>
                 </p>

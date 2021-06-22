@@ -90,9 +90,8 @@
                                                 {% set code = 'fattr://' ~ form.vars.data.id ~ '/' ~ item.vars.data.label %}
                                                 {% set code = '{{' ~ code ~ '}}' %}
 
-                                                <div>{{ 'Tag to insert in content'|trans }}</div>
-                                                <code>{{ code }}</code>
-
+                                                <label>{{ 'Tag to insert in content'|trans }}</label><br>
+                                                <input class="form-control" type="text" readonly value="{{ code }}" />
 
                                                 <div class="text-right">
                                                     <span data-collection-delete-container class="btn btn-sm btn-danger">
