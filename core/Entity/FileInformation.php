@@ -13,7 +13,7 @@ class FileInformation implements EntityInterface
     /**
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="NONE")
-     * @ORM\Column(type="string", length=255, unique=true)
+     * @ORM\Column(type="string", length=96, unique=true)
      */
     protected $id;
 
