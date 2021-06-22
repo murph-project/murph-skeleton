@@ -131,8 +131,24 @@
                 {% endif %}
             </div>
         </div>
-        <div class="modal-footer {% if context != 'tinymce' %}justify-content-between{% endif %}">
+        <div class="modal-footer justify-content-between">
             {% if context == 'tinymce' %}
+                {% if not isLocked %}
+                    {% if splInfo.isDir %}
+                        <button form="form-file-delete" class="btn btn-primary" data-modal="{{ path('admin_file_manager_directory_rename', {file: splInfo.relativePathname, ajax: ajax}) }}">
+                            {{ 'Rename'|trans }}
+                        </button>
+                    {% else %}
+                        <span></span>
+                    {% endif %}
+                {% else %}
+                    <div>
+                        <span class="btn btn-light">
+                            <span class="fa fa-lock"></span>
+                        </span>
+                    </div>
+                {% endif %}
+
                 <div>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ 'Close'|trans }}</button>
 
@@ -154,7 +170,6 @@
                                 {{ 'Rename'|trans }}
                             </button>
                         {% endif %}
-
                     {% else %}
                         <span class="btn btn-light">
                             <span class="fa fa-lock"></span>

@@ -77,6 +77,7 @@ class FsFileManager
             $data['directories'][] = [
                 'basename' => $file->getBasename(),
                 'path' => $directory.'/'.$file->getBasename(),
+                'webPath' => $this->pathUri.'/'.$directory.'/'.$file->getBasename(),
                 'locked' => $this->isLocked($directory.'/'.$file->getBasename()),
                 'mime' => null,
             ];
@@ -89,6 +90,7 @@ class FsFileManager
             $data['files'][] = [
                 'basename' => $file->getBasename(),
                 'path' => $directory,
+                'webPath' => $this->pathUri.'/'.$directory.'/'.$file->getBasename(),
                 'locked' => $this->isLocked($directory.'/'.$file->getBasename()),
                 'mime' => mime_content_type($file->getRealPath()),
             ];

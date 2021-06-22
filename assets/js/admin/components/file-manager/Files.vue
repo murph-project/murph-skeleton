@@ -65,7 +65,7 @@
                     <div class="card-text">
                         <div class="text-center">
                             <div class="display-4 text-muted">
-                                <FileIcon v-bind:mime="item.mime" />
+                                <FileIcon v-bind:mime="item.mime" v-bind:path="item.webPath" v-bind:thumb="true" />
                             </div>
 
                             <div v-if="item.locked" class="file-manager-grid-lock">
@@ -110,7 +110,7 @@
                 </tr>
                 <tr v-for="item in files">
                     <td width="10">
-                        <FileIcon v-bind:mime="item.mime" />
+                        <FileIcon v-bind:mime="item.mime" v-bind:path="item.webPath" v-bind:thumb="false" />
                     </td>
                     <td v-on:click="modalUrl = generateInfoLink(item, null, context)" v-bind:data-modal="generateInfoLink(item, null, context)">
                         <div v-if="item.locked" class="float-right">
@@ -191,7 +191,7 @@ export default {
       files: [],
       parent: null,
       modalUrl: null,
-      ajax: 0,
+      ajax: 0
     }
   },
   methods: {
@@ -261,7 +261,7 @@ export default {
       axios.get(Routing.generate('admin_file_manager_api_directory', {
         directory: that.directory,
         context: that.context,
-        ajax: this.ajax,
+        ajax: this.ajax
       }))
         .then((response) => {
           that.buildBreadcrum(response.data.breadcrumb)

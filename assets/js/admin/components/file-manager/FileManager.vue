@@ -20,7 +20,7 @@ export default {
     context: {
       type: String,
       required: true,
-      default: 'crud',
+      default: 'crud'
     }
   },
   components: {
