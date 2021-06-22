@@ -6,6 +6,9 @@
 </template>
 
 <style scoped>
+img {
+    max-width: 120px;
+}
 </style>
 
 <script>
@@ -45,6 +48,11 @@ export default {
       this.icon = 'fa fa-file'
     },
     defineThumbnail () {
+      if (['image/svg', 'image/svg+xml'].indexOf(this.mime) !== -1) {
+        this.thumbnail = '/' + this.path
+        return
+      }
+
       if (['image/png', 'image/jpg', 'image/jpeg', 'image/gif'].indexOf(this.mime) === -1) {
         return
       }
