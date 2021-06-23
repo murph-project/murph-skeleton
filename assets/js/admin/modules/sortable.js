@@ -6,7 +6,7 @@ module.exports = () => {
     const element = $(list)
     const route = element.attr('data-sortable-route')
 
-    new Sortable(list, {
+    return new Sortable(list, {
       handle: '*[data-sortable-item]',
       sort: true,
       animation: 150,
@@ -25,7 +25,7 @@ module.exports = () => {
 
         $.post(route, datas)
           .always((data) => {
-            document.location.href = document.location.href
+            document.location.reload()
           })
       }
     })

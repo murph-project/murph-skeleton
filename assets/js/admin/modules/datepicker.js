@@ -10,6 +10,12 @@ const isDateSupported = () => {
   return input.value !== value
 }
 
+const createDatePicker = (input) => {
+  return new Datepicker.Datepicker(input, {
+    format: 'yyyy-mm-dd'
+  })
+}
+
 module.exports = () => {
   if (isDateSupported()) {
     return
@@ -18,9 +24,7 @@ module.exports = () => {
   const inputs = document.querySelectorAll('input[type="date"]')
   const size = inputs.length
 
-  for (let i = 0, c = inputs.length; i < c; i++) {
-    new Datepicker.Datepicker(inputs[i], {
-      format: 'yyyy-mm-dd'
-    })
+  for (let i = 0, c = size; i < c; i++) {
+    createDatePicker(inputs[i])
   }
 }

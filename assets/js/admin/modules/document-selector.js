@@ -2,7 +2,6 @@ const $ = require('jquery')
 
 const DocumentSelector = () => {
   const forms = $('.document-selector-form')
-  const btnSubmit = $('#download-archive-form button')
 
   const handler = function () {
     forms.each((fi, f) => {

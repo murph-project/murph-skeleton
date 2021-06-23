@@ -7,7 +7,6 @@ module.exports = function () {
     const target = e.target
     const form = $(target)
     const data = new FormData(target)
-    const type = form.attr('enctype')
     const method = form.attr('method')
     const files = form.find('input[type=file]')
 
@@ -22,11 +21,11 @@ module.exports = function () {
       contentType: false,
       type: method || 'GET',
       success: function (data) {
-        if (data.hasOwnProperty('_dispatch')) {
+        if (Object.prototype.hasOwnProperty.call(data, '_dispatch')) {
           $('body').trigger(data._dispatch)
         }
 
-        if (data.hasOwnProperty('_message') && data.hasOwnProperty('_level')) {
+        if (Object.prototype.hasOwnProperty.call(data, '_message') && Object.prototype.hasOwnProperty.call(data, '_level')) {
           const message = data._message
           const level = data._level
           const titles = {

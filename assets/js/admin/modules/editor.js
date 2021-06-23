@@ -44,7 +44,7 @@ const fileManagerBrowser = function (callback) {
 
   $('body').on('click', '#file-manager-insert', clickCallback)
 
-  new Vue({
+  return new Vue({
     el: '#fm-modal-content',
     template: '<FileManager context="tinymce" />',
     components: {
@@ -53,10 +53,10 @@ const fileManagerBrowser = function (callback) {
   })
 }
 
-if (typeof tinymce !== 'undefined') {
-  tinymce.murph = tinymce.murph || {}
-  tinymce.murph.selector = tinymce.murph.selector || '*[data-tinymce]'
-  tinymce.murph.configurationBase = tinymce.murph.configurationBase || {
+if (typeof window.tinymce !== 'undefined') {
+  window.tinymce.murph = window.tinymce.murph || {}
+  window.tinymce.murph.selector = window.tinymce.murph.selector || '*[data-tinymce]'
+  window.tinymce.murph.configurationBase = window.tinymce.murph.configurationBase || {
     base_url: '/vendor/tinymce/',
     cache_suffix: '?v=4.1.6',
     importcss_append: true,
@@ -70,18 +70,18 @@ if (typeof tinymce !== 'undefined') {
     file_picker_types: 'image',
     init_instance_callback: function (editor) {
       editor.on('SetContent', () => {
-        tinymce.triggerSave(false, true)
+        window.tinymce.triggerSave(false, true)
       })
 
       editor.on('Change', () => {
-        tinymce.triggerSave(false, true)
+        window.tinymce.triggerSave(false, true)
       })
     }
   }
 
-  tinymce.murph.modes = tinymce.murph.modes || {}
+  window.tinymce.murph.modes = window.tinymce.murph.modes || {}
 
-  tinymce.murph.modes.default = tinymce.murph.modes.default || {
+  window.tinymce.murph.modes.default = window.tinymce.murph.modes.default || {
     plugins: 'print preview importcss searchreplace visualblocks visualchars fullscreen template table charmap hr pagebreak nonbreaking toc insertdatetime advlist lists wordcount textpattern noneditable help charmap quickbars link image code autoresize',
     menubar: 'file edit view insert format tools table tc help',
     toolbar: 'undo redo | bold italic underline strikethrough | link image | fontselect fontsizeselect formatselect | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist checklist | forecolor backcolor casechange permanentpen formatpainter removeformat | pagebreak | charmap | fullscreen preview',
@@ -89,7 +89,7 @@ if (typeof tinymce !== 'undefined') {
     contextmenu: 'link image imagetools table configurepermanentpen'
   }
 
-  tinymce.murph.modes.light = tinymce.murph.modes.light || {
+  window.tinymce.murph.modes.light = window.tinymce.murph.modes.light || {
     contextmenu: 'link image imagetools table configurepermanentpen',
     quickbars_selection_toolbar: 'bold italic',
     toolbar: 'undo redo | bold italic underline'
@@ -97,7 +97,7 @@ if (typeof tinymce !== 'undefined') {
 }
 
 const buildConfiguration = (conf) => {
-  return Object.assign({}, tinymce.murph.configurationBase, conf)
+  return Object.assign({}, window.tinymce.murph.configurationBase, conf)
 }
 
 const makeId = () => {
@@ -113,7 +113,7 @@ const makeId = () => {
 }
 
 const doInitEditor = () => {
-  $(tinymce.murph.selector).each((i, v) => {
+  $(window.tinymce.murph.selector).each((i, v) => {
     const element = $(v)
     let id = null
 
@@ -130,15 +130,15 @@ const doInitEditor = () => {
       mode = 'default'
     }
 
-    if (!tinymce.murph.modes.hasOwnProperty(mode)) {
+    if (!Object.prototype.hasOwnProperty.call(window.tinymce.murph.modes, mode)) {
       return
     }
 
-    const conf = buildConfiguration(tinymce.murph.modes[mode])
+    const conf = buildConfiguration(window.tinymce.murph.modes[mode])
     conf.mode = 'exact'
     conf.elements = id
 
-    tinymce.init(conf)
+    window.tinymce.init(conf)
   })
 }
 

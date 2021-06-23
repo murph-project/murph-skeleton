@@ -17,7 +17,7 @@ module.exports = () => {
 
     $.post(route, datas)
       .always(() => {
-        document.location.href = document.location.href
+        document.location.reload()
       })
   })
 }

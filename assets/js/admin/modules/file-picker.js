@@ -44,7 +44,7 @@ const fileManagerBrowser = function (callback) {
 
   $('body').on('click', '#file-manager-insert', clickCallback)
 
-  new Vue({
+  return new Vue({
     el: '#fm-modal-content',
     template: '<FileManager context="tinymce" />',
     components: {

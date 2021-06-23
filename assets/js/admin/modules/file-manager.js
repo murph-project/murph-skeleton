@@ -7,7 +7,7 @@ module.exports = () => {
     return
   }
 
-  new Vue({
+  return new Vue({
     el: '#file-manager',
     template: '<FileManager context="crud" />',
     components: {
