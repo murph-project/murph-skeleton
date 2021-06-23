@@ -2,26 +2,26 @@
     <div>
         <nav aria-label="breadcrumb" class="d-flex justify-content-between">
             <ol class="breadcrumb mb-0">
-                <li class="breadcrumb-item" v-for="item in breadcrumb" :key="item.label">
+                <li class="breadcrumb-item" v-for="item in breadcrumb">
                     <a class="btn btn-sm" href="#" v-on:click="setDirectory(item.path)" v-html="item.label"></a>
                 </li>
             </ol>
 
             <div class="d-flex">
                 <div class="breadcrumb mb-0 file-manager-actions">
-                    <span class="btn btn-sm btn-primary ml-1">
+                    <span class="btn btn-sm btn-primary ml-1" v-bind:data-modal="generateUploadLink(directory)">
                         <span class="fa fa-upload" v-bind:data-modal="generateUploadLink(directory)"></span>
                     </span>
-                    <span class="btn btn-sm btn-primary ml-1">
+                    <span class="btn btn-sm btn-primary ml-1" v-bind:data-modal="generateNewDirectoryLink(directory)">
                         <span class="fa fa-folder-plus" v-bind:data-modal="generateNewDirectoryLink(directory)"></span>
                     </span>
                 </div>
 
                 <div class="breadcrumb mb-0 file-manager-views">
-                    <span class="btn btn-sm btn-dark ml-1">
+                    <span class="btn btn-sm btn-dark ml-1" v-on:click="setView('grid')">
                         <span class="fa fa-grip-horizontal" v-on:click="setView('grid')"></span>
                     </span>
-                    <span class="btn btn-sm btn-dark ml-1">
+                    <span class="btn btn-sm btn-dark ml-1" v-on:click="setView('list')">
                         <span class="fa fa-list" v-on:click="setView('list')"></span>
                     </span>
                 </div>
@@ -43,7 +43,7 @@
                 </div>
             </div>
 
-            <div v-for="item in directories" class="card mt-3 ml-3 mb-3 border-0" :key="item.path">
+            <div v-for="item in directories" class="card mt-3 ml-3 mb-3 border-0">
                 <div class="card-body p-2">
                     <div class="card-text" v-on:dblclick="setDirectory(item.path)" v-bind:data-modal="generateInfoLink(item, true, context)">
                         <div class="text-center">
@@ -64,7 +64,7 @@
                     </div>
                 </div>
             </div>
-            <div v-for="item in files" class="card mt-3 ml-3 mb-3 border-0" v-on:click="modalUrl = generateInfoLink(item, null, context)" v-bind:data-modal="generateInfoLink(item, null, context)" :key="item.path">
+            <div v-for="item in files" class="card mt-3 ml-3 mb-3 border-0" v-on:click="modalUrl = generateInfoLink(item, null, context)" v-bind:data-modal="generateInfoLink(item, null, context)">
                 <div class="card-body p-2">
                     <div class="card-text">
                         <div class="text-center">
@@ -98,7 +98,7 @@
                     </td>
                 </tr>
 
-                <tr v-for="item in directories" v-on:dblclick="setDirectory(item.path)" v-bind:data-modal="generateInfoLink(item, true, context)" :key="item.path">
+                <tr v-for="item in directories" v-on:dblclick="setDirectory(item.path)" v-bind:data-modal="generateInfoLink(item, true, context)">
                     <td width="10">
                         <span class="fa fa-folder text-warning"></span>
                     </td>
@@ -112,7 +112,7 @@
                         <span v-html="item.basename"></span>
                     </td>
                 </tr>
-                <tr v-for="item in files" :key="item.path">
+                <tr v-for="item in files">
                     <td width="10">
                         <FileIcon v-bind:mime="item.mime" v-bind:path="item.webPath" v-bind:thumb="false" />
                     </td>
