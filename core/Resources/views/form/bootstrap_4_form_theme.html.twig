@@ -146,18 +146,18 @@
                 <div class="p-2 text-center">
                     <span class="form-filepicker-container">
                         <input class="form-control form-filepicker-picker mb-3" data-target="{{ id }}" readonly type="text" value="{{ value }}">
-                        <span class="btn btn-primary form-filepicker-picker" data-target="{{ id }}">
+                        <span class="btn btn-sm btn-primary form-filepicker-picker" data-target="{{ id }}">
                             {{ 'Choose'|trans }}
                         </span>
                     </span>
 
                     {% if value %}
                         {% if value.pathname is defined %}
-                            <a class="btn btn-success ml-1" href="{{ asset(value.pathname) }}" target="_blank">
+                            <a class="btn btn-sm btn-success ml-1" href="{{ asset(value.pathname) }}" target="_blank">
                                 {{ 'Download'|trans }}
                             </a>
                         {% else %}
-                            <a class="btn btn-success ml-1" href="{{ asset(value) }}" target="_blank">
+                            <a class="btn btn-sm btn-success ml-1" href="{{ asset(value) }}" target="_blank">
                                 {{ 'Download'|trans }}
                             </a>
                         {% endif %}
