@@ -16,7 +16,7 @@
     <div class="tab-content">
         {% for locale in configuration.locales %}
             <div class="tab-pane {% if loop.first %}show active{% endif %}" id="form-locale-{{ loop.index }}">
-                {% for item in item.children[locale] %}
+                {% for item in form.children[locale] %}
                     {% if not item.isRendered %}
                         {% set doRender = true %}
                     {% endif %}
