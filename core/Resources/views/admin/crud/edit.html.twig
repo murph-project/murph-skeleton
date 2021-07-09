@@ -18,14 +18,14 @@
                             {% block header_actions_before %}{% endblock %}
 
                             {% if configuration.action(context, 'back', true) %}
-                                <a href="{{ path(configuration.pageRoute('index')) }}" class="btn btn-light">
+                                <a href="{{ path(configuration.pageRoute('index'), configuration.pageRouteParams('index')) }}" class="btn btn-light">
                                     <span class="fa fa-list pr-1"></span>
                                     {{ configuration.actionTitle(context, 'back', 'Back to the list')|trans }}
                                 </a>
                             {% endif %}
 
                             {% if configuration.action(context, 'show', true) %}
-                                <a href="{{ path(configuration.pageRoute('show'), {entity: entity.id}) }}" class="btn btn-secondary">
+                                <a href="{{ path(configuration.pageRoute('show'), {entity: entity.id}|merge(configuration.pageRouteParams('show'))) }}" class="btn btn-secondary">
                                     <span class="fa fa-eye pr-1"></span>
                                     {{ configuration.actionTitle(context, 'show', 'Show')|trans|build_string(entity) }}
                                 </a>
@@ -87,7 +87,7 @@
     {% endblock %}
 
     {% if configuration.action(context, 'delete', true) %}
-        <form method="post" action="{{ path(configuration.pageRoute('delete'), {entity: entity.id}) }}" id="form-delete" data-form-confirm>
+        <form method="post" action="{{ path(configuration.pageRoute('delete'), {entity: entity.id}|merge(configuration.pageRouteParams('delete'))) }}" id="form-delete" data-form-confirm>
             <input type="hidden" name="_method" value="DELETE">
             <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ entity.id) }}">
         </form>

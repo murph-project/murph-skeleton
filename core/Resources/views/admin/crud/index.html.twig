@@ -30,7 +30,7 @@
                             {% block header_actions_before %}{% endblock %}
 
                             {% if configuration.action(context, 'new', true) %}
-                                <a href="{{ path(configuration.pageRoute('new')) }}" class="btn btn-primary">
+                                <a href="{{ path(configuration.pageRoute('new'), configuration.pageRouteParams('new')) }}" class="btn btn-primary">
                                     <span class="fa fa-plus pr-1"></span>
                                     {{ configuration.actionTitle(context, 'new', 'New')|trans }}
                                 </a>
@@ -64,7 +64,7 @@
                 {% if filters.show %}
                     <div class="row pb-3">
                         <div class="col-auto ml-auto {% if pager.getPaginationData.pageCount > 1 %}mr-3{% endif %}">
-                            <button data-modal="{{ path(configuration.pageRoute('filter')) }}" class="btn btn-sm btn-secondary">
+                            <button data-modal="{{ path(configuration.pageRoute('filter'), configuration.pageRouteParams('filter')) }}" class="btn btn-sm btn-secondary">
                                 {{ 'Filter'|trans }} {% if not filters.isEmpty %}({{ 'yes'|trans }}){% endif %}
                             </button>
                         </div>
@@ -113,12 +113,12 @@
                                                     {% set url = path(configuration.getPageRoute(context), {
                                                         _sort: config.options.sort[0],
                                                         _sort_direction: newDirection,
-                                                    }) %}
+                                                    }|merge(configuration.pageRouteParams(context))) %}
                                                 {% else %}
                                                     {% set url = path(configuration.getPageRoute(context), {
                                                         _sort: config.options.sort[0],
                                                         _sort_direction: 'asc',
-                                                    }) %}
+                                                    }|merge(configuration.pageRouteParams(context))) %}
 
                                                     {% set icon = null %}
                                                 {% endif %}
@@ -155,7 +155,7 @@
                                 _token: csrf_token('sort'),
                                 page: pager.currentPageNumber,
                                 context: context,
-                            }
+                            }|merge(configuration.pageRouteParams('sort'))
                         ) ~ '"' %}
                     {% else %}
                         {% set dataSortable = '' %}
@@ -173,9 +173,9 @@
                             {% block list_item %}
                                 {%- set dbClick %}
                                     {% if configuration.action(context, 'show', true) %}
-                                        {{ path(configuration.pageRoute('show'), {entity: item.id}) }}
+                                        {{ path(configuration.pageRoute('show'), {entity: item.id}|merge(configuration.pageRouteParams('show'))) }}
                                     {% elseif configuration.action(context, 'edit', true) %}
-                                        {{ path(configuration.pageRoute('edit'), {entity: item.id}) }}
+                                        {{ path(configuration.pageRoute('edit'), {entity: item.id}|merge(configuration.pageRouteParams('show'))) }}
                                     {% endif %}
                                 {% endset -%}
 
@@ -209,13 +209,13 @@
                                         {% block list_item_actions_before %}{% endblock %}
 
                                         {% if configuration.action(context, 'show', true) %}
-                                            <a href="{{ path(configuration.pageRoute('show'), {entity: item.id}) }}" class="btn btn-sm btn-secondary mr-1">
+                                            <a href="{{ path(configuration.pageRoute('show'), {entity: item.id}|merge(configuration.pageRouteParams('show'))) }}" class="btn btn-sm btn-secondary mr-1">
                                                 <span class="fa fa-eye"></span>
                                             </a>
                                         {% endif %}
 
                                         {% if configuration.action(context, 'edit', true) %}
-                                            <a href="{{ path(configuration.pageRoute('edit'), {entity: item.id}) }}" class="btn btn-sm btn-primary mr-1">
+                                            <a href="{{ path(configuration.pageRoute('edit'), {entity: item.id}|merge(configuration.pageRouteParams('edit'))) }}" class="btn btn-sm btn-primary mr-1">
                                                 <span class="fa fa-edit"></span>
                                             </a>
                                         {% endif %}
@@ -225,7 +225,7 @@
                                                 <span class="fa fa-trash"></span>
                                             </button>
 
-                                            <form method="post" action="{{ path(configuration.pageRoute('delete'), {entity: item.id}) }}" id="form-delete-{{ item.id }}" data-form-confirm>
+                                            <form method="post" action="{{ path(configuration.pageRoute('delete'), {entity: item.id}|merge(configuration.pageRouteParams('delete'))) }}" id="form-delete-{{ item.id }}" data-form-confirm>
                                                 <input type="hidden" name="_method" value="DELETE">
                                                 <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ item.id) }}">
                                             </form>
@@ -256,7 +256,7 @@
 
                                             {% if configuration.hasBatchAction(context) %}
                                                 <div class="mb-2">
-                                                    <form class="form-inline" action="{{ path(configuration.pageRoute('batch'), {page: pager.currentPageNumber}) }}" id="form-batch" method="POST">
+                                                    <form class="form-inline" action="{{ path(configuration.pageRoute('batch'), {page: pager.currentPageNumber}|merge(configuration.pageRouteParams('batch'))) }}" id="form-batch" method="POST">
                                                         <select class="form-control my-1 mr-sm-2" name="batch[target]">
                                                             <option value="selection">{{ 'For selection'|trans }}</option>
                                                             <option value="all">{{ 'For all items'|trans }}</option>

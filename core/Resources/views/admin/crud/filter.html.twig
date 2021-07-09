@@ -9,12 +9,12 @@
             </button>
         </div>
         <div class="modal-body">
-            <form action="{{ path(configuration.pageRoute('index')) }}" id="form-filters" method="GET">
+            <form action="{{ path(configuration.pageRoute('index'), configuration.pageRouteParams('index')) }}" id="form-filters" method="GET">
                 {{ form_widget(form) }}
             </form>
         </div>
         <div class="modal-footer">
-            <a href="{{ path(configuration.pageRoute('index'), {(form.vars.name): 0}) }}" class="btn btn-secondary">{{ 'Reset'|trans }}</a>
+            <a href="{{ path(configuration.pageRoute('index'), {(form.vars.name): 0}|merge(configuration.pageRouteParams('index'))) }}" class="btn btn-secondary">{{ 'Reset'|trans }}</a>
             <button type="submit" form="form-filters" class="btn btn-primary">{{ 'Filter'|trans }}</button>
         </div>
     </div>
