@@ -36,7 +36,7 @@ class FileInformation implements EntityInterface
 
     public function getAttributes()
     {
-        return json_decode($this->attributes, true);
+        return (array) json_decode($this->attributes, true);
     }
 
     public function setAttributes($attributes): self
