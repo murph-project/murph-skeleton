@@ -225,10 +225,28 @@ class Node implements EntityInterface
     /**
      * @return Collection|Node[]
      */
-    public function getChildren(): Collection
+    public function getChildren(array $criteria = []): Collection
     {
         if (null === $this->children) {
             $this->children = new ArrayCollection();
+        }
+
+        if (!empty($criteria)) {
+            $children = new ArrayCollection();
+
+            foreach ($this->children as $child) {
+                $add = true;
+
+                if (isset($criteria['visible']) && $child->getIsVisible() !== $criteria['visible']) {
+                    $add = false;
+                }
+
+                if ($add) {
+                    $children->add($child);
+                }
+            }
+
+            return $children;
         }
 
         return $this->children;
@@ -256,7 +274,7 @@ class Node implements EntityInterface
         return $this;
     }
 
-    public function getAllChildren(): ArrayCollection
+    public function getAllChildren(array $criteria = []): ArrayCollection
     {
         $children = [];
 
@@ -273,6 +291,14 @@ class Node implements EntityInterface
         usort($children, function ($a, $b) {
             return $a->getTreeLeft() < $b->getTreeLeft() ? -1 : 1;
         });
+
+        if (!empty($criteria)) {
+            foreach ($children as $key => $child) {
+                if (isset($criteria['visible']) && $child->getIsVisible() !== $criteria['visible']) {
+                    unset($children[$key]);
+                }
+            }
+        }
 
         return new ArrayCollection($children);
     }
