@@ -53,7 +53,7 @@ class Page implements EntityInterface
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    protected $metaDescrition;
+    protected $metaDescription;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -192,14 +192,14 @@ class Page implements EntityInterface
         return $this;
     }
 
-    public function getMetaDescrition(): ?string
+    public function getMetaDescription(): ?string
     {
-        return $this->metaDescrition;
+        return $this->metaDescription;
     }
 
-    public function setMetaDescrition(?string $metaDescrition): self
+    public function setMetaDescription(?string $metaDescription): self
     {
-        $this->metaDescrition = $metaDescrition;
+        $this->metaDescription = $metaDescription;
 
         return $this;
     }

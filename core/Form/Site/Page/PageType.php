@@ -44,7 +44,7 @@ class PageType extends AbstractType
         );
 
         $builder->add(
-            'metaDescrition',
+            'metaDescription',
             TextType::class,
             [
                 'label' => 'Description',
