@@ -13,6 +13,7 @@ class CrudConfiguration
 {
     protected array $pageTitles = [];
     protected array $pageRoutes = [];
+    protected array $pageRouteParams = [];
     protected array $actions = [];
     protected array $batchActions = [];
     protected array $actionTitles = [];
@@ -65,6 +66,18 @@ class CrudConfiguration
     public function getPageRoute(string $page): ?string
     {
         return $this->pageRoutes[$page];
+    }
+
+    public function setPageRouteParams(string $page, array $params): self
+    {
+        $this->pageRouteParams[$page] = $params;
+
+        return $this;
+    }
+
+    public function getPageRouteParams(string $page): array
+    {
+        return $this->pageRouteParams[$page] ?? [];
     }
 
     /* -- */
