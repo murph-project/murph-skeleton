@@ -15,6 +15,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Core\Event\Page\PageEditEvent;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class PageAdminController extends CrudController
 {
@@ -50,12 +52,17 @@ class PageAdminController extends CrudController
         EntityManager $entityManager,
         RepositoryQuery $repositoryQuery,
         PageLocator $pageLocator,
+        EventDispatcherInterface $eventDispatcher,
         Request $request
     ): Response {
         $entity = $repositoryQuery->filterById($entity)->findOne();
 
+        $event = new PageEditEvent($entity);
+        $eventDispatcher->dispatch($event, PageEditEvent::FORM_INIT_EVENT);
+
         $this->getConfiguration()->setFormOptions('edit', [
-            'pageConfiguration' => $pageLocator->getPage(get_class($entity)),
+            'page_configuration' => $pageLocator->getPage(get_class($entity)),
+            'page_builder_options' => $event->getPageBuilderOptions(),
         ]);
 
         return $this->doEdit($entity, $entityManager, $request);

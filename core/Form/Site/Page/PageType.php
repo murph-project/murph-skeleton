@@ -105,7 +105,7 @@ class PageType extends AbstractType
                 'choices' => call_user_func(function () use ($options) {
                     $choices = [];
 
-                    foreach ($options['pageConfiguration']->getTemplates() as $template) {
+                    foreach ($options['page_configuration']->getTemplates() as $template) {
                         $choices[$template['name']] = $template['file'];
                     }
 
@@ -119,14 +119,15 @@ class PageType extends AbstractType
             ]
         );
 
-        $builder->getData()->buildForm($builder);
+        $builder->getData()->buildForm($builder, $options['page_builder_options']);
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
             'data_class' => Page::class,
-            'pageConfiguration' => null,
+            'page_configuration' => null,
+            'page_builder_options' => [],
         ]);
     }
 }

@@ -140,7 +140,7 @@ class Page implements EntityInterface
         return $this;
     }
 
-    public function buildForm(FormBuilderInterface $builder)
+    public function buildForm(FormBuilderInterface $builder, array $options)
     {
     }
 
