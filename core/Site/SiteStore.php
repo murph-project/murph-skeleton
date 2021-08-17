@@ -25,6 +25,7 @@ class SiteStore
     public function getNavigations(): array
     {
         return $this->navigationRepositoryQuery->create()
+            ->orderBy('.sortOrder')
             ->find()
         ;
     }
