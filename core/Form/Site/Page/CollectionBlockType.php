@@ -16,7 +16,7 @@ class CollectionBlockType extends AbstractType
     {
         $builder->add(
             'value',
-            CollectionType::class,
+            $options['collection_type'],
             array_merge([
                 'required' => false,
                 'label' => false,
@@ -40,6 +40,7 @@ class CollectionBlockType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Block::class,
+            'collection_type' => CollectionType::class,
             'collection_name' => '',
             'label_add' => 'Add',
             'label_delete' => 'Delete',
