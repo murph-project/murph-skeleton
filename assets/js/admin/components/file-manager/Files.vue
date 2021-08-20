@@ -5,6 +5,11 @@
                 <li class="breadcrumb-item" v-for="item in breadcrumb">
                     <a class="btn btn-sm" href="#" v-on:click="setDirectory(item.path)" v-html="item.label"></a>
                 </li>
+                <li v-if="isLoading" class="ml-3">
+                    <div class="spinner-border spinner-border-sm" role="status">
+                      <span class="sr-only">Loading...</span>
+                    </div>
+                </li>
             </ol>
 
             <div class="d-flex">
@@ -200,7 +205,8 @@ export default {
       files: [],
       parent: null,
       modalUrl: null,
-      ajax: 0
+      ajax: 0,
+      isLoading: false
     }
   },
   methods: {
@@ -266,6 +272,7 @@ export default {
     },
     refresh () {
       const that = this
+      this.isLoading = true
 
       axios.get(Routing.generate('admin_file_manager_api_directory', {
         directory: that.directory,
@@ -277,6 +284,7 @@ export default {
           that.parent = response.data.parent
           that.directories = response.data.directories
           that.files = response.data.files
+          that.isLoading = false
 
           const query = new URLSearchParams(window.location.search)
           query.set('path', that.directory)
@@ -285,7 +293,7 @@ export default {
             null,
             '',
             window.location.pathname + '?' + query.toString()
-          )
+          ) 
         })
         .catch((e) => {
           alert('An error occured')
