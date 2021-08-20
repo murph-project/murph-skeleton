@@ -57,6 +57,10 @@ class SiteRouteLoader extends Loader
                         continue;
                     }
 
+                    if ($node->hasAppUrl()) {
+                        continue;
+                    }
+
                     if (null !== $node->getAliasNode()) {
                         continue;
                     }

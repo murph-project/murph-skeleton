@@ -334,6 +334,19 @@ class Node implements EntityInterface
         return $string->startsWith('http://') || $string->startsWith('https://');
     }
 
+    public function hasAppUrl(): bool
+    {
+        $string = u($this->getUrl());
+
+        foreach (['tel:', 'fax:', 'mailto:'] as $prefix) {
+            if ($string->startsWith($prefix)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public function getIsVisible(): ?bool
     {
         return $this->isVisible;

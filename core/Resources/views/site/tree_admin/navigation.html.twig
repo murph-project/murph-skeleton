@@ -87,6 +87,10 @@
                                                 <a href="{{ safe_node_url(node) }}" class="btn btn-sm border border-secondary btn-light">
                                                     <span class="fa fa-sign-out-alt text-muted"></span>
                                                 </a>
+                                            {% elseif node.hasAppUrl %}
+                                                <a href="{{ node.url }}" class="btn btn-sm border border-secondary btn-light">
+                                                    <span class="fa fa-sign-out-alt text-muted"></span>
+                                                </a>
                                             {% else %}
                                                 {% if not node.disableUrl %}
                                                     {% if node.parameters|length %}

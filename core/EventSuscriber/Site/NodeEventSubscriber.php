@@ -133,7 +133,13 @@ class NodeEventSubscriber extends EntityManagerEventSubscriber
                 $generatedUrl = $generatedUrl.'-'.$number;
             }
 
-            if (!u($generatedUrl)->startsWith('https://') && !u($generatedUrl)->startsWith('http://')) {
+            if (
+                !u($generatedUrl)->startsWith('https://')
+                && !u($generatedUrl)->startsWith('http://')
+                && !u($generatedUrl)->startsWith('tel:')
+                && !u($generatedUrl)->startsWith('mailto:')
+                && !u($generatedUrl)->startsWith('fax:')
+            ) {
                 $generatedUrl = '/'.$generatedUrl;
                 $generatedUrl = preg_replace('#/{2,}#', '/', $generatedUrl);
             }
