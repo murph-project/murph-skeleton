@@ -28,6 +28,7 @@ class CrudConfiguration
     protected array $isSortableCollection = [];
     protected string $sortableCollectionProperty = 'sortOrder';
     protected ?string $defaultLocale = null;
+    protected bool $showActions = true;
 
     protected static $self;
 
@@ -313,5 +314,17 @@ class CrudConfiguration
     public function getSortableCollectionProperty(): string
     {
         return $this->sortableCollectionProperty;
+    }
+
+    public function setShowActions(bool $showActions): self
+    {
+        $this->showActions = $showActions;
+
+        return $this;
+    }
+
+    public function getShowActions(): bool
+    {
+        return $this->showActions;
     }
 }

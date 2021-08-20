@@ -139,9 +139,11 @@
                                     </th>
                                 {% endblock %}
                             {% endfor %}
-                            <th class="crud-action-column col-2 miw-100 text-right">
-                                {{ 'Actions'|trans }}
-                            </th>
+                            {% if configuration.showActions %}
+                                <th class="crud-action-column col-2 miw-100 text-right">
+                                    {{ 'Actions'|trans }}
+                                </th>
+                            {% endif %}
                         </tr>
                     </thead>
                 {% endblock %}
@@ -205,34 +207,36 @@
                                         </td>
                                     {% endfor %}
 
-                                    <td class="crud-action-column col-2 miw-200 text-right">
-                                        {% block list_item_actions_before %}{% endblock %}
+                                    {% if configuration.showActions %}
+                                        <td class="crud-action-column col-2 miw-200 text-right">
+                                            {% block list_item_actions_before %}{% endblock %}
 
-                                        {% if configuration.action(context, 'show', true) %}
-                                            <a href="{{ path(configuration.pageRoute('show'), {entity: item.id}|merge(configuration.pageRouteParams('show'))) }}" class="btn btn-sm btn-secondary mr-1">
-                                                <span class="fa fa-eye"></span>
-                                            </a>
-                                        {% endif %}
+                                            {% if configuration.action(context, 'show', true) %}
+                                                <a href="{{ path(configuration.pageRoute('show'), {entity: item.id}|merge(configuration.pageRouteParams('show'))) }}" class="btn btn-sm btn-secondary mr-1">
+                                                    <span class="fa fa-eye"></span>
+                                                </a>
+                                            {% endif %}
 
-                                        {% if configuration.action(context, 'edit', true) %}
-                                            <a href="{{ path(configuration.pageRoute('edit'), {entity: item.id}|merge(configuration.pageRouteParams('edit'))) }}" class="btn btn-sm btn-primary mr-1">
-                                                <span class="fa fa-edit"></span>
-                                            </a>
-                                        {% endif %}
+                                            {% if configuration.action(context, 'edit', true) %}
+                                                <a href="{{ path(configuration.pageRoute('edit'), {entity: item.id}|merge(configuration.pageRouteParams('edit'))) }}" class="btn btn-sm btn-primary mr-1">
+                                                    <span class="fa fa-edit"></span>
+                                                </a>
+                                            {% endif %}
 
-                                        {% if configuration.action(context, 'delete', true) %}
-                                            <button type="submit" form="form-delete-{{ item.id }}" class="btn btn-sm btn-danger">
-                                                <span class="fa fa-trash"></span>
-                                            </button>
+                                            {% if configuration.action(context, 'delete', true) %}
+                                                <button type="submit" form="form-delete-{{ item.id }}" class="btn btn-sm btn-danger">
+                                                    <span class="fa fa-trash"></span>
+                                                </button>
 
-                                            <form method="post" action="{{ path(configuration.pageRoute('delete'), {entity: item.id}|merge(configuration.pageRouteParams('delete'))) }}" id="form-delete-{{ item.id }}" data-form-confirm>
-                                                <input type="hidden" name="_method" value="DELETE">
-                                                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ item.id) }}">
-                                            </form>
-                                        {% endif %}
+                                                <form method="post" action="{{ path(configuration.pageRoute('delete'), {entity: item.id}|merge(configuration.pageRouteParams('delete'))) }}" id="form-delete-{{ item.id }}" data-form-confirm>
+                                                    <input type="hidden" name="_method" value="DELETE">
+                                                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ item.id) }}">
+                                                </form>
+                                            {% endif %}
 
-                                        {% block list_item_actions_after %}{% endblock %}
-                                    </td>
+                                            {% block list_item_actions_after %}{% endblock %}
+                                        </td>
+                                    {% endif %}
                                 </tr>
                             {% endblock %}
 
