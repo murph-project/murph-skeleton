@@ -25,8 +25,15 @@ const openModal = function (url) {
 
 module.exports = function () {
   let click = 0
+  const body = $('body')
 
-  $('body').on('click', '*[data-modal]', (e) => {
+  body.on('hidden.bs.modal', '.modal', (e) => {
+    if ($('.modal.show').length) {
+      $('body').addClass('modal-open')
+    }
+  })
+
+  body.on('click', '*[data-modal]', (e) => {
     e.preventDefault()
     e.stopPropagation()
 
