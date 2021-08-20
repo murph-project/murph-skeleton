@@ -16,7 +16,7 @@ use Symfony\Component\Form\FormBuilderInterface;
  */
 class SimplePage extends Page
 {
-    public function buildForm(FormBuilderInterface $builder)
+    public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add(
             'title',
