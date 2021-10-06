@@ -147,6 +147,10 @@
                     <div id="form-node-page-action-keep" class="collapse show" data-parent="#node-page-action">
                         <div class="card-body">
                             {{ 'No action'|trans }}
+
+                            {% if page and pageConfiguration %}
+                                ({{ pageConfiguration.name }})
+                            {% endif %}
                         </div>
                     </div>
                 </div>

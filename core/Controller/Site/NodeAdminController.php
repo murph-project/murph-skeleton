@@ -143,9 +143,19 @@ class NodeAdminController extends AdminController
             ]);
         }
 
+        $page = $entity->getPage();
+
+        if ($page !== null) {
+            $pageConfiguration = $pageLocator->getPages()[get_class($page)] ?? null;
+        } else {
+            $pageConfiguration = null;
+        }
+
         return $this->render('@Core/site/node_admin/edit.html.twig', [
             'form' => $form->createView(),
             'entity' => $entity,
+            'page' => $page,
+            'pageConfiguration' => $pageConfiguration,
             'tab' => $tab,
         ]);
     }
