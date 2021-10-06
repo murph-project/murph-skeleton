@@ -13,11 +13,13 @@ class NodeRepository extends NestedTreeRepository
         parent::__construct($manager, $manager->getClassMetadata(Node::class));
     }
 
-    public function urlExists($url, Node $node)
+    public function urlExists($url, Node $node): bool
     {
         $query = $this->createQueryBuilder('n')
             ->join('n.menu', 'm')
             ->where('n.url = :url')
+            ->andWhere('n.disableUrl = 0')
+            ->andWhere('n.aliasNode is null')
             ->andWhere('m.navigation = :navigation')
             ->setParameter(':url', $url)
             ->setParameter(':navigation', $node->getMenu()->getNavigation())
@@ -32,7 +34,7 @@ class NodeRepository extends NestedTreeRepository
 
         return $query->getQuery()
             ->setMaxResults(1)
-            ->getOneOrNullResult()
+            ->getOneOrNullResult() !== null
         ;
     }
 }
