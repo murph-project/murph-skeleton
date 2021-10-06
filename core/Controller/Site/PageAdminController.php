@@ -17,6 +17,7 @@ use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Core\Event\Page\PageEditEvent;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use App\Core\Entity\EntityInterface;
 
 class PageAdminController extends CrudController
 {
@@ -76,6 +77,14 @@ class PageAdminController extends CrudController
         return $this->doDelete($entity, $entityManager, $request);
     }
 
+    /**
+     * @Route("/admin/site/page/batch/{page}", name="admin_site_page_batch", methods={"POST"}, requirements={"page":"\d+"})
+     */
+    public function batch(int $page = 1, RepositoryQuery $query, EntityManager $entityManager, Request $request, Session $session): Response
+    {
+        return $this->doBatch($page, $query, $entityManager, $request, $session);
+    }
+
     protected function getConfiguration(): CrudConfiguration
     {
         return CrudConfiguration::create()
@@ -87,6 +96,7 @@ class PageAdminController extends CrudController
             ->setPageRoute('edit', 'admin_site_page_edit')
             ->setPageRoute('delete', 'admin_site_page_delete')
             ->setPageRoute('filter', 'admin_site_page_filter')
+            ->setPageRoute('batch', 'admin_site_page_batch')
 
             ->setForm('edit', Type::class, [])
             ->setForm('filter', FilterType::class)
@@ -99,6 +109,7 @@ class PageAdminController extends CrudController
             ->setField('index', 'Name', Field\TextField::class, [
                 'property' => 'name',
                 'sort' => ['name', '.name'],
+                'attr' => ['class' => 'col-4'],
             ])
             ->setField('index', 'Elements', Field\TextField::class, [
                 'view' => '@Core/site/page_admin/fields/nodes.html.twig',
@@ -110,7 +121,11 @@ class PageAdminController extends CrudController
                         ->orderBy('navigation.label', $direction)
                     ;
                 }],
+                'attr' => ['class' => 'col-6'],
             ])
+            ->setBatchAction('index', 'delete', 'Delete', function(EntityInterface $entity, EntityManager $manager) {
+                $manager->delete($entity);
+            })
         ;
     }
 
