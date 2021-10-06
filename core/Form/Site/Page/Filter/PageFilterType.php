@@ -9,6 +9,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class PageFilterType extends AbstractType
 {
@@ -44,6 +45,19 @@ class PageFilterType extends AbstractType
                     ;
                 },
                 'constraints' => [
+                ],
+            ]
+        );
+
+        $builder->add(
+            'isAssociated',
+            ChoiceType::class,
+            [
+                'label' => 'Associated',
+                'choices' => [
+                    'Anyway' => -1,
+                    'No' => 0,
+                    'Yes' => 1,
                 ],
             ]
         );
