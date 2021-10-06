@@ -25,8 +25,8 @@ class StringExtension extends AbstractExtension
         ];
     }
 
-    public function buildString(string $format, $object): string
+    public function buildString(?string $format, $object): string
     {
-        return $this->stringBuilder->build($format, $object);
+        return $this->stringBuilder->build((string) $format, $object);
     }
 }
