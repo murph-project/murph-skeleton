@@ -145,7 +145,15 @@
 
                 <div class="p-2 text-center">
                     <span class="form-filepicker-container">
-                        <input class="form-control form-filepicker-picker mb-3" data-target="{{ id }}" readonly type="text" value="{{ value }}">
+                        <div class="input-group mb-3">
+                            <input class="form-control form-filepicker-picker" data-target="{{ id }}" readonly type="text" value="{{ value }}">
+                            <div class="input-group-append form-filepicker-reset" data-target="{{ id }}">
+                                <div class="input-group-text btn" data-target="{{ id }}">
+                                    <span class="fa fa-backspace" data-target="{{ id }}"></span>
+                                </div>
+                            </div>
+                        </div>
+
                         <span class="btn btn-sm btn-primary form-filepicker-picker mb-1" data-target="{{ id }}">
                             {{ 'Choose'|trans }}
                         </span>
