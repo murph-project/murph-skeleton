@@ -273,11 +273,14 @@ export default {
     refresh () {
       const that = this
       this.isLoading = true
+      this.files = []
+      this.directories = []
 
       axios.get(Routing.generate('admin_file_manager_api_directory', {
         directory: that.directory,
         context: that.context,
-        ajax: this.ajax
+        ajax: this.ajax,
+        time: Date.now(),
       }))
         .then((response) => {
           that.buildBreadcrum(response.data.breadcrumb)
@@ -293,7 +296,7 @@ export default {
             null,
             '',
             window.location.pathname + '?' + query.toString()
-          ) 
+          )
         })
         .catch((e) => {
           alert('An error occured')

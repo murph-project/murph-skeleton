@@ -54,6 +54,7 @@ export default {
       }
 
       if (['image/png', 'image/jpg', 'image/jpeg', 'image/gif'].indexOf(this.mime) === -1) {
+        this.thumbnail = null
         return
       }
 
