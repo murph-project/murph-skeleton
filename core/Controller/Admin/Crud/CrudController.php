@@ -31,7 +31,7 @@ abstract class CrudController extends AdminController
         $configuration = $this->getConfiguration();
 
         $this->applySort('index', $query, $request);
-        $this->updatefilters($request, $session);
+        $this->updateFilters($request, $session);
 
         $pager = $query
             ->usefilters($this->filters)
