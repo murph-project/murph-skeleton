@@ -64,8 +64,19 @@ module.exports = function () {
     fileManagerBrowser((value) => {
       value = value.replace(/^\//, '')
 
-      picker.parent('.form-filepicker-container').find('input.form-filepicker-picker').val(value)
+      picker.parents('.form-filepicker-container').find('input.form-filepicker-picker').val(value)
       input.val(value)
     })
+  })
+
+  $('body').on('click', '.form-filepicker-reset', (e) => {
+    e.preventDefault()
+
+    const button = $(e.target)
+    const id = '#' + button.attr('data-target')
+    const input = $(id)
+
+    input.val('')
+    button.parents('.form-filepicker-container').find('input.form-filepicker-picker').val('')
   })
 }
