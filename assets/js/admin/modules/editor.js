@@ -151,5 +151,7 @@ module.exports = function () {
   const config = { attributes: false, childList: true, subtree: true }
   observer.observe(document.querySelector('body'), config)
 
-  doInitEditor()
+  $(() => {
+    doInitEditor()
+  })
 }
