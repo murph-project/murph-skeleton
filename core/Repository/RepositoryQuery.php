@@ -17,6 +17,7 @@ abstract class RepositoryQuery
     protected QueryBuilder $query;
     protected PaginatorInterface $paginator;
     protected string $id;
+    protected array $forcedFilterHandlers;
 
     public function __construct(ServiceEntityRepository $repository, string $id, PaginatorInterface $paginator = null)
     {
@@ -24,6 +25,7 @@ abstract class RepositoryQuery
         $this->query = $repository->createQueryBuilder($id);
         $this->paginator = $paginator;
         $this->id = $id;
+        $this->forcedFilterHandlers = [];
     }
 
     public function __call(string $name, $params): self
@@ -81,7 +83,9 @@ abstract class RepositoryQuery
                 continue;
             }
 
-            if (is_int($value) || is_bool($value)) {
+            if (in_array($name, $this->forcedFilterHandlers)) {
+                $this->filterHandler($name, $value);
+            } elseif (is_int($value) || is_bool($value)) {
                 $this->andWhere('.'.$name.' = :'.$name);
                 $this->setParameter(':'.$name, $value);
             } elseif (is_string($value)) {
