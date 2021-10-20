@@ -48,11 +48,13 @@ class SettingAdminController extends AdminController
         Request $request
     ): Response {
         $builder = $this->createFormBuilder($entity);
-
-        $eventDispatcher->dispatch(new SettingEvent([
+        $event = new SettingEvent([
             'builder' => $builder,
             'entity' => $entity,
-        ]), SettingEvent::FORM_INIT_EVENT);
+            'options' => [],
+        ]);
+
+        $eventDispatcher->dispatch($event, SettingEvent::FORM_INIT_EVENT);
 
         $form = $builder->getForm();
 
@@ -72,6 +74,7 @@ class SettingAdminController extends AdminController
         return $this->render('@Core/setting/setting_admin/edit.html.twig', [
             'form' => $form->createView(),
             'entity' => $entity,
+            'options' => $event->getData()['options'],
         ]);
     }
 

@@ -26,11 +26,13 @@ class NavigationSettingAdminController extends AdminController
         Request $request
     ): Response {
         $builder = $this->createFormBuilder($entity);
-
-        $eventDispatcher->dispatch(new NavigationSettingEvent([
+        $event = new NavigationSettingEvent([
             'builder' => $builder,
             'entity' => $entity,
-        ]), NavigationSettingEvent::FORM_INIT_EVENT);
+            'options' => [],
+        ]);
+
+        $eventDispatcher->dispatch($event, NavigationSettingEvent::FORM_INIT_EVENT);
 
         $form = $builder->getForm();
 
@@ -52,6 +54,7 @@ class NavigationSettingAdminController extends AdminController
         return $this->render('@Core/setting/navigation_setting_admin/edit.html.twig', [
             'form' => $form->createView(),
             'entity' => $entity,
+            'options' => $event->getData()['options'],
         ]);
     }
 

@@ -25,4 +25,11 @@ class NavigationSettingEvent extends Event
     {
         return $this->data;
     }
+
+    public function setOption(string $key, $value): self
+    {
+        $this->data['options'][$key] = $value;
+
+        return $this;
+    }
 }
