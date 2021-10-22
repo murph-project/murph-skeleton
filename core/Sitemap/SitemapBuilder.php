@@ -89,7 +89,7 @@ class SitemapBuilder
                         $urls = $service->{$method}($node, $annotation->options);
                     }
                 }
-            } else {
+            } elseif (!$node->getDisableUrl() && !$node->hasAppUrl()) {
                 $urls[] = $this->urlGenerator->generate(
                     $node->getRouteName(),
                     [],
