@@ -79,16 +79,16 @@ class NodeAdminController extends AdminController
 
                 $this->addFlash('success', 'The data has been saved.');
 
-                return $this->redirectToRoute('admin_site_tree_navigation', [
+                return $this->redirect($this->generateUrl('admin_site_tree_navigation', [
                     'navigation' => $node->getMenu()->getNavigation()->getId(),
                     'data-modal' => $this->generateUrl('admin_site_node_edit', ['entity' => $entity->getId()]),
-                ]);
+                ]).sprintf('#node-%d', $entity->getId()));
             }
             $this->addFlash('warning', 'The form is not valid.');
 
-            return $this->redirectToRoute('admin_site_tree_navigation', [
-                'navigation' => $node->getMenu()->getNavigation()->getId(),
-            ]);
+            return $this->redirect($this->generateUrl('admin_site_tree_navigation', [
+                'navigation' => $entity->getMenu()->getNavigation()->getId(),
+            ]).sprintf('#node-%d', $entity->getId()));
         }
 
         return $this->render('@Core/site/node_admin/new.html.twig', [
@@ -137,10 +137,10 @@ class NodeAdminController extends AdminController
                 $this->addFlash('warning', 'The form is not valid.');
             }
 
-            return $this->redirectToRoute('admin_site_tree_navigation', [
+            return $this->redirect($this->generateUrl('admin_site_tree_navigation', [
                 'navigation' => $entity->getMenu()->getNavigation()->getId(),
                 'data-modal' => $this->generateUrl('admin_site_node_edit', ['entity' => $entity->getId()]),
-            ]);
+            ]).sprintf('#node-%d', $entity->getId()));
         }
 
         $page = $entity->getPage();
@@ -216,9 +216,9 @@ class NodeAdminController extends AdminController
                 $this->addFlash('warning', 'The form is not valid.');
             }
 
-            return $this->redirectToRoute('admin_site_tree_navigation', [
+            return $this->redirect($this->generateUrl('admin_site_tree_navigation', [
                 'navigation' => $entity->getMenu()->getNavigation()->getId(),
-            ]);
+            ]).sprintf('#node-%d', $entity->getId()));
         }
 
         return $this->render('@Core/site/node_admin/move.html.twig', [
@@ -240,9 +240,9 @@ class NodeAdminController extends AdminController
             $this->addFlash('success', 'The data has been saved.');
         }
 
-        return $this->redirectToRoute('admin_site_tree_navigation', [
+        return $this->redirect($this->generateUrl('admin_site_tree_navigation', [
             'navigation' => $entity->getMenu()->getNavigation()->getId(),
-        ]);
+        ]).sprintf('#node-%d', $entity->getId()));
     }
 
     /**
