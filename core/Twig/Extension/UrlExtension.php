@@ -2,6 +2,7 @@
 
 namespace App\Core\Twig\Extension;
 
+use App\Core\Site\SiteRequest;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
@@ -9,10 +10,12 @@ use Twig\TwigFilter;
 class UrlExtension extends AbstractExtension
 {
     protected UrlGeneratorInterface $urlGenerator;
+    protected SiteRequest $siteRequest;
 
-    public function __construct(UrlGeneratorInterface $urlGenerator)
+    public function __construct(UrlGeneratorInterface $urlGenerator, SiteRequest $siteRequest)
     {
         $this->urlGenerator = $urlGenerator;
+        $this->siteRequest = $siteRequest;
     }
 
     /**
@@ -38,7 +41,19 @@ class UrlExtension extends AbstractExtension
                 $route = $block['route'];
                 parse_str($block['params'], $params);
 
+                if (!isset($params['_domain'])) {
+                    $params['_domain'] = $this->siteRequest->getDomain();
+                }
+
                 $url = $this->urlGenerator->generate($route, $params, UrlGeneratorInterface::ABSOLUTE_URL);
+
+                parse_str(parse_url($url)['query'] ?? '', $infos);
+
+                if (isset($infos['_domain'])) {
+                    unset($params['_domain']);
+
+                    $url = $this->urlGenerator->generate($route, $params, UrlGeneratorInterface::ABSOLUTE_URL);
+                }
             } catch (\Exception $e) {
             }
 
