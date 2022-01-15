@@ -129,6 +129,7 @@ class FileManagerAdminController extends AdminController
                 'locked' => true,
             ]);
         }
+
         $form = $this->createForm(DirectoryCreateType::class);
 
         if ($request->isMethod('POST')) {
@@ -165,7 +166,7 @@ class FileManagerAdminController extends AdminController
             }
 
             return $this->redirectToRoute('admin_file_manager_index', [
-                'path' => $splInfo->getRelativePath(),
+                'path' => $splInfo->getRelativePathname(),
             ]);
         }
 
