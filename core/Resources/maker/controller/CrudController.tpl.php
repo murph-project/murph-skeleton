@@ -21,7 +21,7 @@ class <?= $class_name; ?> extends CrudController
     /**
      * @Route("/admin/<?= $route; ?>/{page}", name="admin_<?= $route; ?>_index", methods={"GET"}, requirements={"page":"\d+"})
      */
-    public function index(int $page = 1, RepositoryQuery $query, Request $request, Session $session): Response
+    public function index(RepositoryQuery $query, Request $request, Session $session, int $page = 1): Response
     {
         return $this->doIndex($page, $query, $request, $session);
     }
@@ -61,7 +61,7 @@ class <?= $class_name; ?> extends CrudController
     /**
      * @Route("/admin/<?= $route; ?>/sort/{page}", name="admin_<?= $route; ?>_sort", methods={"POST"}, requirements={"page":"\d+"})
      */
-    public function sort(int $page = 1, RepositoryQuery $query, EntityManager $entityManager, Request $request, Session $session): Response
+    public function sort(RepositoryQuery $query, EntityManager $entityManager, Request $request, Session $session, int $page = 1): Response
     {
         return $this->doSort($page, $query, $entityManager, $request, $session);
     }
@@ -69,7 +69,7 @@ class <?= $class_name; ?> extends CrudController
     /**
      * @Route("/admin/<?= $route; ?>/batch/{page}", name="admin_<?= $route; ?>_batch", methods={"POST"}, requirements={"page":"\d+"})
      */
-    public function batch(int $page = 1, RepositoryQuery $query, EntityManager $entityManager, Request $request, Session $session): Response
+    public function batch(RepositoryQuery $query, EntityManager $entityManager, Request $request, Session $session, int $page = 1): Response
     {
         return $this->doBatch($page, $query, $entityManager, $request, $session);
     }

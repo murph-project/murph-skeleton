@@ -21,10 +21,10 @@ class SettingAdminController extends AdminController
      * @Route("/{page}", name="admin_setting_index", requirements={"page": "\d+"})
      */
     public function index(
-        int $page = 1,
         RepositoryQuery $query,
         EventDispatcherInterface $eventDispatcher,
-        Request $request
+        Request $request,
+        int $page = 1
     ): Response {
         $eventDispatcher->dispatch(new SettingEvent(), SettingEvent::INIT_EVENT);
 

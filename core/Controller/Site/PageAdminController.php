@@ -24,7 +24,7 @@ class PageAdminController extends CrudController
     /**
      * @Route("/admin/site/page/{page}", name="admin_site_page_index", methods={"GET"}, requirements={"page":"\d+"})
      */
-    public function index(int $page = 1, RepositoryQuery $query, Request $request, Session $session): Response
+    public function index(RepositoryQuery $query, Request $request, Session $session, int $page = 1): Response
     {
         return $this->doIndex($page, $query, $request, $session);
     }
@@ -80,7 +80,7 @@ class PageAdminController extends CrudController
     /**
      * @Route("/admin/site/page/batch/{page}", name="admin_site_page_batch", methods={"POST"}, requirements={"page":"\d+"})
      */
-    public function batch(int $page = 1, RepositoryQuery $query, EntityManager $entityManager, Request $request, Session $session): Response
+    public function batch(RepositoryQuery $query, EntityManager $entityManager, Request $request, Session $session, int $page = 1): Response
     {
         return $this->doBatch($page, $query, $entityManager, $request, $session);
     }

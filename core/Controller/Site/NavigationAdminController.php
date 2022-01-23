@@ -23,7 +23,7 @@ class NavigationAdminController extends CrudController
     /**
      * @Route("/admin/site/navigation/{page}", name="admin_site_navigation_index", methods={"GET"}, requirements={"page":"\d+"})
      */
-    public function index(int $page = 1, RepositoryQuery $query, Request $request, Session $session): Response
+    public function index(RepositoryQuery $query, Request $request, Session $session, int $page = 1): Response
     {
         return $this->doIndex($page, $query, $request, $session);
     }
@@ -79,7 +79,7 @@ class NavigationAdminController extends CrudController
     /**
      * @Route("/admin/site/navigation/sort/{page}", name="admin_site_navigation_sort", methods={"POST"}, requirements={"page":"\d+"})
      */
-    public function sort(int $page = 1, RepositoryQuery $query, EntityManager $entityManager, Request $request, Session $session): Response
+    public function sort(RepositoryQuery $query, EntityManager $entityManager, Request $request, Session $session, int $page = 1, ): Response
     {
         return $this->doSort($page, $query, $entityManager, $request, $session);
     }

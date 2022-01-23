@@ -22,7 +22,7 @@ class UserAdminController extends CrudController
     /**
      * @Route("/admin/user/{page}", name="admin_user_index", methods={"GET"}, requirements={"page":"\d+"})
      */
-    public function index(int $page = 1, RepositoryQuery $query, Request $request, Session $session): Response
+    public function index(RepositoryQuery $query, Request $request, Session $session, int $page = 1): Response
     {
         return $this->doIndex($page, $query, $request, $session);
     }
