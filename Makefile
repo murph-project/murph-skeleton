@@ -1,5 +1,5 @@
 COMPOSER ?= composer
-PHP ?= php7.4
+PHP ?= php8.1
 SSH ?= ssh
 WEBPACK ?= webpack
 YARN ?= yarn
