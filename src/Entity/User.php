@@ -7,13 +7,14 @@ use App\Core\Entity\EntityInterface;
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Scheb\TwoFactorBundle\Model\Google\TwoFactorInterface;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
  * @ORM\HasLifecycleCallbacks()
  */
-class User implements UserInterface, TwoFactorInterface, EntityInterface
+class User implements PasswordAuthenticatedUserInterface, UserInterface, TwoFactorInterface, EntityInterface
 {
     use Timestampable;
     /**
