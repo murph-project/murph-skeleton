@@ -13,10 +13,11 @@ namespace App\Bundle;
 
 use App\DependencyInjection\AppExtension;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
+use Symfony\Component\DependencyInjection\Extension\ExtensionInterface;
 
 class AppBundle extends Bundle
 {
-    public function getContainerExtension()
+    public function getContainerExtension(): ?ExtensionInterface
     {
         return new AppExtension();
     }
