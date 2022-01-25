@@ -21,9 +21,6 @@ class FileUploadType extends AbstractType
                 'required' => true,
                 'multiple' => true,
                 'attr' => [
-                    'webkitdirectory' => '',
-                    'directory' => '',
-                    'mozdirectory' => '',
                 ],
                 'constraints' => [
                     new All([
