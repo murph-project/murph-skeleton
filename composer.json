@@ -3,7 +3,7 @@
     "description": "A powerful CMS framework",
     "type": "project",
     "license": "MIT",
-    "minimum-stability": "dev",
+    "minimum-stability": "stable",
     "prefer-stable": true,
     "require": {
         "php": ">=8.0.0",
