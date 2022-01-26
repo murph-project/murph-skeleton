@@ -275,7 +275,20 @@ class FileManagerAdminController extends AdminController
             $form->handleRequest($request);
 
             if ($form->isValid()) {
-                $manager->upload($form->get('files')->getData(), $request->query->get('file'));
+                if ($form->get('files')->getData()) {
+                    $manager->upload(
+                        $form->get('files')->getData(),
+                        $request->query->get('file')
+                    );
+                }
+
+                if ($form->get('directory')->getData()) {
+                    $manager->upload(
+                        $form->get('directory')->getData(),
+                        $request->query->get('file'),
+                        $_FILES['file_upload']['full_path']['directory'] ?? []
+                    );
+                }
 
                 if (!$request->isXmlHttpRequest()) {
                     $this->addFlash('success', 'Files uploaded.');

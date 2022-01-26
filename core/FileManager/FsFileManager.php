@@ -195,14 +195,20 @@ class FsFileManager
         return true;
     }
 
-    public function upload($files, string $path)
+    public function upload($files, string $path, array $fullPaths = [])
     {
         if ($files instanceof UploadedFile) {
             $files = [$files];
         }
 
-        foreach ($files as $file) {
-            $this->uploadHandler->handleForm($file, $this->path.'/'.$path, null, true);
+        foreach ($files as $key => $file) {
+            $directory = $this->path.'/'.$path;
+
+            if (isset($fullPaths[$key])) {
+                $directory .= '/'.trim(dirname($fullPaths[$key]), '/');
+            }
+
+            $this->uploadHandler->handleForm($file, $directory, null, true);
         }
     }
 

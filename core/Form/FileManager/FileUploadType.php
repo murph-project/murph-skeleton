@@ -18,9 +18,31 @@ class FileUploadType extends AbstractType
             FileType::class,
             [
                 'label' => 'Files',
-                'required' => true,
+                'required' => false,
                 'multiple' => true,
                 'attr' => [
+                ],
+                'constraints' => [
+                    new All([
+                        new File([
+                            'mimeTypes' => $options['mimes'],
+                        ]),
+                    ]),
+                ],
+            ]
+        );
+
+        $builder->add(
+            'directory',
+            FileType::class,
+            [
+                'label' => 'Directory',
+                'required' => false,
+                'multiple' => true,
+                'attr' => [
+                    'webkitdirectory' => '',
+                    'mozdirectory' => '',
+                    'directory' => '',
                 ],
                 'constraints' => [
                     new All([
