@@ -104,12 +104,12 @@ class NodeAdminController extends AdminController
      */
     public function edit(
         Entity $entity,
-        string $tab = 'content',
         EntityManager $entityManager,
         PageFactory $pageFactory,
         PageLocator $pageLocator,
         ControllerLocator $controllerLocator,
-        Request $request
+        Request $request,
+        string $tab = 'content'
     ): Response {
         $form = $this->createForm(EntityType::class, $entity, [
             'pages' => $pageLocator->getPages(),
