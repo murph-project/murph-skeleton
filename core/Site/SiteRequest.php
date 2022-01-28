@@ -69,7 +69,9 @@ class SiteRequest
 
     public function getDomain(): string
     {
-        return $this->requestStack->getCurrentRequest()->headers->get('host');
+        $host = $this->requestStack->getCurrentRequest()->headers->get('host');
+
+        return preg_replace('/:\d+$/', '', $host);
     }
 
     public function getUri(): string
