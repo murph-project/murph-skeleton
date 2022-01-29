@@ -2,9 +2,8 @@
 
 namespace App\Core\Notification;
 
-use Swift_Attachment;
-use Swift_Mailer;
-use Swift_Message;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
+use Symfony\Component\Mailer\MailerInterface;
 use Twig\Environment as TwigEnvironment;
 
 /**
@@ -14,56 +13,20 @@ use Twig\Environment as TwigEnvironment;
  */
 class MailNotifier
 {
-    /**
-     * @var Swift_Mailer
-     */
-    protected $mailer;
+    protected MailerInterface $mailer;
+    protected array $attachments = [];
+    protected array $recipients = [];
+    protected array $bccRecipients = [];
+    protected ?string $subject = null;
+    protected ?string $from = null;
+    protected ?string $replyTo = null;
 
-    /**
-     * @var array
-     */
-    protected $attachments = [];
-
-    /**
-     * @var array
-     */
-    protected $recipients = [];
-
-    /**
-     * @var array
-     */
-    protected $bccRecipients = [];
-
-    /**
-     * @var string
-     */
-    protected $subject;
-
-    /**
-     * @var string
-     */
-    protected $from;
-
-    /**
-     * @var string
-     */
-    protected $replyTo;
-
-    /**
-     * Constructor.
-     *
-     * @param BasicNotifier $basicNotifier
-     * @param Swift_Mailer  $mail
-     */
-    public function __construct(TwigEnvironment $twig, Swift_Mailer $mailer)
+    public function __construct(TwigEnvironment $twig, MailerInterface $mailer)
     {
         $this->mailer = $mailer;
         $this->twig = $twig;
     }
 
-    /**
-     * @return EmailNotifier
-     */
     public function setMailer(Swift_Mailer $mailer): self
     {
         $this->mailer = $mailer;
@@ -76,9 +39,6 @@ class MailNotifier
         return $this->mailer;
     }
 
-    /**
-     * @return EmailNotifier
-     */
     public function setRecipients(array $recipients): self
     {
         $this->recipients = $recipients;
@@ -91,9 +51,6 @@ class MailNotifier
         return $this->recipients;
     }
 
-    /**
-     * @return EmailNotifier
-     */
     public function setBccRecipients(array $bccRecipients): self
     {
         $this->bccRecipients = $bccRecipients;
@@ -106,11 +63,6 @@ class MailNotifier
         return $this->bccRecipients;
     }
 
-    /**
-     * @param string $subject
-     *
-     * @return EmailNotifier
-     */
     public function setSubject(?string $subject): self
     {
         $this->subject = $subject;
@@ -123,11 +75,6 @@ class MailNotifier
         return $this->subject;
     }
 
-    /**
-     * @param mixed $from
-     *
-     * @return EmailNotifier
-     */
     public function setFrom($from): self
     {
         $this->from = $from;
@@ -135,21 +82,11 @@ class MailNotifier
         return $this;
     }
 
-    /**
-     * @return mixed
-     */
     public function getFrom(): ?string
     {
         return $this->from;
     }
 
-    /**
-     * Set the value of "replyTo".
-     *
-     * @param string $replyTo
-     *
-     * @return EmailNotifier
-     */
     public function setReplyTo($replyTo): self
     {
         $this->replyTo = $replyTo;
@@ -157,19 +94,11 @@ class MailNotifier
         return $this;
     }
 
-    /*
-     * Get the value of "replyTo".
-     *
-     * @return string
-     */
     public function getReplyTo(): ?string
     {
         return $this->replyTo;
     }
 
-    /**
-     * @return EmailNotifier
-     */
     public function setAttachments(array $attachments): self
     {
         $this->attachments = $attachments;
@@ -182,9 +111,6 @@ class MailNotifier
         return $this->attachments;
     }
 
-    /**
-     * @return EmailNotifier
-     */
     public function addRecipient(string $email, bool $isBcc = false): self
     {
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
@@ -204,9 +130,6 @@ class MailNotifier
         return $this;
     }
 
-    /**
-     * @return EmailNotifier
-     */
     public function addRecipients(array $emails, bool $isBcc = false): self
     {
         foreach ($emails as $email) {
@@ -216,19 +139,11 @@ class MailNotifier
         return $this;
     }
 
-    /**
-     * @return EmailNotifier
-     */
     public function addRecipientByAccount(Account $account, bool $isBcc = false): self
     {
         return $this->addRecipient($account->getEmail(), $isBcc);
     }
 
-    /**
-     * @param mixed $accounts
-     *
-     * @return EmailNotifier
-     */
     public function addRecipientsByAccounts($accounts, bool $isBcc = false)
     {
         if (!is_array($accounts)) {
@@ -242,9 +157,6 @@ class MailNotifier
         return $this;
     }
 
-    /**
-     * @return EmailNotifier
-     */
     public function addAttachment(string $attachment): self
     {
         if (!in_array($attachment, $this->attachments)) {
@@ -254,9 +166,6 @@ class MailNotifier
         return $this;
     }
 
-    /**
-     * @return EmailNotifier
-     */
     public function addAttachments(array $attachments): self
     {
         foreach ($attachments as $attachment) {
@@ -266,9 +175,6 @@ class MailNotifier
         return $this;
     }
 
-    /**
-     * @return EmailNotifier
-     */
     public function init(): self
     {
         $this
@@ -281,57 +187,49 @@ class MailNotifier
         return $this;
     }
 
-    /**
-     * @return EmailNotifier
-     */
     public function notify(string $template, array $data = [], string $type = 'text/html'): self
     {
-        $message = $this->createMessage(
-            $this->twig->render(
-                $template,
-                $data
-            ),
-            $type
-        );
+        $message = $this->createMessage();
+        $message->context($data);
+
+        if (in_array($type, ['text/plain', 'text'])) {
+            $message->textTemplate($template);
+        } else {
+            $message->htmlTemplate($template);
+        }
 
         $this->mailer->send($message);
 
         return $this;
     }
 
-    protected function createMessage(string $body, string $type = 'text/html'): Swift_Message
+    protected function createMessage(): TemplatedEmail
     {
-        $message = new Swift_Message();
+        $message = new TemplatedEmail();
 
         if ($this->getSubject()) {
-            $message->setSubject($this->getSubject());
+            $message->subject($this->getSubject());
         }
 
         if ($this->getFrom()) {
-            $message->setFrom($this->getFrom());
+            $message->from($this->getFrom());
         }
 
         if ($this->getReplyTo()) {
-            $message->setReplyTo($this->getReplyTo());
+            $message->replyTo($this->getReplyTo());
         }
 
         if (count($this->getRecipients()) > 0) {
-            $message->setTo($this->getRecipients());
+            $message->to(...$this->getRecipients());
         }
 
         if (count($this->getBccRecipients()) > 0) {
-            $message->setBcc($this->getBccRecipients());
+            $message->bcc(...$this->getBccRecipients());
         }
 
         foreach ($this->getAttachments() as $attachment) {
-            if (is_object($attachment) && $attachment instanceof Swift_Attachment) {
-                $message->attach($attachment);
-            } elseif (is_string($attachment) && file_exists($attachment) && is_readable($attachment) && !is_dir($attachment)) {
-                $message->attach(Swift_Attachment::fromPath($attachment));
-            }
+            $message->attachFromPath($attachment);
         }
-
-        $message->setBody($body, $type);
 
         return $message;
     }
