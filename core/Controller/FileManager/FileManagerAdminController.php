@@ -32,7 +32,12 @@ class FileManagerAdminController extends AdminController
      */
     public function directory(FsFileManager $manager, Request $request): Response
     {
-        $files = $manager->list($request->query->get('directory', '/'));
+        $options = [
+            'sort' => $request->query->get('_sort', 'name'),
+            'sort_direction' => $request->query->get('_sort_direction', 'asc'),
+        ];
+
+        $files = $manager->list($request->query->get('directory', '/'), $options);
 
         return $this->json($files);
     }

@@ -50,7 +50,7 @@ class FsFileManager
         $this->pathLocked = $config['path_locked'];
     }
 
-    public function list(string $directory): array
+    public function list(string $directory, array $options = []): array
     {
         $directory = $this->normalizePath($directory);
 
@@ -72,6 +72,26 @@ class FsFileManager
 
         $finder = new Finder();
         $finder->directories()->depth('== 0')->in($this->path.'/'.$directory);
+
+        if (isset($options['sort'])) {
+            $sort = $options['sort'];
+            $sorted = false;
+            $direction = $options['sort_direction'];
+
+            if ('name' === $sort) {
+                $finder->sortByName();
+                $sorted = true;
+            } elseif ('modification_date' === $sort) {
+                $sorted = true;
+                $finder->sortByModifiedTime();
+            }
+
+            if ($sorted) {
+                if ('asc' === $direction) {
+                    $finder->reverseSorting();
+                }
+            }
+        }
 
         foreach ($finder as $file) {
             $data['directories'][] = [

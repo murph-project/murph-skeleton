@@ -23,6 +23,14 @@
                 </div>
 
                 <div class="breadcrumb mb-0 file-manager-views">
+                    <select v-model="sort" class="form-control form-control-sm d-inline w-auto ml-1">
+                        <option value="name">Name</option>
+                        <option value="modification_date">Date</option>
+                    </select>
+                    <select v-model="sortDirection" class="form-control form-control-sm d-inline w-auto ml-1">
+                        <option value="asc">ASC</option>
+                        <option value="desc">DESC</option>
+                    </select>
                     <span class="btn btn-sm btn-dark ml-1" v-on:click="setView('grid')">
                         <span class="fa fa-grip-horizontal" v-on:click="setView('grid')"></span>
                     </span>
@@ -203,6 +211,8 @@ export default {
       directories: [],
       breadcrumb: [],
       files: [],
+      sort: 'name',
+      sortDirection: 'asc',
       parent: null,
       modalUrl: null,
       ajax: 0,
@@ -220,6 +230,10 @@ export default {
       this.view = view
 
       localStorage.setItem('file-manager.view', view)
+    },
+    saveSort () {
+      localStorage.setItem('file-manager.sort', this.sort)
+      localStorage.setItem('file-manager.sortDirection', this.sortDirection)
     },
     generateInfoLink (item, directory, context) {
       if (directory) {
@@ -280,6 +294,8 @@ export default {
         directory: that.directory,
         context: that.context,
         ajax: this.ajax,
+        _sort: this.sort,
+        _sort_direction: this.sortDirection,
         time: Date.now(),
       }))
         .then((response) => {
@@ -305,9 +321,19 @@ export default {
   },
   mounted () {
     const view = localStorage.getItem('file-manager.view')
+    const sort = localStorage.getItem('file-manager.sort')
+    const sortDirection = localStorage.getItem('file-manager.sortDirection')
 
     if (['grid', 'list'].indexOf(view) !== -1) {
       this.view = view
+    }
+
+    if (['name', 'modification_date'].indexOf(sort) !== -1) {
+      this.sort = sort
+    }
+
+    if (['asc', 'desc'].indexOf(sortDirection) !== -1) {
+      this.sortDirection = sortDirection
     }
 
     const query = new URLSearchParams(window.location.search)
@@ -337,6 +363,14 @@ export default {
   },
   watch: {
     directory (directory) {
+      this.refresh()
+    },
+    sort (sort) {
+      this.saveSort()
+      this.refresh()
+    },
+    sortDirection (sortDirection) {
+      this.saveSort()
       this.refresh()
     }
   }
