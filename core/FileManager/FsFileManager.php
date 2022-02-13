@@ -87,7 +87,7 @@ class FsFileManager
             }
 
             if ($sorted) {
-                if ('asc' === $direction) {
+                if ('desc' === $direction) {
                     $finder->reverseSorting();
                 }
             }
