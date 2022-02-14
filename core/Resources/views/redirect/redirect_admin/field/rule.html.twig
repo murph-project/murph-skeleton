@@ -1,0 +1,23 @@
+<div class="btn-group">
+    <span class="btn btn-sm btn-dark border-secondary disabled">
+        {%- if entity.scheme == 'all' -%}
+            http(s)
+        {%- else -%}
+            {{ entity.scheme }}
+        {%- endif -%}://
+    </span>
+    <span class="btn btn-sm btn-info border-secondary disabled">
+        {{ entity.domain }}
+    </span>
+    <span class="btn btn-sm btn-success border-secondary disabled">
+        {{ entity.rule }}
+    </span>
+</div>
+
+→
+
+<div class="btn-group">
+    <span class="btn btn-sm btn-warning border-secondary disabled">
+        {{ entity.location }}
+    </span>
+</div>

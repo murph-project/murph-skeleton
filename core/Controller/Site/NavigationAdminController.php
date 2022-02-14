@@ -107,6 +107,7 @@ class NavigationAdminController extends CrudController
             ->setPageRoute('sort', 'admin_site_navigation_sort')
             ->setPageRoute('delete', 'admin_site_navigation_delete')
             ->setPageRoute('filter', 'admin_site_navigation_filter')
+            ->setPageRoute('redirects', 'admin_redirect_index')
 
             ->setForm('edit', Type::class, [])
             ->setForm('new', Type::class)

@@ -1,5 +1,12 @@
 {% extends '@Core/admin/crud/index.html.twig' %}
 
+{% block header_actions_before %}
+    <a href="{{ path(configuration.pageRoute('redirects'), configuration.pageRouteParams('redirects')) }}" class="btn btn-light">
+        <span class="fa fa-map-signs pr-1"></span>
+        {{ configuration.actionTitle(context, 'redirects', 'Redirects')|trans }}
+    </a>
+{% endblock %}
+
 {% block list_item_actions_before %}
     <a href="{{ path('admin_site_tree_navigation', {navigation: item.id}) }}" class="btn btn-sm btn-success mr-1">
         <span class="fa fa-sitemap"></span>
