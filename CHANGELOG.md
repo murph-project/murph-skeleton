@@ -1,7 +1,13 @@
 ## [Unreleased]
 
 ### Added
+### Fixed
+### Changed
+
+## 1.2.0
+### Added
 * add sort in file manager
+* add redirect manager
 
 ### Changed
 * replace node-sass with sass
