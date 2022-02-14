@@ -16,33 +16,33 @@ class NavigationSetting implements EntityInterface
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    protected $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $section;
+    protected $section;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $label;
+    protected $label;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $code;
+    protected $code;
 
     /**
      * @ORM\Column(type="text", nullable=true)
      */
-    private $value;
+    protected $value;
 
     /**
      * @ORM\ManyToOne(targetEntity=Navigation::class, inversedBy="navigationSettings")
      * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
      */
-    private $navigation;
+    protected $navigation;
 
     public function getId(): ?int
     {

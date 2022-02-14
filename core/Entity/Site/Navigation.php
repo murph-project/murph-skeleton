@@ -63,12 +63,12 @@ class Navigation implements EntityInterface
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private $sortOrder;
+    protected $sortOrder;
 
     /**
      * @ORM\OneToMany(targetEntity=NavigationSetting::class, mappedBy="navigation", orphanRemoval=true)
      */
-    private $navigationSettings;
+    protected $navigationSettings;
 
     public function __construct()
     {

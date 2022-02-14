@@ -137,7 +137,7 @@ class Node implements EntityInterface
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $contentType;
+    protected $contentType;
 
     public function __construct()
     {
