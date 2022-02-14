@@ -18,6 +18,11 @@ services:
         exclude:
             - '../core/DependencyInjection/'
             - '../core/Entity/'
+
+    App\Core\EventListener\RedirectListener:
+        tags:
+            - { name: kernel.event_listener, event: kernel.exception }
+
     App\:
         resource: '../src/'
         exclude:

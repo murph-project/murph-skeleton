@@ -1,0 +1,45 @@
+<div class="row">
+    <div class="col-12 p-2">
+        <div class="row">
+            <div class="col-md-8">
+                {{ form_row(form.label) }}
+            </div>
+        </div>
+        <div class="col-md-12">
+            {{ form_row(form.isEnabled) }}
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                {{ form_row(form.scheme) }}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-3">
+                {{ form_row(form.domainType) }}
+            </div>
+            <div class="col-md-5 pl-md-3">
+                {{ form_row(form.domain) }}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-3">
+                {{ form_row(form.ruleType) }}
+            </div>
+            <div class="col-md-5 pl-md-3">
+                {{ form_row(form.rule) }}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-3">
+                {{ form_row(form.redirectCode) }}
+            </div>
+            <div class="col-md-5 pl-md-3">
+                {{ form_row(form.location) }}
+                {{ form_row(form.reuseQueryString) }}
+            </div>
+        </div>
+    </div>
+</div>
