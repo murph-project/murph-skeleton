@@ -2,7 +2,7 @@
 
 namespace App\Core\Entity;
 
-use App\Repository\Entity\RedirectRepository;
+use App\Core\Repository\RedirectRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
