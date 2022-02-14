@@ -1,5 +1,11 @@
 ## [Unreleased]
 
+### Added
+* add sort in file manager
+
+### Changed
+* replace node-sass with sass
+
 ## 1.1.0
 ### Added
 * add directory upload in file manager
