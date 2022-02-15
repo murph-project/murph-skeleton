@@ -1,6 +1,8 @@
 ## [Unreleased]
 
 ### Added
+* add support of regexp with substitution in redirect
+
 ### Fixed
 ### Changed
 
