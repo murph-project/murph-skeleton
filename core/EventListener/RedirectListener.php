@@ -7,6 +7,7 @@ use App\Core\Router\RedirectMatcher;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use App\Core\Router\RedirectBuilder;
 
 /**
  * class RedirectListener.
@@ -16,11 +17,13 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class RedirectListener
 {
     protected RedirectMatcher $matcher;
+    protected RedirectBuilder $builder;
     protected RedirectRepositoryQuery $repository;
 
-    public function __construct(RedirectMatcher $matcher, RedirectRepositoryQuery $repository)
+    public function __construct(RedirectMatcher $matcher, RedirectBuilder $builder, RedirectRepositoryQuery $repository)
     {
         $this->matcher = $matcher;
+        $this->builder = $builder;
         $this->repository = $repository;
     }
 
@@ -38,20 +41,9 @@ class RedirectListener
             ->find()
         ;
 
-        $uri = $event->getRequest()->getUri();
-
         foreach ($redirects as $redirect) {
-            if ($this->matcher->match($redirect, $uri)) {
-                if ($redirect->getReuseQueryString() && count($event->getRequest()->query)) {
-                    $query = sprintf('?%s', http_build_query($event->getRequest()->query->all()));
-                } else {
-                    $query = '';
-                }
-
-                $event->setResponse(new RedirectResponse(
-                    $redirect->getLocation().$query,
-                    $redirect->getRedirectCode()
-                ));
+            if ($this->matcher->match($redirect, $event->getRequest()->getUri())) {
+                $event->setResponse($this->builder->buildResponse($redirect, $event->getRequest()));
             }
         }
     }
