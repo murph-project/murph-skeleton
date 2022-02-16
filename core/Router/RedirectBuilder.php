@@ -3,6 +3,7 @@
 namespace App\Core\Router;
 
 use App\Core\Entity\Redirect;
+use App\Core\String\UrlBuilder;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -13,6 +14,13 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class RedirectBuilder
 {
+    protected UrlBuilder $urlBuilder;
+
+    public function __construct(UrlBuilder $urlBuilder)
+    {
+        $this->urlBuilder = $urlBuilder;
+    }
+
     public function buildResponse(Redirect $redirect, Request $request): RedirectResponse
     {
         return new RedirectResponse(
@@ -30,6 +38,8 @@ class RedirectBuilder
         } else {
             $location = preg_replace('`'.$redirect->getRule().'`sU', $redirect->getLocation(), $data['path']);
         }
+
+        $location = $this->urlBuilder->replaceTags($location);
 
         if ($redirect->getReuseQueryString() && count($request->query)) {
             $location .= sprintf('?%s', http_build_query($request->query->all()));
