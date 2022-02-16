@@ -7,14 +7,19 @@ use App\Core\Repository\FileInformationRepositoryQuery;
 use function Symfony\Component\String\u;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
+use App\Core\String\FileInformationBuilder;
 
 class FileInformationExtension extends AbstractExtension
 {
-    protected FsFileManager $fsManage²r;
-    protected FileInformationRepositoryQuery $query;
+    protected FileInformationBuilder $fileInfoBuilder;
 
-    public function __construct(FsFileManager $fsManager, FileInformationRepositoryQuery $query)
+    public function __construct(
+        FileInformationBuilder $fileInfoBuilder,
+        FsFileManager $fsManager,
+        FileInformationRepositoryQuery $query
+    )
     {
+        $this->fileInfoBuilder = $fileInfoBuilder;
         $this->fsManager = $fsManager;
         $this->query = $query;
     }
@@ -54,32 +59,8 @@ class FileInformationExtension extends AbstractExtension
         return null;
     }
 
-    public function fileAttributes(?string $content): ?string
+    public function fileAttributes(?string $content): string
     {
-        preg_match_all('#\{\{\s*fattr://(?P<hash>[a-z0-9]+)\/(?P<label>.+)\s*\}\}#isU', $content, $match, PREG_SET_ORDER);
-
-        foreach ($match as $block) {
-            $hash = $block['hash'];
-            $label = $block['label'];
-            $value = null;
-
-            $fileInfo = $this->query->create()
-                ->where('.id LIKE :hash')
-                ->setParameter(':hash', $hash.'%')
-                ->findOne()
-            ;
-
-            if ($fileInfo) {
-                foreach ($fileInfo->getAttributes() as $attribute) {
-                    if ($attribute['label'] === $label) {
-                        $value = htmlspecialchars($attribute['value'], ENT_HTML5 | ENT_QUOTES);
-                    }
-                }
-            }
-
-            $content = str_replace($block[0], $value, $content);
-        }
-
-        return $content;
+        return $this->fileInfoBuilder->replaceTags((string) $content);
     }
 }
