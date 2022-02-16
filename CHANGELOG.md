@@ -2,6 +2,8 @@
 
 ### Added
 * add support of regexp with substitution in redirect
+* url tags can be used as redirect location
+* add builders to replace file information tags and url tags
 
 ### Fixed
 ### Changed
