@@ -6,6 +6,8 @@
 * add builders to replace file information tags and url tags
 
 ### Fixed
+* fix filemanager sorting
+
 ### Changed
 
 ## 1.2.0

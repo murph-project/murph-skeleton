@@ -72,6 +72,7 @@ class FsFileManager
 
         $finder = new Finder();
         $finder->directories()->depth('== 0')->in($this->path.'/'.$directory);
+
         $this->applySort($finder, $options['sort'] ?? 'name', $options['sort_direction'] ?? 'asc');
 
         foreach ($finder as $file) {
