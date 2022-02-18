@@ -115,20 +115,20 @@ class RedirectAdminController extends CrudController
             ])
             ->setField('index', 'Rule', Field\TextField::class, [
                 'view' => '@Core/redirect/redirect_admin/field/rule.html.twig',
-                'attr' => ['class' => 'col-4'],
+                'attr' => ['class' => 'col-6'],
             ])
             ->setField('index', 'Enabled', Field\ButtonField::class, [
                 'property_builder' => function(EntityInterface $entity) {
                     return $entity->getIsEnabled() ? 'Yes' : 'No';
                 },
-                'attr' => ['class' => 'col-2'],
+                'attr' => ['class' => 'col-1'],
                 'button_attr_builder' => function(EntityInterface $entity) {
                     return ['class' => 'btn btn-sm btn-'.($entity->getIsEnabled() ? 'success' : 'primary')];
                 },
             ])
             ->setField('index', 'Type', Field\ButtonField::class, [
                 'property' => 'redirectCode',
-                'attr' => ['class' => 'col-2'],
+                'attr' => ['class' => 'col-1'],
                 'button_attr' => ['class' => 'btn btn-sm btn-light border-secondary font-weight-bold'],
             ])
             ->setBatchAction('index', 'enable', 'Enable', function (EntityInterface $entity, EntityManager $manager) {

@@ -72,26 +72,7 @@ class FsFileManager
 
         $finder = new Finder();
         $finder->directories()->depth('== 0')->in($this->path.'/'.$directory);
-
-        if (isset($options['sort'])) {
-            $sort = $options['sort'];
-            $sorted = false;
-            $direction = $options['sort_direction'];
-
-            if ('name' === $sort) {
-                $finder->sortByName();
-                $sorted = true;
-            } elseif ('modification_date' === $sort) {
-                $sorted = true;
-                $finder->sortByModifiedTime();
-            }
-
-            if ($sorted) {
-                if ('desc' === $direction) {
-                    $finder->reverseSorting();
-                }
-            }
-        }
+        $this->applySort($finder, $options['sort'] ?? 'name', $options['sort_direction'] ?? 'asc');
 
         foreach ($finder as $file) {
             $data['directories'][] = [
@@ -105,6 +86,8 @@ class FsFileManager
 
         $finder = new Finder();
         $finder->files()->depth('== 0')->in($this->path.'/'.$directory);
+
+        $this->applySort($finder, $options['sort'] ?? 'name', $options['sort_direction'] ?? 'asc');
 
         foreach ($finder as $file) {
             $data['files'][] = [
@@ -285,6 +268,19 @@ class FsFileManager
     public function getPathLocked(): array
     {
         return $this->pathLocked;
+    }
+
+    protected function applySort(Finder $finder, string $sort, string $direction)
+    {
+        if ('name' === $sort) {
+            $finder->sortByName();
+        } elseif ('modification_date' === $sort) {
+            $finder->sortByModifiedTime();
+        }
+
+        if ('desc' === $direction) {
+            $finder->reverseSorting();
+        }
     }
 
     protected function normalizePath(string $path): string
