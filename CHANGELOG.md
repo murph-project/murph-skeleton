@@ -1,6 +1,11 @@
 ## [Unreleased]
 
 ### Added
+### Fixed
+### Changed
+
+## 1.3.0
+### Added
 * add support of regexp with substitution in redirect
 * url tags can be used as redirect location
 * add builders to replace file information tags and url tags
@@ -8,8 +13,6 @@
 ### Fixed
 * fix filemanager sorting
 * fix batch action setter
-
-### Changed
 
 ## 1.2.0
 ### Added
