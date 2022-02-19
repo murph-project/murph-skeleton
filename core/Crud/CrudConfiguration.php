@@ -127,7 +127,7 @@ class CrudConfiguration
 
     public function setBatchAction(string $page, string $action, string $label, callable $callback): self
     {
-        if (!isset($this->actions[$page])) {
+        if (!isset($this->batchActions[$page])) {
             $this->batchActions[$page] = [];
         }
 
