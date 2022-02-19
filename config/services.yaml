@@ -23,6 +23,10 @@ services:
         tags:
             - { name: kernel.event_listener, event: kernel.exception }
 
+    App\Core\EventListener\NodeViewListener:
+        tags:
+            - { name: kernel.event_listener, event: kernel.request }
+
     App\:
         resource: '../src/'
         exclude:
