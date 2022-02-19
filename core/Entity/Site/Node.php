@@ -4,6 +4,7 @@ namespace App\Core\Entity\Site;
 
 use App\Core\Doctrine\Timestampable;
 use App\Core\Entity\EntityInterface;
+use App\Core\Entity\NodeView;
 use App\Core\Entity\Site\Page\Page;
 use App\Core\Repository\Site\NodeRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -139,10 +140,21 @@ class Node implements EntityInterface
      */
     protected $contentType;
 
+    /**
+     * @ORM\Column(type="boolean", options={"default"=0})
+     */
+    private $enableViewCounter = false;
+
+    /**
+     * @ORM\OneToMany(targetEntity=NodeView::class, mappedBy="node", orphanRemoval=true)
+     */
+    private $nodeViews;
+
     public function __construct()
     {
         $this->children = new ArrayCollection();
         $this->aliasNodes = new ArrayCollection();
+        $this->nodeViews = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -545,6 +557,48 @@ class Node implements EntityInterface
     public function setContentType(?string $contentType): self
     {
         $this->contentType = $contentType;
+
+        return $this;
+    }
+
+    public function getEnableViewCounter(): ?bool
+    {
+        return $this->enableViewCounter;
+    }
+
+    public function setEnableViewCounter(bool $enableViewCounter): self
+    {
+        $this->enableViewCounter = $enableViewCounter;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|NodeView[]
+     */
+    public function getNodeViews(): Collection
+    {
+        return $this->nodeViews;
+    }
+
+    public function addNodeView(NodeView $nodeView): self
+    {
+        if (!$this->nodeViews->contains($nodeView)) {
+            $this->nodeViews[] = $nodeView;
+            $nodeView->setNode($this);
+        }
+
+        return $this;
+    }
+
+    public function removeNodeView(NodeView $nodeView): self
+    {
+        if ($this->nodeViews->removeElement($nodeView)) {
+            // set the owning side to null (unless already changed)
+            if ($nodeView->getNode() === $this) {
+                $nodeView->setNode(null);
+            }
+        }
 
         return $this;
     }

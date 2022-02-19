@@ -61,6 +61,19 @@ class NodeType extends AbstractType
         );
 
         $builder->add(
+            'enableViewCounter',
+            CheckboxType::class,
+            [
+                'label' => 'Enable view counter',
+                'required' => false,
+                'attr' => [
+                ],
+                'constraints' => [
+                ],
+            ]
+        );
+
+        $builder->add(
             'code',
             TextType::class,
             [
