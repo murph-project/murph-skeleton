@@ -18,7 +18,7 @@
         "doctrine/orm": "^2.8",
         "friendsofsymfony/jsrouting-bundle": "^2.7",
         "knplabs/doctrine-behaviors": "^2.2",
-        "knplabs/knp-paginator-bundle": "^5.4",
+        "knplabs/knp-paginator-bundle": "^5.8",
         "liip/imagine-bundle": "^2.6",
         "phpdocumentor/reflection-docblock": "^5.2",
         "scheb/2fa-google-authenticator": "^5.7",
