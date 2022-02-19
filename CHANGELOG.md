@@ -7,6 +7,7 @@
 
 ### Fixed
 * fix filemanager sorting
+* fix batch action setter
 
 ### Changed
 
