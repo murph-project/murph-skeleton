@@ -41,6 +41,8 @@
 "Disable URL": "Désactiver l'URL"
 "Enable analytics": "Activer les analyses"
 "Analytics": "Analyses"
+"Referers": "Référents"
+"Views": "Vues"
 "Controller": "Contrôleur"
 "Leave blank for automatic generation": "Laisser vide pour une génération automatique"
 "Leave blank to use the default one. Example: App\\Controller\\FooController::barAction": "Laisser vide pour utiliser celui par défaut. Exemple : App\\Controller\\FooController::barAction"
