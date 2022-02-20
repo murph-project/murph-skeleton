@@ -18,28 +18,28 @@ class View implements EntityInterface
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    protected $id;
 
     /**
      * @ORM\ManyToOne(targetEntity=Node::class, inversedBy="nodeViews")
      * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
      */
-    private $node;
+    protected $node;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $path;
+    protected $path;
 
     /**
      * @ORM\Column(type="integer", options={"default"=0})
      */
-    private $views = 0;
+    protected $views = 0;
 
     /**
      * @ORM\Column(type="date")
      */
-    private $date;
+    protected $date;
 
     public function getId(): ?int
     {

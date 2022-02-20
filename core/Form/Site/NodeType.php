@@ -61,10 +61,10 @@ class NodeType extends AbstractType
         );
 
         $builder->add(
-            'enableAnalytic',
+            'enableAnalytics',
             CheckboxType::class,
             [
-                'label' => 'Enable analytic',
+                'label' => 'Enable analytics',
                 'required' => false,
                 'attr' => [
                 ],

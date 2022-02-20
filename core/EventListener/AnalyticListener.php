@@ -63,7 +63,7 @@ class AnalyticListener
 
         $node = $this->nodeRepository->findOneBy([
             'id' => $request->attributes->get('_node'),
-            'enableViewCounter' => true,
+            'enableAnalytics' => true,
         ]);
 
         if (!$node) {

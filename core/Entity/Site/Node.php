@@ -145,7 +145,7 @@ class Node implements EntityInterface
     /**
      * @ORM\Column(type="boolean", options={"default"=0})
      */
-    protected $enableAnalytic = false;
+    protected $enableAnalytics = false;
 
     /**
      * @ORM\OneToMany(targetEntity=View::class, mappedBy="node")
@@ -569,14 +569,14 @@ class Node implements EntityInterface
         return $this;
     }
 
-    public function getEnableAnalytic(): ?bool
+    public function getEnableAnalytics(): ?bool
     {
-        return $this->enableAnalytic;
+        return $this->enableAnalytics;
     }
 
-    public function setEnableAnalytic(bool $enableAnalytic): self
+    public function setEnableAnalytics(bool $enableAnalytics): self
     {
-        $this->enableAnalytic = $enableAnalytic;
+        $this->enableAnalytics = $enableAnalytics;
 
         return $this;
     }
