@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Core\Repository;
+namespace App\Core\Repository\Analytic;
 
-use App\Core\Repository\NodeViewRepository as Repository;
+use App\Core\Repository\Analytic\ViewRepository as Repository;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
+use App\Core\Repository\RepositoryQuery;
 
-class NodeViewRepositoryQuery extends RepositoryQuery
+class ViewRepositoryQuery extends RepositoryQuery
 {
     public function __construct(Repository $repository, PaginatorInterface $paginator)
     {

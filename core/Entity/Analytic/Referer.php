@@ -1,16 +1,17 @@
 <?php
 
-namespace App\Core\Entity;
+namespace App\Core\Entity\Analytic;
 
 use App\Core\Entity\Site\Node;
-use App\Repository\Entity\NodeViewRepository;
+use App\Repository\Entity\Analytic\NodeViewRepository;
 use Doctrine\ORM\Mapping as ORM;
 use App\Core\Entity\EntityInterface;
 
 /**
- * @ORM\Entity(repositoryClass=NodeViewRepository::class)
+ * @ORM\Entity(repositoryClass=ViewRepository::class)
+ * @ORM\Table(name="analytic_referer")
  */
-class NodeView implements EntityInterface
+class Referer implements EntityInterface
 {
     /**
      * @ORM\Id
@@ -21,14 +22,14 @@ class NodeView implements EntityInterface
 
     /**
      * @ORM\ManyToOne(targetEntity=Node::class, inversedBy="nodeViews")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
      */
     private $node;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $path;
+    private $uri;
 
     /**
      * @ORM\Column(type="integer", options={"default"=0})
@@ -57,14 +58,14 @@ class NodeView implements EntityInterface
         return $this;
     }
 
-    public function getPath(): ?string
+    public function getUri(): ?string
     {
-        return $this->path;
+        return $this->uri;
     }
 
-    public function setPath(string $path): self
+    public function setUri(string $uri): self
     {
-        $this->path = $path;
+        $this->uri = $uri;
 
         return $this;
     }

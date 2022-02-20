@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Core\Factory;
+namespace App\Core\Factory\Analytic;
 
-use App\Core\Entity\NodeView as Entity;
+use App\Core\Entity\Analytic\View as Entity;
 use App\Core\Entity\Site\Node;
+use App\Core\Factory\FactoryInterface;
 
-class NodeViewFactory implements FactoryInterface
+class ViewFactory implements FactoryInterface
 {
     public function create(Node $node, string $path): Entity
     {

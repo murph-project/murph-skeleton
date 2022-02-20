@@ -17,6 +17,7 @@
         "doctrine/doctrine-migrations-bundle": "^3.0",
         "doctrine/orm": "^2.8",
         "friendsofsymfony/jsrouting-bundle": "^2.7",
+        "jaybizzle/crawler-detect": "^1.2",
         "knplabs/doctrine-behaviors": "^2.2",
         "knplabs/knp-paginator-bundle": "^5.8",
         "liip/imagine-bundle": "^2.6",

@@ -23,7 +23,7 @@ services:
         tags:
             - { name: kernel.event_listener, event: kernel.exception }
 
-    App\Core\EventListener\NodeViewListener:
+    App\Core\EventListener\AnalyticListener:
         tags:
             - { name: kernel.event_listener, event: kernel.request }
 

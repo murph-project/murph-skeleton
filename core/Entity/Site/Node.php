@@ -12,6 +12,8 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use function Symfony\Component\String\u;
+use App\Core\Entity\Analytic\View;
+use App\Core\Entity\Analytic\Referer;
 
 /**
  * @Gedmo\Tree(type="nested")
@@ -143,18 +145,24 @@ class Node implements EntityInterface
     /**
      * @ORM\Column(type="boolean", options={"default"=0})
      */
-    private $enableViewCounter = false;
+    protected $enableViewCounter = false;
 
     /**
-     * @ORM\OneToMany(targetEntity=NodeView::class, mappedBy="node", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=View::class, mappedBy="node")
      */
-    private $nodeViews;
+    protected $analyticViews;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Referer::class, mappedBy="node")
+     */
+    protected $analyticReferers;
 
     public function __construct()
     {
         $this->children = new ArrayCollection();
         $this->aliasNodes = new ArrayCollection();
-        $this->nodeViews = new ArrayCollection();
+        $this->analyticViews = new ArrayCollection();
+        $this->analyticReferers = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -574,29 +582,59 @@ class Node implements EntityInterface
     }
 
     /**
-     * @return Collection|NodeView[]
+     * @return Collection|View[]
      */
-    public function getNodeViews(): Collection
+    public function getAnalyticViews(): Collection
     {
-        return $this->nodeViews;
+        return $this->analyticViews;
     }
 
-    public function addNodeView(NodeView $nodeView): self
+    public function addAnalyticView(View $view): self
     {
-        if (!$this->nodeViews->contains($nodeView)) {
-            $this->nodeViews[] = $nodeView;
-            $nodeView->setNode($this);
+        if (!$this->analyticViews->contains($view)) {
+            $this->analyticViews[] = $view;
+            $view->setNode($this);
         }
 
         return $this;
     }
 
-    public function removeNodeView(NodeView $nodeView): self
+    public function removeAnalyticView(View $view): self
     {
-        if ($this->nodeViews->removeElement($nodeView)) {
+        if ($this->analyticViews->removeElement($view)) {
             // set the owning side to null (unless already changed)
-            if ($nodeView->getNode() === $this) {
-                $nodeView->setNode(null);
+            if ($view->getNode() === $this) {
+                $view->setNode(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Referer[]
+     */
+    public function getAnalyticReferers(): Collection
+    {
+        return $this->analyticReferers;
+    }
+
+    public function addAnalyticReferer(Referer $referer): self
+    {
+        if (!$this->analyticReferers->contains($referer)) {
+            $this->analyticReferers[] = $referer;
+            $referer->setNode($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAnalyticReferer(Referer $referer): self
+    {
+        if ($this->analyticReferers->removeElement($referer)) {
+            // set the owning side to null (unless already changed)
+            if ($referer->getNode() === $this) {
+                $referer->setNode(null);
             }
         }
 
