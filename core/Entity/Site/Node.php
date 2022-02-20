@@ -145,7 +145,7 @@ class Node implements EntityInterface
     /**
      * @ORM\Column(type="boolean", options={"default"=0})
      */
-    protected $enableViewCounter = false;
+    protected $enableAnalytic = false;
 
     /**
      * @ORM\OneToMany(targetEntity=View::class, mappedBy="node")
@@ -569,14 +569,14 @@ class Node implements EntityInterface
         return $this;
     }
 
-    public function getEnableViewCounter(): ?bool
+    public function getEnableAnalytic(): ?bool
     {
-        return $this->enableViewCounter;
+        return $this->enableAnalytic;
     }
 
-    public function setEnableViewCounter(bool $enableViewCounter): self
+    public function setEnableAnalytic(bool $enableAnalytic): self
     {
-        $this->enableViewCounter = $enableViewCounter;
+        $this->enableAnalytic = $enableAnalytic;
 
         return $this;
     }
