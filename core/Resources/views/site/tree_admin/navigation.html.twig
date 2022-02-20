@@ -148,9 +148,11 @@
                                                     {% endif %}
                                                 </button>
 
-                                                <button data-modal="{{ analytics }}" class="btn btn-sm btn-light border border-dark mr-1 mb-1">
-                                                    <span data-modal="{{ analytics }}" class="fa fa-chart-bar"></span>
-                                                </button>
+                                                {% if node.enableAnalytics %}
+                                                    <button data-modal="{{ analytics }}" class="btn btn-sm btn-light border border-dark mr-1 mb-1">
+                                                        <span data-modal="{{ analytics }}" class="fa fa-chart-bar"></span>
+                                                    </button>
+                                                {% endif %}
 
                                                 <button data-modal="{{ move }}" class="btn btn-sm btn-dark mr-1 mb-1">
                                                     <span data-modal="{{ move }}" class="fa fa-arrows-alt"></span>
@@ -185,6 +187,12 @@
                                                             {{ 'Hidden'|trans }}
                                                         {% endif %}
                                                     </button>
+
+                                                    {% if node.enableAnalytics %}
+                                                        <button data-modal="{{ analytics }}" class="dropdown-item">
+                                                            {{ 'Analytics'|trans }}
+                                                        </button>
+                                                    {% endif %}
 
                                                     <button data-modal="{{ move }}" class="dropdown-item">
                                                         {{ 'Move'|trans }}
