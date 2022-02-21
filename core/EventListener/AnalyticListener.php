@@ -101,7 +101,7 @@ class AnalyticListener
 
         $referer = $this->request->headers->get('referer');
 
-        if (!filter_var($referer, FILTER_VALIDATE_URL) || parse_url($url, PHP_URL_SCHEME)) {
+        if (!filter_var($referer, FILTER_VALIDATE_URL)) {
             return;
         }
 
