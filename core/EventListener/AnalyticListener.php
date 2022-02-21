@@ -105,7 +105,7 @@ class AnalyticListener
             return;
         }
 
-        if (!in_array(parse_url($url, PHP_URL_SCHEME), ['http', 'https'])) {
+        if (!in_array(parse_url($referer, PHP_URL_SCHEME), ['http', 'https'])) {
             return;
         }
 
