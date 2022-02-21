@@ -1,5 +1,6 @@
 ## [Unreleased]
 
+## Upgrade to v1.4.0
 
 ### Commands
 
