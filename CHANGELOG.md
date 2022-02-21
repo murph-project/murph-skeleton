@@ -3,6 +3,7 @@
 ### Added
 ### Fixed
 ### Changed
+* update default templates
 
 ## 1.4.0
 ### Added
