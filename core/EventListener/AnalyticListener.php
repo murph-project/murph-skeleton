@@ -99,6 +99,16 @@ class AnalyticListener
             return;
         }
 
+        $referer = $this->request->headers->get('referer');
+
+        if (!filter_var($referer, FILTER_VALIDATE_URL) || parse_url($url, PHP_URL_SCHEME)) {
+            return;
+        }
+
+        if (!in_array(parse_url($url, PHP_URL_SCHEME), ['http', 'https'])) {
+            return;
+        }
+
         $entity = $this->refererRepositoryQuery->create()
             ->filterByRequest($this->request)
             ->andWhere('.date=CURRENT_DATE()')
@@ -106,7 +116,7 @@ class AnalyticListener
         ;
 
         if (!$entity) {
-            $entity = $this->refererFactory->create($this->node, $this->request->headers->get('referer'));
+            $entity = $this->refererFactory->create($this->node, $referer);
         }
 
         $entity->addView();

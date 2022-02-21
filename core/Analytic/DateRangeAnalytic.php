@@ -7,11 +7,11 @@ use App\Core\Repository\Analytic\RefererRepositoryQuery;
 use App\Core\Repository\Analytic\ViewRepositoryQuery;
 
 /**
- * class RangeAnalytic.
+ * class DateRangeAnalytic.
  *
  * @author Simon Vieille <simon@deblan.fr>
  */
-class RangeAnalytic
+class DateRangeAnalytic
 {
     protected ViewRepositoryQuery $viewQuery;
     protected RefererRepositoryQuery $refererQuery;
@@ -57,6 +57,8 @@ class RangeAnalytic
             $datas[$index] += $entity->getViews();
         }
 
+        arsort($datas, SORT_NUMERIC);
+
         return $datas;
     }
 
@@ -76,6 +78,8 @@ class RangeAnalytic
 
             $datas[$index] += $entity->getViews();
         }
+
+        arsort($datas, SORT_NUMERIC);
 
         return $datas;
     }
@@ -107,6 +111,18 @@ class RangeAnalytic
 
             $datas[$index]['uris'][$path] += $entity->getViews();
         }
+
+        uasort($datas, function($a, $b) {
+            if ($a['views'] > $b['views']) {
+                return -1;
+            }
+
+            if ($a['views'] < $b['views']) {
+                return 1;
+            }
+
+            return 0;
+        });
 
         return $datas;
     }
