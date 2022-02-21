@@ -2,11 +2,11 @@
 
 namespace App\Core\Controller\Analytic;
 
+use App\Core\Analytic\RangeAnalytic;
+use App\Core\Entity\Site\Node;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Core\Entity\Site\Node;
-use App\Core\Analytic\RangeAnalytic;
 
 /**
  * @Route("/admin/analytic")
@@ -22,15 +22,16 @@ class AnalyticController extends AbstractController
             throw $this->createNotFoundException();
         }
 
-        $views = $rangeAnalytic->getViews(new \DateTime('now - '.$range), new \DateTime(), $node);
-        $pathViews = $rangeAnalytic->getPathViews(new \DateTime('now - '.$range), new \DateTime(), $node);
-        $referers = $rangeAnalytic->getReferers(new \DateTime('now - '.$range), new \DateTime(), $node);
+        $rangeAnalytic
+            ->setDateRange(new \DateTime('now - '.$range), new \DateTime())
+            ->setNode($node)
+        ;
 
         return $this->render('@Core/analytic/stats.html.twig', [
             'range' => $range,
-            'views' => $views,
-            'pathViews' => $pathViews,
-            'referers' => $referers,
+            'views' => $rangeAnalytic->getViews(),
+            'pathViews' => $rangeAnalytic->getPathViews(),
+            'referers' => $rangeAnalytic->getReferers(),
             'node' => $node,
         ]);
     }
