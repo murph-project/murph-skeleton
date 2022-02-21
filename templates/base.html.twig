@@ -1,19 +1,62 @@
+{% apply spaceless %}
 <!DOCTYPE html>
-<html>
+<html lang="{{ _locale }}">
     <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {# Run `composer require symfony/webpack-encore-bundle`
-           and uncomment the following Encore helpers to start using Symfony UX #}
-        {% block stylesheets %}
-            {#{{ encore_entry_link_tags('app') }}#}
-        {% endblock %}
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-        {% block javascripts %}
-            {#{{ encore_entry_script_tags('app') }}#}
-        {% endblock %}
+        <link rel="icon" type="image/x-icon" href="{{ asset('build/images/logo.png') }}" />
+
+        {%- block opengraph -%}
+            <meta property="og:title" content="{{ _page.ogTitle }}" />
+            <meta property="og:description" content="{{ _page.ogDescription }}" />
+            <meta property="og:type" content="website" />
+            <meta property="og:url" content="{{ app.request.uri }}" />
+
+            {%- if _page.ogImage -%}
+                <meta property="og:image" content="{{ absolute_url(asset(_page.ogImage)) }}" />
+            {%- endif -%}
+        {%- endblock -%}
+
+        {%- block stylesheets -%}
+            {{ encore_entry_link_tags('app') }}
+        {%- endblock -%}
+
+        <title>{{ _page.metaTitle }}</title>
     </head>
+
     <body>
-        {% block body %}{% endblock %}
+        {#
+            - The current node is `_node` and its menu is `_menu`
+            - The current navigation is `_navigation`
+            - The current locale is `_locale`
+
+            - Retrieve all navigations: `_store.navigations`
+            - Retrieve a navigation by its code: `_store.navigation('the_code')`
+
+            - Retrieve all navigation menus: `_navigation.menus`
+            - Retrieve a menu by its code: `_navigation.menu('the_code')`
+            - Retrieve all nodes of a menu: `menu.rootNode.children`
+            - Retrieve visible nodes of a menu: `menu.rootNode.children({visible: true})`
+
+            - Test if a node is the current one: `_store.isActiveNode(node)`
+            - Test if a node is or contains the current one: `_store.isActiveNode(node, true)`
+            - Generate a node url:
+                ```
+                {% if node.hasExternalUrl or node.hasAppUrl %}
+                    {% set url = node.url %}
+                {% else %}
+                    {% set url = safe_node_path(node) %}
+                {% endif %}
+                ```
+            - Generate a node url when the navigation has several domains: `safe_node_path(node, {_domain: _domain})`
+        #}
+
+        {% block page %}{% endblock %}
+
+        {%- block javascripts -%}
+            {{ encore_entry_script_tags('app') }}
+        {%- endblock -%}
     </body>
 </html>
+{% endapply %}

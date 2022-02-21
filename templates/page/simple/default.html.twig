@@ -1,99 +1,16 @@
-{% import _self as macros %}
+{% extends 'base.html.twig' %}
 
-{% macro item(node, store) %}
-    {% set isActive = store.isActiveNode(node, true) %}
+{%- block page -%}
+    <h1>{{ _page.title.value }}</h1>
 
-    {% if node.isVisible %}
-        {% if node.code == 'post' %}
-            <a {% if isActive %}style="color: red"{% endif %} href="{{ url(node.routeName, {post: 1}) }}">
-                {{ node.label }}
-            </a>
-        {% elseif node.page %}
-            {% set url = node.hasExternalUrl ? node.url : url(node.routeName) %}
+    {{ _page.content.value|murph_url|file_attributes|raw }}
 
-            <a {% if isActive %}style="color: red"{% endif %} href="{{ url }}">
-                {{ node.label }}
-            </a>
-        {% else %}
-            <span {% if isActive %}style="color: red"{% endif %}>
-                {{ node.label }}
-            </span>
-        {% endif %}
+    <hr>
 
-        {% if node.children|length %}
-            <ul>
-                {% for child in node.children %}
-                    {% if child.isVisible %}
-                        <li>
-                            {{ macros.item(child, store) }}
-                        </li>
-                    {% endif %}
-                {% endfor %}
-            </ul>
-        {% endif %}
+    {% set image = _page.image.value %}
+
+    {% if image %}
+        <img src="{{ asset(image) }}" alt="{{ image|file_attribute('alt') }}" title="{{ image|file_attribute('title') }}">
     {% endif %}
-{% endmacro %}
+{%- endblock -%}
 
-{% macro menu(menu, store) %}
-    <ul>
-        {% for child in menu.rootNode.children %}
-            {% if child.isVisible %}
-                <li>
-                    {{ macros.item(child, store) }}
-                </li>
-            {% endif %}
-        {% endfor %}
-    </ul>
-{% endmacro %}
-
-<h1>{{ _page.title.value }}</h1>
-
-<pre>{{ _page.content.value|murph_url|file_attributes }}</pre>
-
-{% set image = _page.image.value %}
-
-{% if image %}
-    <img src="{{ asset(image) }}" alt="">
-{% endif %}
-
-<h1>Request</h1>
-
-<ul>
-    <li>
-        Node: {{ _node.label }}
-    </li>
-    <li>
-        Menu: {{ _menu.label }}
-    </li>
-    <li>
-        Navigation: {{ _navigation.label }}
-    </li>
-    <li>
-        Locale:
-
-        <ul>
-            <li>
-                Var: {{ _locale }}
-            </li>
-            <li>
-                Navigation: {{ _navigation.locale }}
-            </li>
-            <li>
-                Request: {{ app.request.attributes.get('_locale') }}
-            </li>
-            <li>
-                Test: {{ 'This is a test of translation'|trans }}
-            </li>
-        </ul>
-    </li>
-</ul>
-
-<h1>Menus</h1>
-
-{# {% set menu = _navigation.menu('top') %} #}
-
-{% for menu in _navigation.menus %}
-    <h2>{{ menu.label }} / {{ menu.code }}</h2>
-
-    {{ macros.menu(menu, _store) }}
-{% endfor %}
