@@ -24,4 +24,4 @@ clean:
 doctrine-migration:
 	PHP=$(PHP_BIN) ./bin/doctrine-migrate
 
-build: js-routing asset
+build: clean js-routing asset
