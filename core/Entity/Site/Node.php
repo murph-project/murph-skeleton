@@ -4,6 +4,7 @@ namespace App\Core\Entity\Site;
 
 use App\Core\Doctrine\Timestampable;
 use App\Core\Entity\EntityInterface;
+use App\Core\Entity\NodeView;
 use App\Core\Entity\Site\Page\Page;
 use App\Core\Repository\Site\NodeRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -11,6 +12,8 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use function Symfony\Component\String\u;
+use App\Core\Entity\Analytic\View;
+use App\Core\Entity\Analytic\Referer;
 
 /**
  * @Gedmo\Tree(type="nested")
@@ -139,10 +142,27 @@ class Node implements EntityInterface
      */
     protected $contentType;
 
+    /**
+     * @ORM\Column(type="boolean", options={"default"=0})
+     */
+    protected $enableAnalytics = false;
+
+    /**
+     * @ORM\OneToMany(targetEntity=View::class, mappedBy="node")
+     */
+    protected $analyticViews;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Referer::class, mappedBy="node")
+     */
+    protected $analyticReferers;
+
     public function __construct()
     {
         $this->children = new ArrayCollection();
         $this->aliasNodes = new ArrayCollection();
+        $this->analyticViews = new ArrayCollection();
+        $this->analyticReferers = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -545,6 +565,78 @@ class Node implements EntityInterface
     public function setContentType(?string $contentType): self
     {
         $this->contentType = $contentType;
+
+        return $this;
+    }
+
+    public function getEnableAnalytics(): ?bool
+    {
+        return $this->enableAnalytics;
+    }
+
+    public function setEnableAnalytics(bool $enableAnalytics): self
+    {
+        $this->enableAnalytics = $enableAnalytics;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|View[]
+     */
+    public function getAnalyticViews(): Collection
+    {
+        return $this->analyticViews;
+    }
+
+    public function addAnalyticView(View $view): self
+    {
+        if (!$this->analyticViews->contains($view)) {
+            $this->analyticViews[] = $view;
+            $view->setNode($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAnalyticView(View $view): self
+    {
+        if ($this->analyticViews->removeElement($view)) {
+            // set the owning side to null (unless already changed)
+            if ($view->getNode() === $this) {
+                $view->setNode(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Referer[]
+     */
+    public function getAnalyticReferers(): Collection
+    {
+        return $this->analyticReferers;
+    }
+
+    public function addAnalyticReferer(Referer $referer): self
+    {
+        if (!$this->analyticReferers->contains($referer)) {
+            $this->analyticReferers[] = $referer;
+            $referer->setNode($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAnalyticReferer(Referer $referer): self
+    {
+        if ($this->analyticReferers->removeElement($referer)) {
+            // set the owning side to null (unless already changed)
+            if ($referer->getNode() === $this) {
+                $referer->setNode(null);
+            }
+        }
 
         return $this;
     }

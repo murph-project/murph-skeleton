@@ -72,6 +72,7 @@
                             {% set move = path('admin_site_node_move', {entity: node.id}) %}
                             {% set edit = path('admin_site_node_edit', {entity: node.id}) %}
                             {% set new = path('admin_site_node_new', {node: node.id}) %}
+                            {% set analytics = path('admin_analytic_stats', {node: node.id}) %}
 
                             <div class="list-group-item" id="node-{{ node.id }}">
                                 <div class="row">
@@ -147,6 +148,12 @@
                                                     {% endif %}
                                                 </button>
 
+                                                {% if node.enableAnalytics %}
+                                                    <button data-modal="{{ analytics }}" class="btn btn-sm btn-light border border-dark mr-1 mb-1">
+                                                        <span data-modal="{{ analytics }}" class="fa fa-chart-bar"></span>
+                                                    </button>
+                                                {% endif %}
+
                                                 <button data-modal="{{ move }}" class="btn btn-sm btn-dark mr-1 mb-1">
                                                     <span data-modal="{{ move }}" class="fa fa-arrows-alt"></span>
                                                 </button>
@@ -180,6 +187,12 @@
                                                             {{ 'Hidden'|trans }}
                                                         {% endif %}
                                                     </button>
+
+                                                    {% if node.enableAnalytics %}
+                                                        <button data-modal="{{ analytics }}" class="dropdown-item">
+                                                            {{ 'Analytics'|trans }}
+                                                        </button>
+                                                    {% endif %}
 
                                                     <button data-modal="{{ move }}" class="dropdown-item">
                                                         {{ 'Move'|trans }}

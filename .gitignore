@@ -27,3 +27,5 @@ yarn-error.log
 /public/uploads/
 !/public/uploads/.gitkeep
 /public/media/
+/migrations/
+!/migrations/.gitkeep

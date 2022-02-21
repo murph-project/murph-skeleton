@@ -1,0 +1,133 @@
+<div class="modal-dialog modal-dialog-large">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title">
+                {{ 'Analytics'|trans }}
+            </h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <ul class="nav nav-pills" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link {% if range == '7days' %}active{% endif %}" data-modal="{{ path('admin_analytic_stats', {node: node.id, range: '7days'}) }}" href="#">
+                        {{ 'Last 7 days'|trans }}
+                    </a>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link {% if range == '30days' %}active{% endif %}" data-modal="{{ path('admin_analytic_stats', {node: node.id, range: '30days'}) }}" href="#">
+                        {{ 'Last 30 days'|trans }}
+                    </a>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link {% if range == '90days' %}active{% endif %}" data-modal="{{ path('admin_analytic_stats', {node: node.id, range: '90days'}) }}" href="#">
+                        {{ 'Last 90 days'|trans }}
+                    </a>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link {% if range == '1year' %}active{% endif %}" data-modal="{{ path('admin_analytic_stats', {node: node.id, range: '1year'}) }}" href="#">
+                        {{ 'Last year'|trans }}
+                    </a>
+                </li>
+            </ul>
+
+            {% set values = [] %}
+            {% for item in views %}{% set values = values|merge([item]) %}{% endfor %}
+
+            <div class="tab-content pt-4">
+                <div id="analytic-chart-container">
+                    <canvas id="analytic-chart" data-label="{{ 'Views'|trans }}" data-labels="{{ views|keys|json_encode }}" data-values="{{ values|json_encode }}"></canvas>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="pl-md-3">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>{{ 'Path'|trans }}</th>
+                                        <th width="100" class="text-right">{{ 'Views'|trans }}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for path, views in pathViews %}
+                                        <tr>
+                                            <td>{{ path }}</td>
+                                            <td class="text-right">{{ views }}</td>
+                                        </tr>
+                                    {% else %}
+                                        <tr>
+                                            <td class="col-12 text-center p-4 text-black-50" colspan="2">
+                                                <div class="display-1">
+                                                    <span class="fa fa-search"></span>
+                                                </div>
+                                                <div class="display-5 mt-3">
+                                                    {{ 'No result'|trans }}
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="pl-md-3">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>{{ 'Referers'|trans }}</th>
+                                        <th width="100" class="text-right">{{ 'Views'|trans }}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for referer, info in referers %}
+                                        <tr>
+                                            <td colspan="2">
+                                                <details>
+                                                    <summary>
+                                                        <div class="float-right">
+                                                            {{ info.views }}
+                                                        </div>
+
+                                                        {{ referer }}
+                                                    </summary>
+
+                                                    {% for path, views in info.uris %}
+                                                        <div class="pl-3">
+                                                            <div class="float-right">
+                                                                {{ info.views }}
+                                                            </div>
+
+                                                            {{ path }}
+                                                        </div>
+                                                    {% endfor %}
+                                                </details>
+                                            </td>
+                                        </tr>
+                                    {% else %}
+                                        <tr>
+                                            <td class="col-12 text-center p-4 text-black-50" colspan="2">
+                                                <div class="display-1">
+                                                    <span class="fa fa-search"></span>
+                                                </div>
+                                                <div class="display-5 mt-3">
+                                                    {{ 'No result'|trans }}
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ 'Close'|trans }}</button>
+        </div>
+    </div>
+</div>

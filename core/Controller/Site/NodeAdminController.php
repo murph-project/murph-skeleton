@@ -21,11 +21,12 @@ use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
  * @Route("/admin/site/node")
  */
-class NodeAdminController extends AdminController
+class NodeAdminController extends AbstractController
 {
     /**
      * @Route("/new/{node}", name="admin_site_node_new")
@@ -266,11 +267,6 @@ class NodeAdminController extends AdminController
         return $this->redirectToRoute('admin_site_tree_navigation', [
             'navigation' => $entity->getMenu()->getNavigation()->getId(),
         ]);
-    }
-
-    public function getSection(): string
-    {
-        return '';
     }
 
     protected function handlePageAssociation(

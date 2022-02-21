@@ -3,8 +3,10 @@ const $ = require('jquery')
 const openModal = function (url) {
   let container = $('#modal-container')
   const body = $('body')
+  let doTrigger = true
 
   if (!container.length) {
+    let doTrigger = false
     container = $('<div id="modal-container" class="modal">')
 
     body.append(container)
@@ -20,6 +22,10 @@ const openModal = function (url) {
 
   container.load(url, function () {
     loader.remove()
+
+    if (doTrigger) {
+       container.trigger('shown.bs.modal')
+    }
   })
 }
 
