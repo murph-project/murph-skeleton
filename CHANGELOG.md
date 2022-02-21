@@ -1,9 +1,12 @@
 ## [Unreleased]
 
 ### Added
-* add basic analytics
 ### Fixed
 ### Changed
+
+## 1.4.0
+### Added
+* add basic analytics
 
 ## 1.3.0
 ### Added
