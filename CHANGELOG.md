@@ -1,6 +1,7 @@
 ## [Unreleased]
 
 ### Added
+* add basic analytics
 ### Fixed
 ### Changed
 
