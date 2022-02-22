@@ -105,6 +105,10 @@ class DateRangeAnalytic
 
             $path = parse_url($entity->getUri(), PHP_URL_PATH);
 
+            if (empty($path)) {
+                $path = '/';
+            }
+
             if (!isset($datas[$index]['uris'][$path])) {
                 $datas[$index]['uris'][$path] = 0;
             }

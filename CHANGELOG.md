@@ -2,6 +2,8 @@
 
 ### Added
 ### Fixed
+* fix views in analytics modal
+* replace empty path with "/" in analytics
 ### Changed
 * update default templates
 
