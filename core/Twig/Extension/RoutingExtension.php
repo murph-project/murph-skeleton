@@ -62,7 +62,7 @@ class RoutingExtension extends AbstractExtension
 
     public function getNodePath(Node $node, array $parameters = [], bool $relative = false): ?string
     {
-        if ($node->hasExternalUrl()) {
+        if ($node->hasExternalUrl() || $node->hasAppUrl()) {
             return $node->getUrl();
         }
 
@@ -75,7 +75,7 @@ class RoutingExtension extends AbstractExtension
 
     public function getNodeUrl(Node $node, array $parameters = [], bool $schemeRelative = false): ?string
     {
-        if ($node->hasExternalUrl()) {
+        if ($node->hasExternalUrl() || $node->hasAppUrl()) {
             return $node->getUrl();
         }
 
