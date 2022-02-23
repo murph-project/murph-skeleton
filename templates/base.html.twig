@@ -43,10 +43,11 @@
             - Test if a node is or contains the current one: `_store.isActiveNode(node, true)`
             - Generate a node url:
                 ```
-                {% if node.hasExternalUrl or node.hasAppUrl %}
-                    {% set url = node.url %}
+                {% if not node.disableUrl %}
+                    {% set path = safe_node_path(node) %}
+                    {% set url = safe_node_url(node) %}
                 {% else %}
-                    {% set url = safe_node_path(node) %}
+                    {% set url = null %}
                 {% endif %}
                 ```
             - Generate a node url when the navigation has several domains: `safe_node_path(node, {_domain: _domain})`
