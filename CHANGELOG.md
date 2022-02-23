@@ -1,6 +1,11 @@
 ## [Unreleased]
 
 ### Added
+### Fixed
+### Changed
+
+## 1.4.1
+### Added
 * handle app urls in twig routing filters
 ### Fixed
 * fix views in analytics modal
