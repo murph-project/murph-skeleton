@@ -1,6 +1,7 @@
 ## [Unreleased]
 
 ### Added
+* handle app urls in twig routing filters
 ### Fixed
 * fix views in analytics modal
 * replace empty path with "/" in analytics
