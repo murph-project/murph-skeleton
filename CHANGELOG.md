@@ -1,14 +1,22 @@
 ## [Unreleased]
 
 ### Added
-* update dependencies
 ### Fixed
 ### Changed
+
+## 1.5.0
+### Added
+* add desktop views and mobile views
+
+### Changed
+* upgrade dependencies
+* replace jaybizzle/crawler-detect with matomo/device-detector
 
 ## 1.4.1
 ### Added
 * handle app urls in twig routing filters
 ### Fixed
+
 * fix views in analytics modal
 * replace empty path with "/" in analytics
 ### Changed

@@ -1,5 +1,6 @@
 ## [Unreleased]
 
+## Upgrade to v1.5.0
 ### Commands
 
 ```
@@ -9,7 +10,6 @@ make doctrine-migration
 ```
 
 ## Upgrade to v1.4.0
-
 ### Commands
 
 ```
