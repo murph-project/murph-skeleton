@@ -21,7 +21,7 @@ class Referer implements EntityInterface
     protected $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Node::class, inversedBy="nodeViews")
+     * @ORM\ManyToOne(targetEntity=Node::class, inversedBy="analyticReferers")
      * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
      */
     protected $node;

@@ -21,6 +21,7 @@
         "knplabs/doctrine-behaviors": "^2.6",
         "knplabs/knp-paginator-bundle": "^5.8",
         "liip/imagine-bundle": "^2.7",
+        "matomo/device-detector": "^5.0",
         "phpdocumentor/reflection-docblock": "^5.3",
         "scheb/2fa-google-authenticator": "^5.13",
         "scheb/2fa-qr-code": "^5.13",

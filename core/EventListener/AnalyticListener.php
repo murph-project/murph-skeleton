@@ -2,18 +2,19 @@
 
 namespace App\Core\EventListener;
 
-use App\Core\Manager\EntityManager;
-use App\Core\Repository\Site\NodeRepositoryQuery;
-use Symfony\Component\HttpKernel\Event\RequestEvent;
-use App\Core\Repository\Site\NodeRepository;
-use App\Core\Repository\Analytic\ViewRepositoryQuery;
-use App\Core\Factory\Analytic\ViewFactory;
-use App\Core\Entity\Site\Node;
-use Symfony\Component\HttpFoundation\Request;
-use App\Core\Repository\Analytic\RefererRepositoryQuery;
-use App\Core\Factory\Analytic\RefererFactory;
 use App\Core\Entity\EntityInterface;
-use Jaybizzle\CrawlerDetect\CrawlerDetect;
+use App\Core\Entity\Site\Node;
+use App\Core\Factory\Analytic\RefererFactory;
+use App\Core\Factory\Analytic\ViewFactory;
+use App\Core\Manager\EntityManager;
+use App\Core\Repository\Analytic\RefererRepositoryQuery;
+use App\Core\Repository\Analytic\ViewRepositoryQuery;
+use App\Core\Repository\Site\NodeRepository;
+use DeviceDetector\Cache\PSR6Bridge;
+use DeviceDetector\DeviceDetector;
+use Symfony\Component\Cache\Adapter\ApcuAdapter;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Event\RequestEvent;
 
 /**
  * class AnalyticListener.
@@ -28,7 +29,7 @@ class AnalyticListener
     protected RefererRepositoryQuery $refererRepositoryQuery;
     protected RefererFactory $refererFactory;
     protected EntityManager $manager;
-    protected CrawlerDetect $crawlerDetect;
+    protected DeviceDetector $deviceDetector;
     protected Request $request;
     protected Node $node;
 
@@ -46,7 +47,7 @@ class AnalyticListener
         $this->refererRepositoryQuery = $refererRepositoryQuery;
         $this->refererFactory = $refererFactory;
         $this->manager = $manager;
-        $this->crawlerDetect = new CrawlerDetect();
+        $this->createDeviceDetector();
     }
 
     public function onKernelRequest(RequestEvent $event)
@@ -57,7 +58,10 @@ class AnalyticListener
             return;
         }
 
-        if ($this->crawlerDetect->isCrawler($request->headers->get('user-agent'))) {
+        $this->deviceDetector->setUserAgent($request->headers->get('user-agent'));
+        $this->deviceDetector->parse();
+
+        if ($this->deviceDetector->isBot()) {
             return;
         }
 
@@ -77,6 +81,14 @@ class AnalyticListener
         $this->createReferer();
     }
 
+    protected function createDeviceDetector()
+    {
+        $cache = new ApcuAdapter();
+
+        $this->deviceDetector = new DeviceDetector();
+        $this->deviceDetector->setCache(new PSR6Bridge($cache));
+    }
+
     protected function createView()
     {
         $entity = $this->viewRepositoryQuery->create()
@@ -90,6 +102,13 @@ class AnalyticListener
         }
 
         $entity->addView();
+
+        if ($this->deviceDetector->isDesktop()) {
+            $entity->addDesktopView();
+        } elseif ($this->deviceDetector->isMobile()) {
+            $entity->addMobileView();
+        }
+
         $this->save($entity);
     }
 

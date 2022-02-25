@@ -47,18 +47,22 @@
                                 <thead>
                                     <tr>
                                         <th>{{ 'Path'|trans }}</th>
-                                        <th width="100" class="text-right">{{ 'Views'|trans }}</th>
+                                        <th width="50" class="text-right">{{ 'Views'|trans }}</th>
+                                        <th width="50" class="text-right"><span class="fa fa-desktop"></span></th>
+                                        <th width="50" class="text-right"><span class="fa fa-mobile-alt"></span></th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {% for path, views in pathViews %}
                                         <tr>
                                             <td>{{ path }}</td>
-                                            <td class="text-right">{{ views }}</td>
+                                            <td class="text-right">{{ views.views }}</td>
+                                            <td class="text-right">{{ views.desktopViews }}</td>
+                                            <td class="text-right">{{ views.mobileViews }}</td>
                                         </tr>
                                     {% else %}
                                         <tr>
-                                            <td class="col-12 text-center p-4 text-black-50" colspan="2">
+                                            <td class="col-12 text-center p-4 text-black-50" colspan="4">
                                                 <div class="display-1">
                                                     <span class="fa fa-search"></span>
                                                 </div>

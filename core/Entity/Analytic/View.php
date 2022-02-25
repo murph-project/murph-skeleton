@@ -21,7 +21,7 @@ class View implements EntityInterface
     protected $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Node::class, inversedBy="nodeViews")
+     * @ORM\ManyToOne(targetEntity=Node::class, inversedBy="analyticViews")
      * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
      */
     protected $node;
@@ -35,6 +35,16 @@ class View implements EntityInterface
      * @ORM\Column(type="integer", options={"default"=0})
      */
     protected $views = 0;
+
+    /**
+     * @ORM\Column(type="integer", options={"default"=0})
+     */
+    protected $desktopViews = 0;
+
+    /**
+     * @ORM\Column(type="integer", options={"default"=0})
+     */
+    protected $mobileViews = 0;
 
     /**
      * @ORM\Column(type="date")
@@ -85,6 +95,44 @@ class View implements EntityInterface
     public function addView(): self
     {
         ++$this->views;
+
+        return $this;
+    }
+
+    public function getDesktopViews(): ?int
+    {
+        return $this->desktopViews;
+    }
+
+    public function setDesktopViews(int $desktopViews): self
+    {
+        $this->desktopViews = $desktopViews;
+
+        return $this;
+    }
+
+    public function addDesktopView(): self
+    {
+        ++$this->desktopViews;
+
+        return $this;
+    }
+
+    public function getMobileViews(): ?int
+    {
+        return $this->mobileViews;
+    }
+
+    public function setMobileViews(int $mobileViews): self
+    {
+        $this->mobileViews = $mobileViews;
+
+        return $this;
+    }
+
+    public function addMobileView(): self
+    {
+        ++$this->mobileViews;
 
         return $this;
     }

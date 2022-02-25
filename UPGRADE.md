@@ -1,5 +1,13 @@
 ## [Unreleased]
 
+### Commands
+
+```
+composer remove jaybizzle/crawler-detect
+composer require matomo/device-detector
+make doctrine-migration
+```
+
 ## Upgrade to v1.4.0
 
 ### Commands

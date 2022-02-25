@@ -160,8 +160,14 @@
             "config/routes/liip_imagine.yaml"
         ]
     },
+    "matomo/device-detector": {
+        "version": "5.0.4"
+    },
     "monolog/monolog": {
         "version": "2.2.0"
+    },
+    "mustangostang/spyc": {
+        "version": "0.6.3"
     },
     "myclabs/php-enum": {
         "version": "1.8.0"

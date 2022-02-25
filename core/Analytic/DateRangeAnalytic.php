@@ -57,8 +57,6 @@ class DateRangeAnalytic
             $datas[$index] += $entity->getViews();
         }
 
-        arsort($datas, SORT_NUMERIC);
-
         return $datas;
     }
 
@@ -73,13 +71,29 @@ class DateRangeAnalytic
             $index = $entity->getPath();
 
             if (!isset($datas[$index])) {
-                $datas[$index] = 0;
+                $datas[$index] = [
+                    'views' => 0,
+                    'desktopViews' => 0,
+                    'mobileViews' => 0,
+                ];
             }
 
-            $datas[$index] += $entity->getViews();
+            $datas[$index]['views'] += $entity->getViews();
+            $datas[$index]['desktopViews'] += $entity->getDesktopViews();
+            $datas[$index]['mobileViews'] += $entity->getMobileViews();
         }
 
-        arsort($datas, SORT_NUMERIC);
+        uasort($datas, function($a, $b) {
+            if ($a['views'] > $b['views']) {
+                return -1;
+            }
+
+            if ($a['views'] < $b['views']) {
+                return 1;
+            }
+
+            return 0;
+        });
 
         return $datas;
     }
