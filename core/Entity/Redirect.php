@@ -65,12 +65,12 @@ class Redirect implements EntityInterface
     /**
      * @ORM\Column(type="boolean")
      */
-    private $isEnabled;
+    protected $isEnabled;
 
     /**
      * @ORM\Column(type="boolean")
      */
-    private $reuseQueryString;
+    protected $reuseQueryString;
 
     public function getId(): ?int
     {
