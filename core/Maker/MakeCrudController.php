@@ -79,7 +79,7 @@ class MakeCrudController extends AbstractMaker
 
         $formDetails = $generator->createClassNameDetails(
             $input->getArgument('form-class'),
-            'Type\\',
+            'Form\\',
             ''
         );
 
