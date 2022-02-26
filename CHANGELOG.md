@@ -2,9 +2,12 @@
 
 ### Added
 * add block in field templates to allow override
+* merge route params in crud admin redirects
 ### Fixed
 * fix form namespace prefix in the crud controller maker
 * fix date field when the value is empty
+* fix crud batch column width
+* fix sidebar icon width
 ### Changed
 
 ## 1.5.0
