@@ -490,9 +490,8 @@ fieldset.form-group {
     }
 }
 
-th.crud-batch-column {
-    width: 20px !important;
-    max-width: 20px;
+.table .crud-batch-column {
+    width: 1%;
 }
 
 form {
