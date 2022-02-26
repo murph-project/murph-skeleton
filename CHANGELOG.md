@@ -1,6 +1,7 @@
 ## [Unreleased]
 
 ### Added
+* add block in field templates to allow override
 ### Fixed
 * fix form namespace prefix in the crud controller maker
 * fix date field when the value is empty
