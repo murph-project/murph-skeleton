@@ -68,9 +68,10 @@ abstract class CrudController extends AdminController
                 $entityManager->create($entity);
                 $this->addFlash('success', 'The data has been saved.');
 
-                return $this->redirectToRoute($configuration->getPageRoute('edit'), [
-                    'entity' => $entity->getId(),
-                ]);
+                return $this->redirectToRoute($configuration->getPageRoute('edit'), array_merge(
+                    ['entity' => $entity->getId()],
+                    $configuration->getPageRouteParams('edit')
+                ));
             }
             $this->addFlash('warning', 'The form is not valid.');
         }
@@ -111,9 +112,10 @@ abstract class CrudController extends AdminController
                 $entityManager->update($entity);
                 $this->addFlash('success', 'The data has been saved.');
 
-                return $this->redirectToRoute($configuration->getPageRoute('edit'), [
-                    'entity' => $entity->getId(),
-                ]);
+                return $this->redirectToRoute($configuration->getPageRoute('edit'), array_merge(
+                    ['entity' => $entity->getId()],
+                    $configuration->getPageRouteParams('edit')
+                ));
             }
             $this->addFlash('warning', 'The form is not valid.');
         }
