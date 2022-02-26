@@ -8,6 +8,7 @@
 * fix date field when the value is empty
 * fix crud batch column width
 * fix sidebar icon width
+* fix cache clear task
 ### Changed
 
 ## 1.5.0
