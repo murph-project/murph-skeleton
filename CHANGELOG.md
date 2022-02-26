@@ -2,6 +2,8 @@
 
 ### Added
 ### Fixed
+* fix form namespace prefix in the crud controller maker
+* fix date field when the value is empty
 ### Changed
 
 ## 1.5.0
