@@ -64,15 +64,6 @@ class SymfonyCacheManager
         }
 
         $input = new ArrayInput([
-            'command' => 'cache:clear',
-            '-e' => $this->kernel->getEnvironment(),
-            '--no-warmup' => null,
-            '--ansi' => null,
-        ]);
-
-        $application->run($input, $output);
-
-        $input = new ArrayInput([
             'command' => 'cache:warmup',
             '-e' => $this->kernel->getEnvironment(),
         ]);
