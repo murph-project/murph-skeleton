@@ -125,7 +125,7 @@
                                     </div>
                                     <div class="col-6">
                                         <div class="float-right">
-                                            <div class="d-none d-md-block">
+                                            <div class="d-none d-lg-block">
                                                 {% if node.page %}
                                                     <a href="{{ path('admin_site_page_edit', {entity: node.page.id}) }}" class="btn btn-sm btn-warning text-white mr-1 mb-1">
                                                         <span class="fa fa-file-alt"></span>
@@ -141,10 +141,8 @@
                                                 <button form="form-node-visibility-{{ node.id }}" class="btn btn-sm btn-light border-dark mr-1 mb-1">
                                                     {% if node.isVisible %}
                                                         <span class="fa fa-eye"></span>
-                                                        {{ 'Visible'|trans }}
                                                     {% else %}
                                                         <span class="fa fa-eye-slash"></span>
-                                                        {{ 'Hidden'|trans }}
                                                     {% endif %}
                                                 </button>
 
@@ -166,7 +164,7 @@
                                                     <span class="fa fa-trash"></span>
                                                 </button>
                                             </div>
-                                            <div class="d-block d-md-none text-left">
+                                            <div class="d-block d-lg-none text-left">
                                                 <button type="button" class="btn btn-sm dropdown-toggle " data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                     {{ 'Actions'|trans }}
                                                 </button>

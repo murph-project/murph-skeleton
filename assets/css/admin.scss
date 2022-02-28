@@ -229,20 +229,26 @@ tr.table-primary-light {
     }
 }
 
+@media screen and (max-width: 1080px) {
+    .sidebar-sticky {
+        overflow-y: auto !important;
+    }
+}
+
 @media screen and (max-width: 770px) {
     .body {
         margin-left: 50px;
         width: calc(100vw - 50px);
     }
 
+    .sidebar-sticky {
+        width: 50px;
+        max-width: 100% !important;
+    }
+
     .sidebar {
         width: 50px;
         max-width: 100% !important;
-
-        .sidebar-sticky {
-            width: 50px;
-            max-width: 100% !important;
-        }
 
         .nav {
             padding-left: 0;
