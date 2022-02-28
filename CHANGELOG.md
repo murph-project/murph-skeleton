@@ -3,6 +3,7 @@
 ### Added
 ### Fixed
 ### Changed
+* upgrade dependencies
 
 ## [1.6.0] - 2022-02-28
 ### Added

@@ -1,5 +1,11 @@
 ## [Unreleased]
 
+### Commands
+
+```
+yarn add sortablejs@^1.14.0
+```
+
 ## Upgrade to v1.5.0
 ### Commands
 
