@@ -184,12 +184,12 @@ tr {
 </style>
 
 <script>
-import Routing from '../../../../../vendor/friendsofsymfony/jsrouting-bundle/Resources/public/js/router.min.js'
+import Routing from '../../../../../../vendor/friendsofsymfony/jsrouting-bundle/Resources/public/js/router.min.js'
 import FileIcon from './FileIcon'
 
 const axios = require('axios').default
 const $ = require('jquery')
-const routes = require('../../../../../public/js/fos_js_routes.json')
+const routes = require('../../../../../../public/js/fos_js_routes.json')
 
 Routing.setRoutingData(routes)
 

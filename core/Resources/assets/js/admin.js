@@ -1,6 +1,6 @@
-import '../../css/admin.scss'
+import '../css/admin.scss'
 
-require('../../../node_modules/bootstrap/dist/js/bootstrap.min.js')
+require('../../../../node_modules/bootstrap/dist/js/bootstrap.min.js')
 require('./modules/table-fixed.js')()
 require('./modules/form-confirm.js')()
 require('./modules/form-file.js')()

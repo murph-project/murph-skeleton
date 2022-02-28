@@ -11,7 +11,6 @@ module.exports = () => {
       sort: true,
       animation: 150,
       fallbackTolerance: 3,
-      delayOnTouchOnly: true,
       onEnd: (e) => {
         if (!route) {
           return

@@ -1,1 +1,1 @@
-import './admin/admin.js'
+import '../../core/Resources/assets/js/admin.js'
