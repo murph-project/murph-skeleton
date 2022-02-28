@@ -4,6 +4,7 @@
 ### Fixed
 ### Changed
 * upgrade dependencies
+* move assets to the core directory
 
 ## [1.6.0] - 2022-02-28
 ### Added
