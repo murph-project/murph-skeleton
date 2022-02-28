@@ -7,10 +7,12 @@ use App\Core\Manager\EntityManager;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\Security\Csrf\TokenGenerator\TokenGeneratorInterface;
 
 class UserCreateCommand extends Command
 {
@@ -18,11 +20,16 @@ class UserCreateCommand extends Command
     protected static $defaultDescription = 'Creates a user';
     protected UserFactory $userFactory;
     protected EntityManager $entityManager;
+    protected TokenGeneratorInterface $tokenGenerator;
 
-    public function __construct(UserFactory $userFactory, EntityManager $entityManager)
-    {
+    public function __construct(
+        UserFactory $userFactory,
+        EntityManager $entityManager,
+        TokenGeneratorInterface $tokenGenerator
+    ) {
         $this->userFactory = $userFactory;
         $this->entityManager = $entityManager;
+        $this->tokenGenerator = $tokenGenerator;
 
         parent::__construct();
     }
@@ -32,6 +39,8 @@ class UserCreateCommand extends Command
         $this
             ->setDescription(self::$defaultDescription)
             ->addArgument('email', InputArgument::OPTIONAL, 'E-mail')
+            ->addOption('is-admin', null, InputOption::VALUE_NONE, 'Add the admin role')
+            ->addOption('is-writer', null, InputOption::VALUE_NONE, 'Add the write role')
         ;
     }
 
@@ -43,9 +52,7 @@ class UserCreateCommand extends Command
         $emailQuestion = new Question('E-mail: ');
         $emailQuestion->setValidator(function ($value) {
             if (empty($value)) {
-                throw new \RuntimeException(
-                    'The email must not be empty.'
-                );
+                throw new \RuntimeException('The email must not be empty.');
             }
 
             return $value;
@@ -53,8 +60,17 @@ class UserCreateCommand extends Command
 
         $passwordQuestion = new Question('Password (leave empty to generate a random password): ');
         $passwordQuestion->setHidden(true);
-        $isAdminQuestion = new ConfirmationQuestion('Is admin? [y/n] ', false);
-        $isWriterQuestion = new ConfirmationQuestion('Is writer? [y/n] ', false);
+
+        $isAdminDefault = $input->getOption('is-admin');
+        $isWriterDefault = $input->getOption('is-writer');
+
+        $isAdminQuestionLabel = sprintf('Administrator [%s] ', $isAdminDefault ? 'Y/n' : 'y/N');
+        $isWriterQuestionLabel = sprintf('Writer [%s] ', $isWriterDefault ? 'Y/n' : 'y/N');
+
+        $isAdminQuestion = new ConfirmationQuestion($isAdminQuestionLabel, $isAdminDefault);
+        $isWriterQuestion = new ConfirmationQuestion($isWriterQuestionLabel, $isWriterDefault);
+
+        $io->section('Authentication');
 
         $email = $input->getArgument('email');
 
@@ -63,6 +79,18 @@ class UserCreateCommand extends Command
         }
 
         $password = $helper->ask($input, $output, $passwordQuestion);
+
+        $showPassword = empty($password);
+
+        if ($showPassword) {
+            $password = mb_substr($this->tokenGenerator->generateToken(), 0, 18);
+            $io->info(sprintf('Password: %s', $password));
+        } else {
+            $io->newLine();
+        }
+
+        $io->section('Roles');
+
         $isAdmin = $helper->ask($input, $output, $isAdminQuestion);
         $isWriter = $helper->ask($input, $output, $isWriterQuestion);
 
@@ -72,6 +100,7 @@ class UserCreateCommand extends Command
 
         $this->entityManager->create($user);
 
+        $io->newLine();
         $io->success('User created!');
 
         return Command::SUCCESS;
