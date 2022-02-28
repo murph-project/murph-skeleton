@@ -16,9 +16,8 @@ class UserFactory implements FactoryInterface
     protected TokenGeneratorInterface $tokenGenerator;
     protected UserPasswordEncoderInterface $encoder;
 
-    public function __construct(TokenGeneratorInterface $tokenGenerator, UserPasswordEncoderInterface $encoder)
+    public function __construct(UserPasswordEncoderInterface $encoder)
     {
-        $this->tokenGenerator = $tokenGenerator;
         $this->encoder = $encoder;
     }
 
@@ -26,14 +25,13 @@ class UserFactory implements FactoryInterface
     {
         $entity = new User();
 
-        if (!empty($email)) {
+        if (null !== $email) {
             $entity->setEmail($email);
         }
 
-        $entity->setPassword($this->encoder->encodePassword(
-            $entity,
-            !empty($password) ? $password : $this->tokenGenerator->generateToken()
-        ));
+        if (null !== $email) {
+            $entity->setPassword($this->encoder->encodePassword($entity, $password));
+        }
 
         return $entity;
     }
