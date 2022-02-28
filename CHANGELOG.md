@@ -2,6 +2,7 @@
 
 ### Added
 ### Fixed
+* fix the analytic referers table when a referer has a long domain
 ### Changed
 * upgrade dependencies
 * move assets to the core directory
