@@ -55,7 +55,7 @@
                                 <tbody>
                                     {% for path, views in pathViews %}
                                         <tr>
-                                            <td>{{ path }}</td>
+                                            <td class="td-nowrap">{{ path }}</td>
                                             <td class="text-right">{{ views.views }}</td>
                                             <td class="text-right">{{ views.desktopViews }}</td>
                                             <td class="text-right">{{ views.mobileViews }}</td>
@@ -90,13 +90,14 @@
                                     {% for referer, info in referers %}
                                         <tr>
                                             <td colspan="2">
-                                                <details>
-                                                    <summary>
-                                                        <div class="float-right">
-                                                            {{ info.views }}
+                                                <details class="wrap analytic">
+                                                    <summary class="d-flex justify-content-between">
+                                                        <div class="analytic-referer">
+                                                            {{- referer -}}
                                                         </div>
-
-                                                        {{ referer }}
+                                                        <div class="analytic-view">
+                                                            {{- info.views -}}
+                                                        </div>
                                                     </summary>
 
                                                     {% for path, views in info.uris %}

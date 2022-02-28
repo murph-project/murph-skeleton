@@ -113,6 +113,23 @@ tr.table-primary-light {
     white-space: nowrap;
 }
 
+.wrap {
+    word-wrap: anywhere;
+}
+
+.analytic .analytic-referer::before {
+    content: '▸';
+    padding-right: 10px;
+}
+
+.analytic[open] .analytic-referer::before {
+    content: '▾';
+}
+
+.analytic-referer {
+    max-width: calc(100% - 60px);
+}
+
 .table tr {
     td {
         transition: border 500ms ease-out;
