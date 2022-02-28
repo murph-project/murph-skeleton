@@ -1,4 +1,4 @@
-import '../css/admin.scss'
+import '../../../../assets/css/admin.scss';
 
 require('../../../../node_modules/bootstrap/dist/js/bootstrap.min.js')
 require('./modules/table-fixed.js')()
