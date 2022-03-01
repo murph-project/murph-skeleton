@@ -24,8 +24,8 @@ npm-debug.log
 yarn-error.log
 ###< symfony/webpack-encore-bundle ###
 
-/public/uploads/
+/public/uploads/*
 !/public/uploads/.gitkeep
 /public/media/
-/migrations/
+/migrations/*
 !/migrations/.gitkeep
