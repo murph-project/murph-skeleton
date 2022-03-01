@@ -1,10 +1,15 @@
 ## [Unreleased]
 
+
+### Added
+### Fixed
+### Changed
+
+## [1.7.1] - 2022-03-01
 ### Added
 * add translations
 ### Fixed
 * fix missing directories
-### Changed
 
 ## [1.7.0] - 2022-03-01
 ### Fixed
