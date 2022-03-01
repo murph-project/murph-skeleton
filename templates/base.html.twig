@@ -46,8 +46,6 @@
                 {% if not node.disableUrl %}
                     {% set path = safe_node_path(node) %}
                     {% set url = safe_node_url(node) %}
-                {% else %}
-                    {% set url = null %}
                 {% endif %}
                 ```
             - Generate a node url when the navigation has several domains: `safe_node_path(node, {_domain: _domain})`
