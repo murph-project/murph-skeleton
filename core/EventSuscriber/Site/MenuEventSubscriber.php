@@ -11,6 +11,7 @@ use App\Core\Factory\Site\NodeFactory;
 use App\Core\Manager\EntityManager;
 use App\Core\Repository\Site\NodeRepository;
 use App\Core\Slugify\CodeSlugify;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * class MenuEventSubscriber.
@@ -24,19 +25,22 @@ class MenuEventSubscriber extends EntityManagerEventSubscriber
     protected EntityManager $entityManager;
     protected CodeSlugify $slugify;
     protected SymfonyCacheManager $cacheManager;
+    protected TranslatorInterface $translation;
 
     public function __construct(
         NodeFactory $nodeFactory,
         NodeRepository $nodeRepository,
         EntityManager $entityManager,
         CodeSlugify $slugify,
-        SymfonyCacheManager $cacheManager
+        SymfonyCacheManager $cacheManager,
+        TranslatorInterface $translator
     ) {
         $this->nodeFactory = $nodeFactory;
         $this->nodeRepository = $nodeRepository;
         $this->entityManager = $entityManager;
         $this->slugify = $slugify;
         $this->cacheManager = $cacheManager;
+        $this->translator = $translator;
     }
 
     public function support(EntityInterface $entity)
@@ -75,7 +79,7 @@ class MenuEventSubscriber extends EntityManagerEventSubscriber
         $childNode = $this->nodeFactory->create($menu, '/');
         $childNode
             ->setParent($rootNode)
-            ->setLabel('Premier élément')
+            ->setLabel($this->translator->trans('First element'))
         ;
 
         $menu->setRootNode($rootNode);
