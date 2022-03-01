@@ -2,6 +2,10 @@
 
 ### Added
 ### Fixed
+### Changed
+
+## [1.7.0] - 2022-03-01
+### Fixed
 * fix the analytic referers table when a referer has a long domain
 ### Changed
 * upgrade dependencies

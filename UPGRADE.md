@@ -1,11 +1,21 @@
 ## [Unreleased]
 
+## Upgrade to v1.7.0
 ### Commands
 
 ```
 yarn add sortablejs@^1.14.0
 
 ```
+
+### Files
+
+* `assets/css/_admin_extend.scss` is removed
+* `assets/css/_admin_vars.scss` is removed
+* `assets/css/_admin_vars.scss` is changed
+* `assets/js/admin` is removed
+* `assets/js/admin.js` is changed
+
 
 ## Upgrade to v1.5.0
 ### Commands
