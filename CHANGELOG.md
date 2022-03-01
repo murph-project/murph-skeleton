@@ -1,8 +1,8 @@
 ## [Unreleased]
 
-
 ### Added
 ### Fixed
+* fix the analytic table when a path is a long
 ### Changed
 
 ## [1.7.1] - 2022-03-01
