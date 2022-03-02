@@ -1,4 +1,4 @@
-# MURPH
+# Murph
 
 Muprh is an **open-source CMF** built on top of Symfony that helps you to **build your own CMS with several domains and languages**. It comes with:
 
