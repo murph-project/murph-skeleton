@@ -1,10 +1,14 @@
 ## [Unreleased]
 
 ### Added
+### Fixed
+### Changed
+
+## [1.7.2] - 2022-03-03
+### Added
 * add templates to render sections and items in the admin menu
 ### Fixed
 * fix the analytic table when a path is a long
-### Changed
 
 ## [1.7.1] - 2022-03-01
 ### Added
