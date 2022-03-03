@@ -1,27 +1,14 @@
-{% import "@Core/admin/macros/menu.html.twig" as macros_menu %}
-
 {#
 {% if is_granted('ROLE_WRITER') %}
-    <h6 class="sidebar-heading justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-        <span>Blog</span>
-    </h6>
+    {{ include('@Core/admin/module/_menu_section.html.twig', {label: 'Blog'}) }}
 
     <ul class="nav flex-column">
-        <li class="nav-item">
-            <a class="nav-link {{ macros_menu.active_class('blog_post', section) }}" href="{{ path('admin_blog_post_index') }}">
-                <span class="fa fa-pen"></span>
-
-                <span class="nav-item-label">Articles</span>
-            </a>
-        </li>
-
-        <li class="nav-item">
-            <a class="nav-link {{ macros_menu.active_class('blog_category', section) }}" href="{{ path('admin_blog_category_index') }}">
-                <span class="fa fa-puzzle-piece"></span>
-
-                <span class="nav-item-label">Catégories</span>
-            </a>
-        </li>
+        {{ include('@Core/admin/module/_menu_item.html.twig', {
+            id: 'post',
+            label: 'Posts',
+            route: path('admin_post_index'),
+            icon: 'fa fa-pen'
+        }) }}
     </ul>
 {% endif %}
 #}

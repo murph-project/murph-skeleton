@@ -1,101 +1,73 @@
 {% import "@Core/admin/macros/menu.html.twig" as macros_menu %}
 
 <ul class="nav flex-column">
-    <li class="nav-item">
-        <a class="nav-link {{ macros_menu.active_class('dashboard', section) }}" href="{{ path('admin_dashboard_index') }}">
-            <span class="fa fa-chart-line"></span>
-
-            <span class="nav-item-label">
-                {{ 'Dashboard'|trans }}
-            </span>
-        </a>
-    </li>
+    {{ include('@Core/admin/module/_menu_item.html.twig', {
+        id: 'dashboard',
+        label: 'Dashboard',
+        route: path('admin_dashboard_index'),
+        icon: 'fa fa-chart-line'
+    }) }}
 </ul>
 
 {% if is_granted('ROLE_ADMIN') %}
-    <h6 class="sidebar-heading justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-        <span>Contenu</span>
-    </h6>
+    {{ include('@Core/admin/module/_menu_section.html.twig', {label: 'Content'}) }}
 
     <ul class="nav flex-column">
-        <li class="nav-item">
-            <a class="nav-link {{ macros_menu.active_class('site_navigation', section) }}" href="{{ path('admin_site_navigation_index') }}">
-                <span class="fa fa-globe-europe"></span>
+        {{ include('@Core/admin/module/_menu_item.html.twig', {
+            id: 'site_navigation',
+            label: 'Navigations',
+            route: path('admin_site_navigation_index'),
+            icon: 'fa fa-globe-europe'
+        }) }}
 
-                <span class="nav-item-label">
-                    {{ 'Navigations'|trans }}
-                </span>
-            </a>
-        </li>
+        {{ include('@Core/admin/module/_menu_item.html.twig', {
+            id: 'site_tree',
+            label: 'Trees',
+            route: path('admin_site_tree_index'),
+            icon: 'fa fa-sitemap'
+        }) }}
 
-        <li class="nav-item">
-            <a class="nav-link {{ macros_menu.active_class('site_tree', section) }}" href="{{ path('admin_site_tree_index') }}">
-                <span class="fa fa-sitemap"></span>
+        {{ include('@Core/admin/module/_menu_item.html.twig', {
+            id: 'site_page',
+            label: 'Pages',
+            route: path('admin_site_page_index'),
+            icon: 'fa fa-file-alt'
+        }) }}
 
-                <span class="nav-item-label">
-                    {{ 'Trees'|trans }}
-                </span>
-            </a>
-        </li>
-
-        <li class="nav-item">
-            <a class="nav-link {{ macros_menu.active_class('site_page', section) }}" href="{{ path('admin_site_page_index') }}">
-                <span class="fa fa-file-alt"></span>
-
-                <span class="nav-item-label">
-                    {{ 'Pages'|trans }}
-                </span>
-            </a>
-        </li>
-
-        <li class="nav-item">
-            <a class="nav-link {{ macros_menu.active_class('file_manager', section) }}" href="{{ path('admin_file_manager_index') }}">
-                <span class="fa fa-photo-video"></span>
-
-                <span class="nav-item-label">
-                    {{ 'Files'|trans }}
-                </span>
-            </a>
-        </li>
+        {{ include('@Core/admin/module/_menu_item.html.twig', {
+            id: 'file_manager',
+            label: 'Files',
+            route: path('admin_file_manager_index'),
+            icon: 'fa fa-photo-video'
+        }) }}
     </ul>
 {% endif %}
 
 {{ include('admin/menu.html.twig') }}
 
 {% if is_granted('ROLE_ADMIN') %}
-    <h6 class="sidebar-heading justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-        <span>{{ 'Administration'|trans }}</span>
-    </h6>
+    {{ include('@Core/admin/module/_menu_section.html.twig', {label: 'Administration'}) }}
 
     <ul class="nav flex-column">
-        <li class="nav-item">
-            <a class="nav-link {{ macros_menu.active_class('user', section) }}" href="{{ path('admin_user_index') }}">
-                <span class="fa fa-user"></span>
+        {{ include('@Core/admin/module/_menu_item.html.twig', {
+            id: 'user',
+            label: 'Users',
+            route: path('admin_user_index'),
+            icon: 'fa fa-user'
+        }) }}
 
-                <span class="nav-item-label">
-                    {{ 'Users'|trans }}
-                </span>
-            </a>
-        </li>
+        {{ include('@Core/admin/module/_menu_item.html.twig', {
+            id: 'task',
+            label: 'Tasks',
+            route: path('admin_task_index'),
+            icon: 'fa fa-play'
+        }) }}
 
-        <li class="nav-item">
-            <a class="nav-link {{ macros_menu.active_class('task', section) }}" href="{{ path('admin_task_index') }}">
-                <span class="fa fa-play"></span>
-
-                <span class="nav-item-label">
-                    {{ 'Tasks'|trans }}
-                </span>
-            </a>
-        </li>
-
-        <li class="nav-item">
-            <a class="nav-link {{ macros_menu.active_class('setting', section) }}" href="{{ path('admin_setting_index') }}">
-                <span class="fa fa-sliders-h"></span>
-
-                <span class="nav-item-label">
-                    {{ 'Settings'|trans }}
-                </span>
-            </a>
-        </li>
+        {{ include('@Core/admin/module/_menu_item.html.twig', {
+            id: 'setting',
+            label: 'Settings',
+            route: path('admin_setting_index'),
+            icon: 'fa fa-sliders-h'
+        }) }}
     </ul>
 {% endif %}

@@ -1,0 +1,15 @@
+{% block item %}
+    <li class="nav-item">
+        <a class="nav-link {% if id == section %}active{% endif %}" href="{{ route }}">
+            {%- block icon -%}
+                <span class="{{ icon }}"></span>
+            {%- endblock -%}
+
+            {%- block label -%}
+                <span class="nav-item-label">
+                    {{- label|trans -}}
+                </span>
+            {%- endblock -%}
+        </a>
+    </li>
+{% endblock %}
