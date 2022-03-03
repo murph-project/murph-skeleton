@@ -1,6 +1,7 @@
 ## [Unreleased]
 
 ### Added
+* add templates to render sections and items in the admin menu
 ### Fixed
 * fix the analytic table when a path is a long
 ### Changed
