@@ -26,7 +26,7 @@
                     </li>
                 {% endif %}
 
-                {% if splInfo.extension in ['jpeg', 'jpg', 'gif', 'png', 'svg'] %}
+                {% if splInfo.extension|lower in ['jpeg', 'jpg', 'gif', 'png', 'svg'] %}
                     <li class="nav-item" role="presentation">
                         <a class="nav-link {% if tab == 'preview' %}active{% endif %}" data-toggle="tab" href="#tab-fm-preview">
                             {{ 'Preview'|trans }}
@@ -117,7 +117,7 @@
                     </div>
                 {% endif %}
 
-                {% if splInfo.extension in ['jpeg', 'jpg', 'gif', 'png', 'svg'] %}
+                {% if splInfo.extension|lower in ['jpeg', 'jpg', 'gif', 'png', 'svg'] %}
                     <div class="tab-pane {% if tab == 'preview' %}show active{% endif %}" id="tab-fm-preview">
                         <div class="card">
                             <div class="card-img-top bg-tiles text-center">
