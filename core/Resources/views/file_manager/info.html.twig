@@ -134,11 +134,13 @@
             {% if context == 'tinymce' %}
                 {% if not isLocked %}
                     {% if splInfo.isDir %}
-                        <button form="form-file-delete" class="btn btn-primary" data-modal="{{ path('admin_file_manager_directory_rename', {file: splInfo.relativePathname, ajax: ajax}) }}">
+                        <button form="form-file-delete" class="btn btn-sm btn-primary" data-modal="{{ path('admin_file_manager_directory_rename', {file: splInfo.relativePathname, ajax: ajax}) }}">
                             {{ 'Rename'|trans }}
                         </button>
                     {% else %}
-                        <span></span>
+                        <button form="form-file-delete" class="btn btn-sm btn-primary" data-modal="{{ path('admin_file_manager_file_rename', {file: splInfo.relativePathname, ajax: ajax}) }}">
+                            {{ 'Rename'|trans }}
+                        </button>
                     {% endif %}
                 {% else %}
                     <div>
@@ -149,23 +151,27 @@
                 {% endif %}
 
                 <div>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ 'Close'|trans }}</button>
+                    <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">{{ 'Close'|trans }}</button>
 
                     {% if splInfo.isFile %}
-                        <button type="submit" class="btn btn-primary" form="form-fm-attributes">{{ 'Save'|trans }}</button>
-                        <button type="button" class="btn btn-success ml-3" id="file-manager-insert" data-value="{{ asset(path) }}">{{ 'Insert'|trans }}</button>
+                        <button type="submit" class="btn btn-sm btn-primary" form="form-fm-attributes">{{ 'Save'|trans }}</button>
+                        <button type="button" class="btn btn-sm btn-success ml-3" id="file-manager-insert" data-value="{{ asset(path) }}">{{ 'Insert'|trans }}</button>
                     {% endif %}
 
                 </div>
             {% else %}
                 <div>
                     {% if not isLocked %}
-                        <button type="submit" form="form-fm-delete" class="btn btn-danger">
+                        <button type="submit" form="form-fm-delete" class="btn btn-sm btn-danger">
                             {{ 'Delete'|trans }}
                         </button>
 
                         {% if splInfo.isDir %}
-                            <button form="form-file-delete" class="btn btn-primary" data-modal="{{ path('admin_file_manager_directory_rename', {file: splInfo.relativePathname}) }}">
+                            <button form="form-file-delete" class="btn btn-sm btn-primary" data-modal="{{ path('admin_file_manager_directory_rename', {file: splInfo.relativePathname}) }}">
+                                {{ 'Rename'|trans }}
+                            </button>
+                        {% else %}
+                            <button form="form-file-delete" class="btn btn-sm btn-primary" data-modal="{{ path('admin_file_manager_file_rename', {file: splInfo.relativePathname}) }}">
                                 {{ 'Rename'|trans }}
                             </button>
                         {% endif %}
@@ -176,7 +182,7 @@
                     {% endif %}
 
                     {% if splInfo.type == 'file' %}
-                        <a class="btn btn-success" href="{{ asset(path) }}" target="_blank">
+                        <a class="btn btn-sm btn-success" href="{{ asset(path) }}" target="_blank">
                             {{ 'Download'|trans }}
                         </a>
                     {% endif %}

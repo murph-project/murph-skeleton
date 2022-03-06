@@ -7,6 +7,7 @@ use App\Core\FileManager\FsFileManager;
 use App\Core\Form\FileManager\DirectoryCreateType;
 use App\Core\Form\FileManager\DirectoryRenameType;
 use App\Core\Form\FileManager\FileInformationType;
+use App\Core\Form\FileManager\FileRenameType;
 use App\Core\Form\FileManager\FileUploadType;
 use App\Core\Manager\EntityManager;
 use Symfony\Component\HttpFoundation\Request;
@@ -204,7 +205,9 @@ class FileManagerAdminController extends AdminController
             ]);
         }
 
-        $form = $this->createForm(DirectoryRenameType::class);
+        $form = $this->createForm(DirectoryRenameType::class, [
+            'name' => $splInfo->getFilename(),
+        ]);
 
         if ($request->isMethod('POST')) {
             $form->handleRequest($request);
@@ -247,6 +250,78 @@ class FileManagerAdminController extends AdminController
         return $this->render('@Core/file_manager/directory_rename.html.twig', [
             'form' => $form->createView(),
             'file' => $request->query->get('file'),
+            'locked' => false,
+            'ajax' => $ajax,
+        ]);
+    }
+
+    /**
+     * @Route("/file/rename/{ajax}", name="admin_file_manager_file_rename", methods={"GET", "POST"})
+     */
+    public function fileRename(FsFileManager $manager, Request $request, TranslatorInterface $translator, bool $ajax = false): Response
+    {
+        $splInfo = $manager->getSplInfo($request->query->get('file'));
+
+        if (!$splInfo) {
+            throw $this->createNotFoundException();
+        }
+
+        if ($splInfo->isDir()) {
+            throw $this->createNotFoundException();
+        }
+
+        if ($manager->isLocked($request->query->get('file'))) {
+            return $this->render('@Core/file_manager/file_rename.html.twig', [
+                'locked' => true,
+            ]);
+        }
+
+        $form = $this->createForm(FileRenameType::class, [
+            'name' => preg_replace(sprintf('/\.%s/', $splInfo->getExtension()), '', $splInfo->getFilename()),
+        ]);
+
+        if ($request->isMethod('POST')) {
+            $form->handleRequest($request);
+
+            if ($form->isValid()) {
+                $status = $manager->renameFile($form->get('name')->getData(), $request->query->get('file'));
+
+                if (true === $status) {
+                    if (!$request->isXmlHttpRequest()) {
+                        $this->addFlash('success', 'File renamed.');
+                    } else {
+                        return $this->json([
+                            '_error' => 0,
+                            '_message' => $translator->trans('File renamed.'),
+                            '_level' => 'success',
+                            '_dispatch' => 'file_manager.file.rename.success',
+                        ]);
+                    }
+                } else {
+                    if (!$request->isXmlHttpRequest()) {
+                        $this->addFlash('warning', 'File not renamed.');
+                    } else {
+                        return $this->json([
+                            '_error' => 1,
+                            '_message' => $translator->trans('File not renamed.'),
+                            '_level' => 'warning',
+                            '_dispatch' => 'file_manager.file.rename.error',
+                        ]);
+                    }
+                }
+            } else {
+                $this->addFlash('warning', 'Unauthorized char(s).');
+            }
+
+            return $this->redirectToRoute('admin_file_manager_index', [
+                'path' => $splInfo->getRelativePath(),
+            ]);
+        }
+
+        return $this->render('@Core/file_manager/file_rename.html.twig', [
+            'form' => $form->createView(),
+            'file' => $request->query->get('file'),
+            'exention' => $splInfo->getExtension(),
             'locked' => false,
             'ajax' => $ajax,
         ]);
