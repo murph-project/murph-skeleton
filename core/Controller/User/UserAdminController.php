@@ -16,6 +16,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Core\Security\TokenGenerator;
 
 class UserAdminController extends CrudController
 {
@@ -30,11 +31,9 @@ class UserAdminController extends CrudController
     /**
      * @Route("/admin/user/new", name="admin_user_new", methods={"GET", "POST"})
      */
-    public function new(Factory $factory, EntityManager $entityManager, Request $request): Response
+    public function new(Factory $factory, EntityManager $entityManager, Request $request, TokenGenerator $tokenGenerator): Response
     {
-        $entity = $factory->create($this->getUser());
-
-        return $this->doNew($factory->create(), $entityManager, $request);
+        return $this->doNew($factory->create(null, $tokenGenerator->generateToken()), $entityManager, $request);
     }
 
     /**

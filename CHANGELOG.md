@@ -1,10 +1,15 @@
 ## [Unreleased]
 
 ### Added
+### Fixed
+### Changed
+
+## [1.7.3] - 2022-03-06
+### Added
 * add ability to rename file in the file manager
 ### Fixed
 * fix user factory
-### Changed
+* fix user creation from ui
 
 ## [1.7.2] - 2022-03-03
 ### Added
