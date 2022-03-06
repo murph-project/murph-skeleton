@@ -199,6 +199,30 @@ class FsFileManager
         return true;
     }
 
+    public function renameFile(string $name, string $path, bool $keepExtension = true): bool
+    {
+        $file = $this->getSplInfo($path);
+
+        if (!$file || $this->isLocked($path)) {
+            return false;
+        }
+
+        $filesystem = new Filesystem();
+        $newPath = $file->getPath().'/'.$this->normalizePath($name);
+
+        if ($keepExtension && $file->getExtension()) {
+            $newPath .= sprintf('.%s', $file->getExtension());
+        }
+
+        if ($filesystem->exists($newPath)) {
+            return false;
+        }
+
+        $filesystem->rename($file->getPathName(), $newPath);
+
+        return true;
+    }
+
     public function upload($files, string $path, array $fullPaths = [])
     {
         if ($files instanceof UploadedFile) {
