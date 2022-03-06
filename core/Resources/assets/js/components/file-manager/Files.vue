@@ -347,7 +347,7 @@ export default {
     this.ajax = (['crud'].indexOf(this.context) === -1 ? 1 : 0)
 
     const body = $('body')
-    const events = ['file_manager.file.new', 'file_manager.directory.new', 'file_manager.directory.rename']
+    const events = ['file_manager.file.new', 'file_manager.file.rename', 'file_manager.directory.new', 'file_manager.directory.rename']
     const that = this
 
     $(events).each((k, event) => {
