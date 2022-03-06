@@ -29,7 +29,7 @@ class UserFactory implements FactoryInterface
             $entity->setEmail($email);
         }
 
-        if (null !== $email) {
+        if (null !== $password) {
             $entity->setPassword($this->encoder->encodePassword($entity, $password));
         }
 
