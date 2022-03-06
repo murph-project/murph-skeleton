@@ -3,6 +3,7 @@
 ### Added
 * add ability to rename file in the file manager
 ### Fixed
+* fix user factory
 ### Changed
 
 ## [1.7.2] - 2022-03-03
