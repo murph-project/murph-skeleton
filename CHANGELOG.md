@@ -1,6 +1,7 @@
 ## [Unreleased]
 
 ### Added
+* add ability to rename file in the file manager
 ### Fixed
 ### Changed
 

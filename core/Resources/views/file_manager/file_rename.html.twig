@@ -1,0 +1,33 @@
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title">
+                {{ 'Rename file'|trans }}
+            </h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            {% if locked %}
+                <p class="text-danger text-center">
+                    <span class="d-block display-4 mb-3">
+                        <span class="fa fa-lock"></span>
+                    </span>
+
+                    {{ 'File locked.'|trans }}
+                </p>
+            {% else %}
+                <form action="{{ path('admin_file_manager_file_rename', {file: file}) }}" {% if ajax %}data-form-ajax{% endif %} id="form-file-manager-directory" method="POST" enctype="multipart/form-data">
+                    {{ include('@Core/file_manager/_form.html.twig') }}
+                </form>
+            {% endif %}
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ 'Cancel'|trans }}</button>
+            {% if not locked %}
+                <button type="submit" form="form-file-manager-directory" class="btn btn-primary">{{ 'Save'|trans }}</button>
+            {% endif %}
+        </div>
+    </div>
+</div>
