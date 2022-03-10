@@ -44,15 +44,15 @@ class RequestSecurityEventSubscriber implements EventSubscriberInterface
         }
 
         $operator = $node->getSecurityOperator();
-        $exception = new AccessDeniedException('Access denied');
-        $isAuthorized = false;
+        $exception = new AccessDeniedException('Access denied.');
 
         foreach ($roles as $role) {
             $isGranted = $this->authorizationChecker->isGranted($role);
 
             if ('or' === $operator && $isGranted) {
                 return;
-            } elseif ('and' === $operator && !$isGranted) {
+            }
+            if ('and' === $operator && !$isGranted) {
                 throw $exception;
             }
         }
