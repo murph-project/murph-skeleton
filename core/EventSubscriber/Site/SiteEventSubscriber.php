@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Core\EventSuscriber\Site;
+namespace App\Core\EventSubscriber\Site;
 
 use App\Core\Cache\SymfonyCacheManager;
 use App\Core\Entity\EntityInterface;
@@ -8,7 +8,7 @@ use App\Core\Entity\Site\Menu;
 use App\Core\Entity\Site\Navigation;
 use App\Core\Entity\Site\Node;
 use App\Core\Event\EntityManager\EntityManagerEvent;
-use App\Core\EventSuscriber\EntityManagerEventSubscriber;
+use App\Core\EventSubscriber\EntityManagerEventSubscriber;
 use Symfony\Component\HttpKernel\KernelInterface;
 
 /**

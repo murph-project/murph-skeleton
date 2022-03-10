@@ -9,6 +9,10 @@ core:
                 name: 'Simple page'
                 templates:
                     - {name: "Default", file: "page/simple/default.html.twig"}
+        # security:
+        #     roles:
+        #         - {name: 'Role foo', role: 'ROLE_FOO'}
+        #         - {name: 'Role bar', role: 'ROLE_BAR'}
     file_manager:
         # mimes:
         #     - image/png

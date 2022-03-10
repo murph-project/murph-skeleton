@@ -1,9 +1,9 @@
 <?php
 
-namespace App\EventSuscriber;
+namespace App\EventSubscriber;
 
 use App\Core\Event\Setting\NavigationSettingEvent;
-use App\Core\EventSuscriber\NavigationSettingEventSubscriber as EventSubscriber;
+use App\Core\EventSubscriber\NavigationSettingEventSubscriber as EventSubscriber;
 use App\Core\Setting\NavigationSettingManager;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;

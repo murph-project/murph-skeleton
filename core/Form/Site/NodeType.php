@@ -119,6 +119,41 @@ class NodeType extends AbstractType
             ]
         );
 
+        if (count($options['roles']) > 0) {
+            $builder->add(
+                'securityRoles',
+                ChoiceType::class,
+                [
+                    'label' => 'Roles',
+                    'required' => false,
+                    'multiple' => true,
+                    'expanded' => true,
+                    'choices' => call_user_func(function () use ($options) {
+                        $choices = [];
+
+                        foreach ($options['roles'] as $role) {
+                            $choices[$role->getName()] = $role->getRole();
+                        }
+
+                        return $choices;
+                    }),
+                ]
+            );
+
+            $builder->add(
+                'securityOperator',
+                ChoiceType::class,
+                [
+                    'label' => 'Condition',
+                    'required' => true,
+                    'choices' => [
+                        'At least one role' => 'or',
+                        'All roles' => 'and',
+                    ],
+                ]
+            );
+        }
+
         $actions = [
             'New page' => 'new',
             'Use an existing page' => 'existing',
@@ -278,6 +313,7 @@ class NodeType extends AbstractType
             'data_class' => Node::class,
             'pages' => [],
             'controllers' => [],
+            'roles' => [],
             'navigation' => null,
         ]);
     }

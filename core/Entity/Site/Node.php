@@ -157,6 +157,16 @@ class Node implements EntityInterface
      */
     protected $analyticReferers;
 
+    /**
+     * @ORM\Column(type="array")
+     */
+    private $securityRoles = [];
+
+    /**
+     * @ORM\Column(type="string", length=3, options={"default"="or"})
+     */
+    private $securityOperator;
+
     public function __construct()
     {
         $this->children = new ArrayCollection();
@@ -637,6 +647,30 @@ class Node implements EntityInterface
                 $referer->setNode(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getSecurityRoles(): array
+    {
+        return (array) $this->securityRoles;
+    }
+
+    public function setSecurityRoles(array $securityRoles): self
+    {
+        $this->securityRoles = $securityRoles;
+
+        return $this;
+    }
+
+    public function getSecurityOperator(): ?string
+    {
+        return $this->securityOperator;
+    }
+
+    public function setSecurityOperator(string $securityOperator): self
+    {
+        $this->securityOperator = $securityOperator;
 
         return $this;
     }

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Core\EventSuscriber\Site;
+namespace App\Core\EventSubscriber\Site;
 
 use App\Core\Site\SiteRequest;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;

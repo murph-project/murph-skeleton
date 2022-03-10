@@ -1,21 +1,20 @@
 <?php
 
-namespace App\Core\EventSuscriber\Site\Page;
+namespace App\Core\EventSubscriber\Site\Page;
 
 use App\Core\Entity\EntityInterface;
-use App\Core\Entity\Site\Page\FileBlock;
 use App\Core\Entity\Site\Page\Page;
 use App\Core\Event\EntityManager\EntityManagerEvent;
-use App\Core\EventSuscriber\EntityManagerEventSubscriber;
+use App\Core\EventSubscriber\EntityManagerEventSubscriber;
 use App\Core\Form\FileUploadHandler;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
- * class BlockEventSubscriber.
+ * class PageEventSubscriber.
  *
  * @author Simon Vieille <simon@deblan.fr>
  */
-class BlockEventSubscriber extends EntityManagerEventSubscriber
+class PageEventSubscriber extends EntityManagerEventSubscriber
 {
     protected FileUploadHandler $fileUpload;
 
@@ -35,20 +34,18 @@ class BlockEventSubscriber extends EntityManagerEventSubscriber
             return;
         }
 
-        foreach ($event->getEntity()->getBlocks() as $block) {
-            if ($block instanceof FileBlock) {
-                if ($block->getValue() instanceof UploadedFile) {
-                    $directory = 'uploads/page/block';
+        $page = $event->getEntity();
 
-                    $this->fileUpload->handleForm(
-                        $block->getValue(),
-                        $directory,
-                        function ($filename) use ($block, $directory) {
-                            $block->setValue($directory.'/'.$filename);
-                        }
-                    );
+        if ($page->getOgImage() instanceof UploadedFile) {
+            $directory = 'uploads/page/ogImage';
+
+            $this->fileUpload->handleForm(
+                $page->getOgImage(),
+                $directory,
+                function ($filename) use ($page, $directory) {
+                    $page->setOgImage($directory.'/'.$filename);
                 }
-            }
+            );
         }
     }
 

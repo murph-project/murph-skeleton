@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Core\EventSuscriber\Site;
+namespace App\Core\EventSubscriber\Site;
 
 use App\Core\Cache\SymfonyCacheManager;
 use App\Core\Entity\EntityInterface;
 use App\Core\Entity\Site\Menu;
 use App\Core\Event\EntityManager\EntityManagerEvent;
-use App\Core\EventSuscriber\EntityManagerEventSubscriber;
+use App\Core\EventSubscriber\EntityManagerEventSubscriber;
 use App\Core\Factory\Site\NodeFactory;
 use App\Core\Manager\EntityManager;
 use App\Core\Repository\Site\NodeRepository;
