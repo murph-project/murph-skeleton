@@ -51,15 +51,13 @@ class RequestSecurityEventSubscriber implements EventSubscriberInterface
             $isGranted = $this->authorizationChecker->isGranted($role);
 
             if ('or' === $operator && $isGranted) {
-                $isAuthorized = true;
+                return;
             } elseif ('and' === $operator && !$isGranted) {
                 throw $exception;
             }
         }
 
-        if (!$isAuthorized) {
-            throw $exception;
-        }
+        throw $exception;
     }
 
     public static function getSubscribedEvents(): array
