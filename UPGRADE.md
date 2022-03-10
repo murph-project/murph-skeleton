@@ -1,6 +1,12 @@
 ## [Unreleased]
 
 ## Upgrade to v1.8.0
+### Commands
+
+```
+make doctrine-migration
+```
+
 ### Files
 
 Event subscribers in `src/EventSubscriber` must update namespaces.
