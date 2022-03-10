@@ -3,8 +3,9 @@
 namespace App\Core\Entity\Site;
 
 use App\Core\Doctrine\Timestampable;
+use App\Core\Entity\Analytic\Referer;
+use App\Core\Entity\Analytic\View;
 use App\Core\Entity\EntityInterface;
-use App\Core\Entity\NodeView;
 use App\Core\Entity\Site\Page\Page;
 use App\Core\Repository\Site\NodeRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -12,8 +13,6 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use function Symfony\Component\String\u;
-use App\Core\Entity\Analytic\View;
-use App\Core\Entity\Analytic\Referer;
 
 /**
  * @Gedmo\Tree(type="nested")
@@ -653,7 +652,7 @@ class Node implements EntityInterface
 
     public function getSecurityRoles(): array
     {
-        return (array) $this->securityRoles;
+        return !is_array($this->securityRoles) ? [] : $this->securityRoles;
     }
 
     public function setSecurityRoles(array $securityRoles): self
