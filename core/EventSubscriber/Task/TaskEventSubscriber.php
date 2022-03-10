@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Core\EventSuscriber\Task;
+namespace App\Core\EventSubscriber\Task;
 
 use App\Core\Event\Task\TaskInitEvent;
 use App\Core\Event\Task\TaskRunRequestedEvent;

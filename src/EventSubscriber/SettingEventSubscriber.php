@@ -1,9 +1,9 @@
 <?php
 
-namespace App\EventSuscriber;
+namespace App\EventSubscriber;
 
 use App\Core\Event\Setting\SettingEvent;
-use App\Core\EventSuscriber\SettingEventSubscriber as EventSubscriber;
+use App\Core\EventSubscriber\SettingEventSubscriber as EventSubscriber;
 use App\Core\Setting\SettingManager;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;

@@ -14,6 +14,7 @@ use App\Core\Form\Site\NodeType as EntityType;
 use App\Core\Manager\EntityManager;
 use App\Core\Repository\Site\NodeRepository;
 use App\Core\Site\ControllerLocator;
+use App\Core\Site\RoleLocator;
 use App\Core\Site\PageLocator;
 use App\Core\Sitemap\SitemapBuilder;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -39,12 +40,14 @@ class NodeAdminController extends AbstractController
         NodeRepository $nodeRepository,
         PageLocator $pageLocator,
         ControllerLocator $controllerLocator,
+        RoleLocator $roleLocator,
         Request $request
     ): Response {
         $entity = $factory->create($node->getMenu());
         $form = $this->createForm(EntityType::class, $entity, [
             'pages' => $pageLocator->getPages(),
             'controllers' => $controllerLocator->getControllers(),
+            'roles' => $roleLocator->getRoles(),
             'navigation' => $node->getMenu()->getNavigation(),
         ]);
 
@@ -109,12 +112,14 @@ class NodeAdminController extends AbstractController
         PageFactory $pageFactory,
         PageLocator $pageLocator,
         ControllerLocator $controllerLocator,
+        RoleLocator $roleLocator,
         Request $request,
         string $tab = 'content'
     ): Response {
         $form = $this->createForm(EntityType::class, $entity, [
             'pages' => $pageLocator->getPages(),
             'controllers' => $controllerLocator->getControllers(),
+            'roles' => $roleLocator->getRoles(),
             'navigation' => $entity->getMenu()->getNavigation(),
         ]);
 

@@ -4,6 +4,13 @@
 ### Fixed
 ### Changed
 
+## [1.8.0] - 2022-03-10
+### Added
+* add security roles in app configuration
+* add option to restrict node access to specific roles
+### Changed
+* rename `core/EventSuscriber` with `core/EventSubscriber`
+
 ## [1.7.3] - 2022-03-06
 ### Added
 * add ability to rename file in the file manager
