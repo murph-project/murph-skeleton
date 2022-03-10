@@ -173,6 +173,7 @@
         {% endif %}
 
         {{ form_row(form.url) }}
+        {{ form_row(form.code) }}
 
         <div class="pb-3">
             <details>
@@ -206,9 +207,34 @@
 
         {{ form_row(form.disableUrl) }}
         {{ form_row(form.enableAnalytics) }}
-        {{ form_row(form.code) }}
-        {{ form_row(form.contentType) }}
-        {{ form_row(form.controller) }}
+
+        <div class="row">
+            <div class="col-md-6">
+                {{ form_row(form.controller) }}
+            </div>
+            <div class="col-md-6 pl-md-2">
+                {{ form_row(form.contentType) }}
+            </div>
+        </div>
+
+        {% if form.securityRoles is defined %}
+            <div class="pb-3">
+                <details>
+                    <summary>
+                        {{ 'Security'|trans }}
+                    </summary>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            {{ form_row(form.securityRoles) }}
+                        </div>
+                        <div class="col-md-6">
+                            {{ form_row(form.securityOperator) }}
+                        </div>
+                    </div>
+                </details>
+            </div>
+        {% endif %}
 
         <div class="accordion mb-3" data-collection="collection-node-parameters" id="form-node-edit-parameters-collection">
             {% for item in form.parameters %}

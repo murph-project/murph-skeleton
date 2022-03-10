@@ -1,5 +1,10 @@
 ## [Unreleased]
 
+## Upgrade to v1.8.0
+### Files
+
+Event subscribers in `src/EventSubscriber` must update namespaces.
+
 ## Upgrade to v1.7.0
 ### Commands
 

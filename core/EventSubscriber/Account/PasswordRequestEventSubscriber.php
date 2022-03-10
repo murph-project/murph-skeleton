@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Core\EventSuscriber\Account;
+namespace App\Core\EventSubscriber\Account;
 
 use App\Core\Event\Account\PasswordRequestEvent;
 use App\Core\Manager\EntityManager;

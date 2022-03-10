@@ -30,13 +30,13 @@ class ControllerLocator
         $params = $this->params['site']['controllers'] ?? [];
 
         foreach ($params as $conf) {
-            $controllerConfiguration = new ControllerConfiguration();
-            $controllerConfiguration
+            $configuration = new ControllerConfiguration();
+            $configuration
                 ->setName($conf['name'])
                 ->setAction($conf['action'])
             ;
 
-            $this->controllers[$conf['action']] = $controllerConfiguration;
+            $this->controllers[$conf['action']] = $configuration;
         }
     }
 }

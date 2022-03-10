@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Core\EventSuscriber;
+namespace App\Core\EventSubscriber;
 
 use App\Core\Event\Setting\NavigationSettingEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
