@@ -22,6 +22,12 @@
 
             <div class="ml-auto">
                 {{ include('@Core/admin/module/account.html.twig') }}
+
+                {% if murph_version %}
+                    <div id="murph-version">
+                        <a href="https://doc.murph-project.org/" target="_blank">{{ murph_version }}</a>
+                    </div>
+                {% endif %}
             </div>
         </nav>
 
