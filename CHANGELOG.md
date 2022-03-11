@@ -1,6 +1,7 @@
 ## [Unreleased]
 
 ### Added
+* add murph version in admin ui
 ### Fixed
 ### Changed
 

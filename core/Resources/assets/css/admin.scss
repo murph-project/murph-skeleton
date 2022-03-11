@@ -546,3 +546,13 @@ form {
         line-height: normal;
     }
 }
+
+#murph-version {
+    display: inline;
+    font-size: 14px;
+    margin-left: 2px;
+
+    a {
+        color: #333;
+    }
+}

@@ -32,6 +32,7 @@ abstract class AdminController extends AbstractController
         $parameters['section'] = $this->getSection();
         $parameters['site_name'] = $this->coreParameters['site']['name'];
         $parameters['site_logo'] = $this->coreParameters['site']['logo'];
+        $parameters['murph_version'] = defined('MURPH_VERSION') ? MURPH_VERSION : null;
 
         return parent::render($view, $parameters, $response);
     }
