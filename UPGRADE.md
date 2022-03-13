@@ -1,5 +1,10 @@
 ## [Unreleased]
 
+## Upgrade to v1.9.0
+
+This version uses the package `murph/murph-core`.
+
+
 ## Upgrade to v1.8.0
 ### Commands
 
