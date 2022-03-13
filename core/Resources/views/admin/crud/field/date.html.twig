@@ -1,8 +1,0 @@
-{%- block value -%}
-    {%- if value -%}
-        <span class="btn btn-sm btn-light">
-            <span class="fa fa-calendar-alt text-black-50 mr-2"></span>
-            {{- value|date(options.format) -}}
-        </span>
-    {%- endif -%}
-{%- endblock -%}

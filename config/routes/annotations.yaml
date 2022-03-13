@@ -3,7 +3,7 @@ controllers:
     type: annotation
 
 core_controllers:
-    resource: ../../core/Controller/
+    resource: ../../vendor/murph/murph-core/src/core/Controller/
     type: annotation
 
 kernel:

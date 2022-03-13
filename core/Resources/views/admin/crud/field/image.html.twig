@@ -1,3 +1,0 @@
-{%- block value -%}
-    <img {% for k, v in options.image_attr %}{{ k }}="{{ v }}" {% endfor %} src="{{ asset(value) }}">
-{%- endblock -%}

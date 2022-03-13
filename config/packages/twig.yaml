@@ -3,4 +3,4 @@ twig:
     form_themes: ['@Core/form/bootstrap_4_form_theme.html.twig']
     paths:
         '%kernel.project_dir%/templates/core/': Core
-        '%kernel.project_dir%/core/Resources/views/': Core
+        '%kernel.project_dir%/vendor/murph/murph-core/src/core/Resources/views/': Core
