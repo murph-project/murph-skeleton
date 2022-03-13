@@ -3,6 +3,6 @@ framework:
     translator:
         default_path: '%kernel.project_dir%/translations'
         paths:
-            - '%kernel.project_dir%/core/Resources/translations'
+            - '%kernel.project_dir%/vendor/murph/murph-core/src/core/Resources/translations'
         fallbacks:
             - en

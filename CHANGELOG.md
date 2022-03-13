@@ -1,9 +1,14 @@
 ## [Unreleased]
 
 ### Added
-* add murph version in admin ui
 ### Fixed
 ### Changed
+
+## [1.9.0] - 2022-03-13
+### Added
+* add murph version in admin ui
+### Changed
+* the core is now installed with composer
 
 ## [1.8.0] - 2022-03-10
 ### Added

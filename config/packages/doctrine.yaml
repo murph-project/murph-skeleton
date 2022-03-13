@@ -13,7 +13,7 @@ doctrine:
             App\Core\Entity:
                 is_bundle: false
                 type: annotation
-                dir: '%kernel.project_dir%/core/Entity'
+                dir: '%kernel.project_dir%/vendor/murph/murph-core/src/core/Entity'
                 prefix: 'App\Core\Entity'
                 alias: App\Core\Entity
             App\Entity:
