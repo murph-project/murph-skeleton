@@ -164,7 +164,7 @@ class Node implements EntityInterface
     /**
      * @ORM\Column(type="string", length=3, options={"default"="or"})
      */
-    private $securityOperator;
+    private $securityOperator = 'or';
 
     public function __construct()
     {
