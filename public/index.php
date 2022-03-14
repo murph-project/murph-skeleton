@@ -9,8 +9,6 @@ require dirname(__DIR__).'/vendor/autoload.php';
 
 (new Dotenv())->bootEnv(dirname(__DIR__).'/.env');
 
-define('MURPH_VERSION', 'v1.8.0');
-
 if ($_SERVER['APP_DEBUG']) {
     umask(0000);
 
