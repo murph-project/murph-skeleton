@@ -4,6 +4,12 @@
 ### Fixed
 ### Changed
 
+## [1.9.1] - 2022-03-14
+### Added
+* add murph version in autoload file
+### Changed
+* remove AdminController constructor
+
 ## [1.9.0] - 2022-03-13
 ### Added
 * add murph version in admin ui
