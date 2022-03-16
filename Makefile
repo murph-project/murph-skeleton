@@ -1,6 +1,5 @@
 COMPOSER_BIN ?= composer
 PHP_BIN ?= php8.1
-SSH_BIN ?= ssh
 YARN_BIN ?= yarn
 NPM_BIN ?= npm
 
