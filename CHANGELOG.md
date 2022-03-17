@@ -1,10 +1,16 @@
 ## [Unreleased]
 
 ### Added
-* add url and path generators using code (twig)
 ### Fixed
 ### Changed
-* update node entity constraints
+
+## [1.10.0]
+### Added
+* add translated title in dashboard template
+### Fixed
+* remove useless env var from makefile
+### Changed
+* upgrade murph/murph-core
 
 ## [1.9.1] - 2022-03-14
 ### Added
