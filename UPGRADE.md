@@ -1,5 +1,13 @@
 ## [Unreleased]
 
+## Upgrade to v1.10.0
+### Commands
+
+```
+make doctrine-migration
+```
+
+
 ## Upgrade to v1.9.0
 
 This version uses the package `murph/murph-core`.
