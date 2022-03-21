@@ -3,6 +3,7 @@
 ### Added
 ### Fixed
 ### Changed
+* use murph-npm to install npm requirements
 
 ## [1.10.0]
 ### Added
