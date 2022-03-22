@@ -3,6 +3,10 @@
 ### Added
 ### Fixed
 ### Changed
+
+## [1.11.0]
+### Changed
+* upgrade murph/murph-core
 * use murph-npm to install npm requirements
 
 ## [1.10.0]
