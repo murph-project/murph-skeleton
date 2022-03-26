@@ -1,3 +1,14 @@
+## General process
+
+Upgrade dependencies:
+
+* `composer update`
+* `yarn upgrade`
+
+Build:
+
+* `make build`
+
 ## [Unreleased]
 
 ## Upgrade to v1.10.0
