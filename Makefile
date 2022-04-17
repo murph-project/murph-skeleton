@@ -1,7 +1,6 @@
 COMPOSER_BIN ?= composer
 PHP_BIN ?= php8.1
 YARN_BIN ?= yarn
-NPM_BIN ?= npm
 
 all: build
 
