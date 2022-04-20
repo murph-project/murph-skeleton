@@ -4,6 +4,10 @@
 ### Fixed
 ### Changed
 
+## [1.14.1]
+### Fixed
+* fix missing envvar in makefile (npm)
+
 ## [1.14.0]
 ### Changed
 * upgrade murph/murph-core
