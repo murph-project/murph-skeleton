@@ -4,6 +4,10 @@
 ### Fixed
 ### Changed
 
+## [1.14.0]
+### Changed
+* upgrade murph/murph-core
+
 ## [1.13.0]
 ### Changed
 * upgrade murph/murph-core
