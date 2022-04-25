@@ -1,6 +1,7 @@
 ## [Unreleased]
 
 ### Added
+* add blocks in default template
 ### Fixed
 ### Changed
 
