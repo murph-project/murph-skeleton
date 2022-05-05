@@ -11,6 +11,14 @@ Build:
 
 ## [Unreleased]
 
+## Upgrade to v1.15.0
+
+```
+cd public/vendor
+ln -rs ../../node_modules/grapesjs-plugin-export .
+ln -rs ../../node_modules/grapesjs-parser-postcss .
+```
+
 ## Upgrade to v1.10.0
 ### Commands
 
