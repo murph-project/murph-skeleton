@@ -4,6 +4,9 @@
 ### Fixed
 ### Changed
 
+## [1.15.0]
+* upgrade murph/murph-core
+
 ## [1.14.3]
 ### Added
 * add blocks in default template
