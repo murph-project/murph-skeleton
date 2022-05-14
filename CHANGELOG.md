@@ -1,8 +1,10 @@
 ## [Unreleased]
 
 ### Added
+* add a admin dashboard controller
 ### Fixed
 ### Changed
+* upgrade murph/murph-core
 
 ## [1.15.0]
 ### Changed
