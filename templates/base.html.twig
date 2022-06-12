@@ -18,6 +18,8 @@
             {%- endif -%}
         {%- endblock -%}
 
+        <meta name="description" content="{%- block pageDescription -%}{{- _page.metaDescription -}}{%- endblock -%}"/>
+
         {%- block stylesheets -%}
             {{ encore_entry_link_tags('app') }}
         {%- endblock -%}
