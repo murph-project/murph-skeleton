@@ -2,6 +2,7 @@
 
 ### Added
 * add a admin dashboard controller
+* add meta description in base.html.twig
 ### Fixed
 ### Changed
 * upgrade murph/murph-core
