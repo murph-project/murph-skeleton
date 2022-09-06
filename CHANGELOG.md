@@ -1,5 +1,6 @@
 ## [Unreleased]
 
+## [1.16.0]
 ### Added
 * add a admin dashboard controller
 * add meta description in base.html.twig
