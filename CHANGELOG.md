@@ -1,5 +1,11 @@
 ## [Unreleased]
 
+## [1.17.0] 2022-11-19
+### Changed
+* upgrade murph/murph-core
+* replace annotation with attributes
+* use encore from node_modules in npm scripts
+
 ## [1.16.0]
 ### Added
 * add a admin dashboard controller
