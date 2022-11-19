@@ -11,6 +11,25 @@ Build:
 
 ## [Unreleased]
 
+## Upgrade to v1.17.0
+
+Replace all annotations with PHP8 attributes and change the doctrine configuration:
+
+```
+# config/packages/doctrine.yaml
+doctrine:
+    ...
+    orm:
+        ...
+        mappings:
+            App\Core\Entity:
+                type: attribute
+                ...
+            App\Entity:
+                type: attribute
+                ...
+```
+
 ## Upgrade to v1.15.0
 
 ```
