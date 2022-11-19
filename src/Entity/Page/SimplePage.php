@@ -11,9 +11,7 @@ use App\Core\Form\Site\Page\TextBlockType;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Form\FormBuilderInterface;
 
-/**
- * @ORM\Entity
- */
+#[ORM\Entity]
 class SimplePage extends Page
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
