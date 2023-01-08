@@ -1,6 +1,6 @@
 matrix:
   PHP_VERSION:
-    - 8.0
+    # - 8.0
     - 8.1
 
 services:
@@ -44,6 +44,7 @@ pipeline:
     image: node:16-slim
     commands:
       - yarn
+      - test -d public/js || mkdir public/js
       - test -f public/js/fos_js_routes.json || echo "{}" > public/js/fos_js_routes.json
       - npm run build
 
