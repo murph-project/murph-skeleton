@@ -1,7 +1,9 @@
 #!/bin/sh
 
-CLASS_NAME="$(echo "yes" | "$PHP" ./bin/console doctrine:migration:diff -e dev | grep -o "Version[0-9]*" | tail -n 1)"
+APP_ENV="${APP_ENV:-dev}"
+
+CLASS_NAME="$(echo "yes" | "$PHP" ./bin/console doctrine:migration:diff -e "$APP_ENV" | grep -o "Version[0-9]*" | tail -n 1)"
 
 if [ -n "$CLASS_NAME" ]; then
-	echo "yes" | "$PHP" ./bin/console doctrine:migration:exec --up "DoctrineMigrations\\$CLASS_NAME" -e dev
+	echo "yes" | "$PHP" ./bin/console doctrine:migration:exec --up "DoctrineMigrations\\$CLASS_NAME" -e "$APP_ENV"
 fi
