@@ -2,11 +2,15 @@
 
 namespace App\Tests\Core\Command;
 
+use App\Repository\UserRepositoryQuery;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
-use App\Repository\UserRepositoryQuery;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 class CreateUserTest extends KernelTestCase
 {
     protected UserRepositoryQuery $query;
@@ -31,7 +35,7 @@ class CreateUserTest extends KernelTestCase
             'y',
             'n',
         ]);
-        $commandTester->execute(['command'  => $command->getName()]);
+        $commandTester->execute(['command' => $command->getName()]);
         $output = $commandTester->getDisplay();
         $this->assertStringContainsString('User created!', $output);
 
@@ -41,7 +45,7 @@ class CreateUserTest extends KernelTestCase
             'n',
             'y',
         ]);
-        $commandTester->execute(['command'  => $command->getName()]);
+        $commandTester->execute(['command' => $command->getName()]);
         $output = $commandTester->getDisplay();
         $this->assertStringContainsString('User created!', $output);
     }
