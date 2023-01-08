@@ -6,3 +6,10 @@ framework:
             - '%kernel.project_dir%/vendor/murph/murph-core/src/core/Resources/translations'
         fallbacks:
             - en
+#        providers:
+#            crowdin:
+#                dsn: '%env(CROWDIN_DSN)%'
+#            loco:
+#                dsn: '%env(LOCO_DSN)%'
+#            lokalise:
+#                dsn: '%env(LOKALISE_DSN)%'
