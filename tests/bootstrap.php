@@ -13,3 +13,9 @@ if (file_exists(dirname(__DIR__).'/config/bootstrap.php')) {
 if ($_SERVER['APP_DEBUG']) {
     umask(0000);
 }
+
+passthru(sprintf(
+    'APP_ENV=test PHP=%s "%s/../bin/doctrine-migrate"',
+    $_ENV['PHP_BIN'] ?? $_ENV['PHP'] ?? 'php',
+    __DIR__
+));

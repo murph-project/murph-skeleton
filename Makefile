@@ -24,3 +24,6 @@ doctrine-migration:
 	PHP=$(PHP_BIN) ./bin/doctrine-migrate
 
 build: clean js-routing asset
+
+run-tests:
+	$(PHP_BIN) bin/phpunit tests/
