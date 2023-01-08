@@ -19,8 +19,11 @@
     </php>
 
     <testsuites>
-        <testsuite name="Project Test Suite">
-            <directory>tests</directory>
+        <testsuite name="CLI">
+            <file>tests/Core/Command/CreateUserTest.php</file>
+        </testsuite>
+        <testsuite name="Login">
+            <file>tests/Core/Auth/LoginTest.php</file>
         </testsuite>
     </testsuites>
 
