@@ -27,6 +27,7 @@ pipeline:
       - echo APP_ENV=prod >> .env.local
       - echo APP_SECRET=$(openssl rand -hex 32) >> .env.local
       - echo DATABASE_URL=mysql://root:root@db/app >> .env.local
+      - echo DATABASE_URL=mysql://root:root@db/app_test >> .env.test.local
 
   composer:
     image: deblan/php:${PHP_VERSION}
