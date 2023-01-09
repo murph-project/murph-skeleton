@@ -25,6 +25,11 @@
         <testsuite name="Login">
             <file>tests/Core/Auth/LoginTest.php</file>
         </testsuite>
+        <testsuite name="Site">
+            <file>tests/Core/Site/NavigationTest.php</file>
+            <file>tests/Core/Site/TreeTest.php</file>
+            <file>tests/Core/Site/PageTest.php</file>
+        </testsuite>
     </testsuites>
 
     <coverage processUncoveredFiles="true">
@@ -37,10 +42,7 @@
         <listener class="Symfony\Bridge\PhpUnit\SymfonyTestsListener" />
     </listeners>
 
-    <!-- Run `composer require symfony/panther` before enabling this extension -->
-    <!--
     <extensions>
         <extension class="Symfony\Component\Panther\ServerExtension" />
     </extensions>
-    -->
 </phpunit>
