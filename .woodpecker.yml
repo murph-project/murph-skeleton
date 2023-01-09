@@ -52,9 +52,8 @@ pipeline:
 
   tests:
     image: deblan/php:${PHP_VERSION}
-    environment:
-      - APP_ENV=test
     commands:
       - composer install --no-scripts --dev
       - vendor/bin/bdi detect drivers
+      - symfony server:start --port=9080 --no-tls
       - php bin/phpunit
