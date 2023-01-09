@@ -53,4 +53,6 @@ pipeline:
     environment:
       - APP_ENV=test
     commands:
+      - composer require --dev dbrekelmans/bdi
+      - vendor/bin/bdi detect drivers
       - php bin/phpunit
