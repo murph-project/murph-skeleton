@@ -19,6 +19,7 @@ pipeline:
     image: mariadb:10.3
     commands:
       - mysql -hdb -uroot -proot -e "CREATE DATABASE app"
+      - mysql -hdb -uroot -proot -e "CREATE DATABASE app_test"
 
   config:
     image: deblan/php:8.1
