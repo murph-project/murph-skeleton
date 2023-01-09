@@ -22,7 +22,7 @@ pipeline:
       - mysql -hdb -uroot -proot -e "CREATE DATABASE app_test"
 
   config:
-    image: deblan/php:8.1
+    image: gitnet.fr/deblan/php:8.1
     commands:
       - echo APP_ENV=prod >> .env.local
       - echo APP_SECRET=$(openssl rand -hex 32) >> .env.local
@@ -30,13 +30,13 @@ pipeline:
       - echo DATABASE_URL=mysql://root:root@db/app_test >> .env.test.local
 
   composer:
-    image: deblan/php:${PHP_VERSION}
+    image: gitnet.fr/deblan/php:${PHP_VERSION}
     commands:
       - apt-get update && apt-get -y install git
       - composer install --no-scripts
 
   migrate:
-    image: deblan/php:${PHP_VERSION}
+    image: gitnet.fr/deblan/php:${PHP_VERSION}
     environment:
       - PHP=php
     commands:
@@ -51,7 +51,7 @@ pipeline:
       - npm run build
 
   tests:
-    image: deblan/php:${PHP_VERSION}
+    image: gitnet.fr/deblan/php:${PHP_VERSION}
     commands:
       - composer install --no-scripts --dev
       - vendor/bin/bdi detect drivers
