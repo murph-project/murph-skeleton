@@ -54,6 +54,7 @@ pipeline:
     image: deblan/php:${PHP_VERSION}
     commands:
       - composer install --no-scripts --dev
+      - composer require --dev dbrekelmans/bdi
       - vendor/bin/bdi detect drivers
       - symfony server:start --port=9080 --no-tls -d
       - php bin/phpunit
