@@ -55,8 +55,8 @@ pipeline:
     commands:
       - apt-get update && apt-get install -y unzip libnss3
       - composer install --no-scripts --dev
-      - curl -o chromedriver_linux64.zip https://chromedriver.storage.googleapis.com/108.0.5359.71/chromedriver_linux64.zip
-      - unzip -d drivers chromedriver_linux64.zip
+      - curl -o chromedriver_linux64.zip https://chromedriver.storage.googleapis.com/108.0.5359.71/chromedriver_linux64.zip && unzip -d drivers chromedriver_linux64.zip
+      - curl -o /tmp/chrome.deb https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb && apt install /tmp/chrome.deb
       - vendor/bin/bdi detect drivers
       - symfony server:start --port=9080 --no-tls -d
       - php bin/phpunit
