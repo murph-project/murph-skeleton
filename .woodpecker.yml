@@ -53,7 +53,7 @@ pipeline:
   tests:
     image: deblan/php:${PHP_VERSION}
     commands:
-      - apt install unzip
+      - apt-get update && apt-get install -y unzip libnss3
       - composer install --no-scripts --dev
       - curl -o chromedriver_linux64.zip https://chromedriver.storage.googleapis.com/108.0.5359.71/chromedriver_linux64.zip
       - unzip -d drivers chromedriver_linux64.zip
