@@ -1,0 +1,49 @@
+matrix:
+  PHP_VERSION:
+    - 8.0
+    - 8.1
+
+services:
+  db:
+    image: mariadb:10.3
+    environment:
+      - MARIADB_ROOT_PASSWORD=root
+
+pipeline:
+  db_wait:
+    image: gitnet.fr/deblan/timeout:latest
+    commands:
+      - /bin/timeout -t 30 -v -c 'while true; do nc -z -v db 3306 2>&1 | grep succeeded && exit 0; sleep 0.5; done'
+
+  db_create:
+    image: mariadb:10.3
+    commands:
+      - mysql -hdb -uroot -proot -e "CREATE DATABASE app"
+
+  config:
+    image: deblan/php:8.1
+    commands:
+      - echo APP_ENV=prod >> .env.local
+      - echo APP_SECRET=$(openssl rand -hex 32) >> .env.local
+      - echo DATABASE_URL=mysql://root:root@db/app >> .env.local
+
+  composer:
+    image: deblan/php:${PHP_VERSION}
+    commands:
+      - apt-get update && apt-get -y install git
+      - composer install --no-scripts
+
+  db_migrate:
+    image: deblan/php:${PHP_VERSION}
+    environment:
+      - PHP=php
+    commands:
+      - ./bin/doctrine-migrate
+
+  node:
+    image: node:16-slim
+    commands:
+      - yarn
+      - test -d public/js || mkdir public/js
+      - test -f public/js/fos_js_routes.json || echo "{}" > public/js/fos_js_routes.json
+      - npm run build
