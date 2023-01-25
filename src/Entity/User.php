@@ -6,9 +6,11 @@ use App\Core\Doctrine\Timestampable;
 use App\Core\Entity\EntityInterface;
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
-use Scheb\TwoFactorBundle\Model\Google\TwoFactorInterface;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Scheb\TwoFactorBundle\Model\Totp\TwoFactorInterface;
+use Scheb\TwoFactorBundle\Model\Totp\TotpConfiguration;
+use Scheb\TwoFactorBundle\Model\Totp\TotpConfigurationInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\HasLifecycleCallbacks]
@@ -160,24 +162,30 @@ class User implements PasswordAuthenticatedUserInterface, UserInterface, TwoFact
         return null !== $this->getTotpSecret();
     }
 
-    public function isGoogleAuthenticatorEnabled(): bool
-    {
-        return $this->isTotpAuthenticationEnabled();
-    }
-
-    public function getGoogleAuthenticatorUsername(): string
+    public function getTotpAuthenticationUsername(): string
     {
         return $this->getEmail();
     }
 
-    public function getGoogleAuthenticatorSecret(): ?string
+    public function getTotpAuthenticationSecret(): ?string
     {
         return $this->getTotpSecret();
     }
 
-    public function setGoogleAuthenticatorSecret(?string $googleAuthenticatorSecret): void
+    public function setTotpAuthenticationSecret(?string $totpAuthenticatorSecret): void
     {
-        $this->setTotpSecret($googleAuthenticatorSecret);
+        $this->setTotpSecret($totpAuthenticatorSecret);
+    }
+
+    public function getTotpAuthenticationConfiguration(): ?TotpConfigurationInterface
+    {
+        // You could persist the other configuration options in the user entity to make it individual per user.
+        return new TotpConfiguration(
+            $this->getTotpAuthenticationSecret(),
+            TotpConfiguration::ALGORITHM_SHA1,
+            20,
+            6
+        );
     }
 
     public function getPasswordRequestedAt(): ?\DateTimeInterface

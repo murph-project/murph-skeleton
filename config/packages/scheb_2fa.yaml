@@ -1,10 +1,9 @@
 # See the configuration reference at https://github.com/scheb/2fa/blob/master/doc/configuration.md
 scheb_two_factor:
-    google:
+    totp:
         enabled: true
         issuer: "Murph"
         server_name:
-        digits: 6
         window: 1
         template: "@Core/auth/2fa.html.twig"
     security_tokens:
