@@ -1,8 +1,74 @@
 ## [Unreleased]
 
+## [1.18.0] 2023-01-13
 ### Added
+* feat(dep): update dependencies
+* feat(update): apply new recipe for phpunit
+* feat(update): apply recipes:update doctrine/doctrine-bundle
+* feat(update): apply recipes:update doctrine/doctrine-migrations-bundle
+* feat(update): apply recipes:update liip/imagine-bundle
+* feat(update): apply recipes:update stof/doctrine-extensions-bundle
+* feat(update): apply recipes:update symfony/apache-pack
+* feat(update): apply recipes:update symfony/console
+* feat(update): apply recipes:update symfony/debug-bundle
+* feat(update): apply recipes:update symfony/flex
+* feat(update): apply recipes:update symfony/mailer
+* feat(update): apply recipes:update symfony/framework-bundle
+* feat(update): apply recipes:update symfony/monolog-bundle
+* feat(update): apply recipes:update symfony/routing
+* feat(update): apply recipes:update symfony/security-bundle
+* feat(update): apply recipes:update symfony/translation
+* feat(update): apply recipes:update symfony/twig-bundle
+* feat(update): apply recipes:update symfony/validator
+* feat(update): apply recipes:update symfony/web-profiler-bundle
+* feat(update): apply recipes:update symfony/webpack-encore-bundle
+* feat(update): apply recipes:update scheb/2fa-bundle
+### Fixed
+* fix(config): fix typo in 2fa conf
+* fix(config): fix firewall config
+
+
+## [1.17.0] 2022-11-19
+### Changed
+* upgrade murph/murph-core
+* replace annotation with attributes
+* use encore from node_modules in npm scripts
+
+## [1.16.0]
+### Added
+* add a admin dashboard controller
+* add meta description in base.html.twig
 ### Fixed
 ### Changed
+* upgrade murph/murph-core
+
+## [1.15.0]
+### Changed
+* upgrade murph/murph-core
+
+## [1.14.3]
+### Added
+* add blocks in default template
+### Changed
+* upgrade murph/murph-core
+
+## [1.14.2]
+
+## [1.14.1]
+### Fixed
+* fix missing envvar in makefile (npm)
+
+## [1.14.0]
+### Changed
+* upgrade murph/murph-core
+
+## [1.13.0]
+### Changed
+* upgrade murph/murph-core
+
+## [1.12.0]
+### Changed
+* upgrade murph/murph-core
 
 ## [1.11.0]
 ### Changed

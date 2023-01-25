@@ -8,21 +8,23 @@
         <link rel="icon" type="image/x-icon" href="{{ asset('build/images/core/logo.svg') }}" />
 
         {%- block opengraph -%}
-            <meta property="og:title" content="{{ _page.ogTitle }}" />
-            <meta property="og:description" content="{{ _page.ogDescription }}" />
-            <meta property="og:type" content="website" />
-            <meta property="og:url" content="{{ app.request.uri }}" />
+            <meta property="og:title" content="{%- block ogTitle -%}{{ _page.ogTitle }}{%- endblock -%}" />
+            <meta property="og:description" content="{%- block ogDescription -%}{{ _page.ogDescription }}{%- endblock -%}" />
+            <meta property="og:type" content="{%- block ogType -%}website{%- endblock -%}" />
+            <meta property="og:url" content="{%- block opengraphUri -%}{{ app.request.uri }}{%- endblock -%}" />
 
             {%- if _page.ogImage -%}
-                <meta property="og:image" content="{{ absolute_url(asset(_page.ogImage)) }}" />
+                <meta property="og:image" content="{%- block ogImage -%}{{ absolute_url(asset(_page.ogImage)) }}{%- endblock -%}" />
             {%- endif -%}
         {%- endblock -%}
+
+        <meta name="description" content="{%- block pageDescription -%}{{- _page.metaDescription -}}{%- endblock -%}"/>
 
         {%- block stylesheets -%}
             {{ encore_entry_link_tags('app') }}
         {%- endblock -%}
 
-        <title>{{ _page.metaTitle }}</title>
+        <title>{%- block pageTitle -%}{{ _page.metaTitle }}{%- endblock -%}</title>
     </head>
 
     <body>

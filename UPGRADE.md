@@ -1,4 +1,42 @@
+## General process
+
+Upgrade dependencies:
+
+* `composer update`
+* `yarn upgrade`
+
+Build:
+
+* `make build`
+
 ## [Unreleased]
+
+## Upgrade to v1.17.0
+
+Replace all annotations with PHP8 attributes and change the doctrine configuration:
+
+```
+# config/packages/doctrine.yaml
+doctrine:
+    ...
+    orm:
+        ...
+        mappings:
+            App\Core\Entity:
+                type: attribute
+                ...
+            App\Entity:
+                type: attribute
+                ...
+```
+
+## Upgrade to v1.15.0
+
+```
+cd public/vendor
+ln -rs ../../node_modules/grapesjs-plugin-export .
+ln -rs ../../node_modules/grapesjs-parser-postcss .
+```
 
 ## Upgrade to v1.10.0
 ### Commands

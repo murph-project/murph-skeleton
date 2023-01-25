@@ -2,7 +2,7 @@
 # Files in the packages/ subdirectory configure your dependencies.
 
 # Put parameters here that don't need to change on each machine where the app is deployed
-# https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
+# https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
 
 services:
@@ -11,21 +11,28 @@ services:
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
 
-    # makes classes in src/ available to be used as services
-    # this creates a service per class whose id is the fully-qualified class name
+    # Murph services
     App\Core\:
         resource: '../vendor/murph/murph-core/src/core/'
         exclude:
             - '../vendor/murph/murph-core/src/core/DependencyInjection/'
             - '../vendor/murph/murph-core/src/core/Entity/'
 
+    # Redirections
     App\Core\EventListener\RedirectListener:
         tags:
             - { name: kernel.event_listener, event: kernel.exception }
 
+    # Analytics
     App\Core\EventListener\AnalyticListener:
         tags:
             - { name: kernel.event_listener, event: kernel.request }
+
+    # A/B Testing
+    App\Core\EventListener\AbListener:
+        tags:
+            - { name: kernel.event_listener, event: kernel.request }
+            - { name: kernel.event_listener, event: kernel.response }
 
     App\:
         resource: '../src/'
