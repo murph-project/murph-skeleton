@@ -1,5 +1,9 @@
 ## [Unreleased]
 
+## [1.19.0] 2023-04-15
+### Changed
+* upgrade murph/murph-core
+
 ## [1.18.0] 2023-01-13
 ### Added
 * feat(dep): update dependencies
