@@ -20,13 +20,13 @@ class UserAdminController extends BaseUserAdminController
     #[Route(path: '/admin/user/{page}', name: 'admin_user_index', methods: ['GET'], requirements: ['page' => '\d+'])]
     public function index(RepositoryQuery $query, Request $request, Session $session, int $page = 1): Response
     {
-        return parent::index($page, $query, $request, $session);
+        return parent::index($query, $request, $session, $page);
     }
 
     #[Route(path: '/admin/user/new', name: 'admin_user_new', methods: ['GET', 'POST'])]
     public function new(Factory $factory, EntityManager $entityManager, Request $request, TokenGenerator $tokenGenerator): Response
     {
-        return parent::new($factory->create(null, $tokenGenerator->generateToken()), $entityManager, $request);
+        return parent::new($factory, $entityManager, $request, $tokenGenerator);
     }
 
     #[Route(path: '/admin/user/show/{entity}', name: 'admin_user_show', methods: ['GET'])]
