@@ -1,5 +1,12 @@
 ## [Unreleased]
 
+## [1.20.0] 2023-07-20
+### added
+* add user admin controller and simples views in default files
+* add chdir in the console entrypoint
+### Changed
+* upgrade murph/murph-core
+
 ## [1.19.0] 2023-04-15
 ### Changed
 * upgrade murph/murph-core
