@@ -1,5 +1,6 @@
 ## [Unreleased]
 
+## [1.20.0] 2023-07-27
 ### Fixed
 * fix collection widget: allow_add/allow_delete and prototype
 ### Added
