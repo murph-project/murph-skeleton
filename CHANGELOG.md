@@ -1,7 +1,8 @@
 ## [Unreleased]
 
-## [1.20.0] 2023-07-20
-### added
+### Fixed
+* fix collection widget: allow_add/allow_delete and prototype
+### Added
 * add user admin controller and simples views in default files
 * add chdir in the console entrypoint
 ### Changed
