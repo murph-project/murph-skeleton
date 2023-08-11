@@ -1,5 +1,9 @@
 ## [Unreleased]
 
+## [1.21.0] 2023-08-11
+### Changed
+* upgrade murph/murph-core
+
 ## [1.20.0] 2023-07-27
 ### Fixed
 * fix collection widget: allow_add/allow_delete and prototype
