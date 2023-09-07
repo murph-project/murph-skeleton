@@ -1,5 +1,9 @@
 ## [Unreleased]
 
+### Added
+* add new options in BooleanField: `toggle|checkbox_class_when_true` and `toggle|checkbox_class_when_false`
+* update woodpecker ci base file
+
 ## [1.21.0] 2023-08-11
 ### Changed
 * upgrade murph/murph-core
