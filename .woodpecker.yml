@@ -9,7 +9,7 @@ services:
     environment:
       - MARIADB_ROOT_PASSWORD=root
 
-pipeline:
+steps:
   db_wait:
     image: gitnet.fr/deblan/timeout:latest
     commands:
@@ -21,7 +21,7 @@ pipeline:
       - mysql -hdb -uroot -proot -e "CREATE DATABASE app"
 
   config:
-    image: deblan/php:8.1
+    image: deblan/php:${PHP_VERSION}
     commands:
       - echo APP_ENV=prod >> .env.local
       - echo APP_SECRET=$(openssl rand -hex 32) >> .env.local

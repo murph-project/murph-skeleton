@@ -1,5 +1,13 @@
 ## [Unreleased]
 
+## [v1.22.0] 2023-09-28
+### Added
+* update woodpecker ci base file
+### Fixed
+* fix #1: add UniqueEntity constraint in the User entity
+### Changed
+* upgrade murph/murph-core
+
 ## [1.21.0] 2023-08-11
 ### Changed
 * upgrade murph/murph-core
