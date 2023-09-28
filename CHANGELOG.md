@@ -1,8 +1,12 @@
 ## [Unreleased]
 
+## [v1.22.0] 2023-09-28
 ### Added
-* add new options in BooleanField: `toggle|checkbox_class_when_true` and `toggle|checkbox_class_when_false`
 * update woodpecker ci base file
+### Fixed
+* fix #1: add UniqueEntity constraint in the User entity
+### Changed
+* upgrade murph/murph-core
 
 ## [1.21.0] 2023-08-11
 ### Changed
