@@ -9,9 +9,11 @@ use Doctrine\ORM\Mapping as ORM;
 use Scheb\TwoFactorBundle\Model\Google\TwoFactorInterface;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\HasLifecycleCallbacks]
+#[UniqueEntity('email')]
 class User implements PasswordAuthenticatedUserInterface, UserInterface, TwoFactorInterface, EntityInterface
 {
     use Timestampable;
