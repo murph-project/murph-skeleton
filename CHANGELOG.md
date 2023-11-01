@@ -1,6 +1,10 @@
 ## [Unreleased]
 
-## [v1.22.0] 2023-09-28
+## [v1.23.0] - 2023-09-28
+### Changed
+* upgrade murph/murph-core
+
+## [v1.22.0] - 2023-09-28
 ### Added
 * update woodpecker ci base file
 ### Fixed
@@ -8,11 +12,11 @@
 ### Changed
 * upgrade murph/murph-core
 
-## [1.21.0] 2023-08-11
+## [1.21.0] - 2023-08-11
 ### Changed
 * upgrade murph/murph-core
 
-## [1.20.0] 2023-07-27
+## [1.20.0] - 2023-07-27
 ### Fixed
 * fix collection widget: allow_add/allow_delete and prototype
 ### Added
@@ -21,11 +25,11 @@
 ### Changed
 * upgrade murph/murph-core
 
-## [1.19.0] 2023-04-15
+## [1.19.0] - 2023-04-15
 ### Changed
 * upgrade murph/murph-core
 
-## [1.18.0] 2023-01-13
+## [1.18.0] - 2023-01-13
 ### Added
 * feat(dep): update dependencies
 * feat(update): apply new recipe for phpunit
@@ -53,7 +57,7 @@
 * fix(config): fix firewall config
 
 
-## [1.17.0] 2022-11-19
+## [1.17.0] - 2022-11-19
 ### Changed
 * upgrade murph/murph-core
 * replace annotation with attributes
