@@ -3,6 +3,10 @@ security:
         App\Entity\User:
             algorithm: auto
 
+    access_decision_manager:
+        strategy: consensus
+        allow_if_all_abstain: false
+
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     enable_authenticator_manager: true
     # https://symfony.com/doc/current/security.html#registering-the-user-hashing-passwords
