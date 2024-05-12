@@ -1,5 +1,9 @@
 ## [Unreleased]
 
+## [v1.25.0] - 2024-05-12
+### Changed
+* upgrade murph/murph-core
+
 ## [v1.23.0] - 2023-09-28
 ### Changed
 * upgrade murph/murph-core
