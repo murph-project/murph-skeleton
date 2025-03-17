@@ -1,5 +1,9 @@
 ## [Unreleased]
 
+## [v1.26.0] - 2025-03-17
+### Changed
+* upgrade murph/murph-core
+
 ## [v1.25.1] - 2024-05-13
 ### Fixed
 * fix murph-npm version
