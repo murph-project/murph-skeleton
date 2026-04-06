@@ -1,11 +1,11 @@
 controllers:
     resource: ../../src/Controller/
-    type: annotation
+    type: attribute
 
 core_controllers:
     resource: ../../vendor/murph/murph-core/src/core/Controller/
-    type: annotation
+    type: attribute
 
 kernel:
     resource: ../../src/Kernel.php
-    type: annotation
+    type: attribute

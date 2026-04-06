@@ -12,15 +12,14 @@ use App\Repository\UserRepositoryQuery as RepositoryQuery;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Session\Session;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 class UserAdminController extends BaseUserAdminController
 {
     #[Route(path: '/admin/user/{page}', name: 'admin_user_index', methods: ['GET'], requirements: ['page' => '\d+'])]
-    public function index(RepositoryQuery $query, Request $request, Session $session, int $page = 1): Response
+    public function index(RepositoryQuery $query, Request $request, int $page = 1): Response
     {
-        return parent::index($query, $request, $session, $page);
+        return parent::index($query, $request, $page);
     }
 
     #[Route(path: '/admin/user/new', name: 'admin_user_new', methods: ['GET', 'POST'])]
@@ -36,9 +35,9 @@ class UserAdminController extends BaseUserAdminController
     }
 
     #[Route(path: '/admin/user/filter', name: 'admin_user_filter', methods: ['GET'])]
-    public function filter(Session $session): Response
+    public function filter(Request $request): Response
     {
-        return parent::filter($session);
+        return parent::filter($request);
     }
 
     #[Route(path: '/admin/user/edit/{entity}', name: 'admin_user_edit', methods: ['GET', 'POST'])]

@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Core\Controller\Dashboard\DashboardAdminController as Controller;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 #[Route(path: '/admin')]
 class DashboardAdminController extends Controller

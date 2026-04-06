@@ -58,13 +58,6 @@ services:
         class: App\Core\Router\SiteRouteLoader
         tags: [routing.loader]
 
-    gedmo.listener.tree:
-        class: Gedmo\Tree\TreeListener
-        tags:
-            - { name: doctrine.event_subscriber, connection: default }
-        calls:
-            - [ setAnnotationReader, [ "@annotation_reader" ] ]
-
     # App\UrlGenerator\FooUrlGenerator:
     #     public: true
 

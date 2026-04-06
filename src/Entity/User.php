@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Core\Doctrine\Timestampable;
 use App\Core\Entity\EntityInterface;
 use App\Repository\UserRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Scheb\TwoFactorBundle\Model\Google\TwoFactorInterface;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -19,38 +20,38 @@ class User implements PasswordAuthenticatedUserInterface, UserInterface, TwoFact
     use Timestampable;
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column(type: 'integer')]
-    private $id;
+    #[ORM\Column]
+    private ?int $id = null;
 
-    #[ORM\Column(type: 'string', length: 180, unique: true)]
-    private $email;
+    #[ORM\Column(length: 180, unique: true)]
+    private ?string $email = null;
 
-    #[ORM\Column(type: 'json')]
-    private $roles = [];
+    #[ORM\Column]
+    private array $roles = [];
 
     /**
      * @var string The hashed password
      */
-    #[ORM\Column(type: 'string')]
-    private $password;
+    #[ORM\Column]
+    private ?string $password = null;
 
-    #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    private $displayName;
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $displayName = null;
 
-    #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    private $totpSecret;
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $totpSecret = null;
 
-    #[ORM\Column(type: 'datetime', nullable: true)]
-    private $passwordRequestedAt;
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $passwordRequestedAt = null;
 
-    #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    private $confirmationToken;
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $confirmationToken = null;
 
-    #[ORM\Column(type: 'boolean', options: ['default' => 0])]
-    private $isAdmin;
+    #[ORM\Column(options: ['default' => 0])]
+    private bool $isAdmin = false;
 
-    #[ORM\Column(type: 'boolean', options: ['default' => 0])]
-    private $isWriter;
+    #[ORM\Column(options: ['default' => 0])]
+    private bool $isWriter = false;
 
     public function __construct()
     {
@@ -127,7 +128,8 @@ class User implements PasswordAuthenticatedUserInterface, UserInterface, TwoFact
         return null;
     }
 
-    public function eraseCredentials()
+    #[\Deprecated]
+    public function eraseCredentials(): void
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
