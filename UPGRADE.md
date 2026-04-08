@@ -9,7 +9,20 @@ Build:
 
 * `make build`
 
-## [Unreleased]
+## Upgrade to v2.0.0
+
+See [murph-core UPGRADE.md](https://gitnet.fr/murph/murph-core/src/branch/develop/UPGRADE.md) for the full migration guide.
+
+### Quick checklist
+
+1. **PHP >= 8.2** and **Node >= 20** required
+2. Update `composer.json`: `murph/murph-core: ^2.0`, `extra.symfony.require: 7.4.*`
+3. Update `package.json`: replace `murph-project` with explicit deps (see skeleton)
+4. Apply all config changes listed in the core UPGRADE.md
+5. Update your entities: typed properties, ORM 3 Column syntax
+6. Update your controllers: remove `Session $session` params, fix `Route` import
+7. Update your forms: add `: void` / `: string` return types
+8. Run `composer update && yarn install && make build && make doctrine-migration`
 
 ## Upgrade to v1.17.0
 

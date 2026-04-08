@@ -1,7 +1,7 @@
 matrix:
   PHP_VERSION:
-    - 8.0
-    - 8.1
+    - 8.2
+    - 8.3
 
 services:
   db:
@@ -41,7 +41,7 @@ steps:
       - ./bin/doctrine-migrate
 
   node:
-    image: node:16-slim
+    image: node:20-slim
     commands:
       - yarn
       - test -d public/js || mkdir public/js

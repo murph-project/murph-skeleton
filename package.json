@@ -8,6 +8,6 @@
         "build": "./node_modules/.bin/encore production --progress"
     },
     "dependencies": {
-        "murph-project": "^1"
+        "murph-project": "^2"
     }
 }

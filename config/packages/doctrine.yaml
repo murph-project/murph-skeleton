@@ -9,6 +9,8 @@ doctrine:
         auto_generate_proxy_classes: true
         naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
         auto_mapping: true
+        controller_resolver:
+            auto_mapping: false
         mappings:
             App\Core\Entity:
                 is_bundle: false
@@ -23,10 +25,10 @@ doctrine:
                 prefix: 'App\Entity'
                 alias: App\Entity
             gedmo_tree:
-                type: annotation
+                type: attribute
                 prefix: Gedmo\Tree\Entity
                 dir: "%kernel.project_dir%/vendor/gedmo/doctrine-extensions/src/Tree/Entity"
-                alias: GedmoTree # (optional) it will default to the name set for the mapping
+                alias: GedmoTree
                 is_bundle: false
 
 when@test:

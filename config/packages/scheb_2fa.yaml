@@ -5,11 +5,8 @@ scheb_two_factor:
         issuer: "Murph"
         server_name:
         digits: 6
-        window: 1
+        leeway: 1
         template: "@Core/auth/2fa.html.twig"
     security_tokens:
         - Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken
-        # If you're using guard-based authentication, you have to use this one:
-        - Symfony\Component\Security\Guard\Token\PostAuthenticationGuardToken
-        # If you're using authenticator-based security (introduced in Symfony 5.1), you have to use this one:
-        # - Symfony\Component\Security\Http\Authenticator\Token\PostAuthenticationToken
+        - Symfony\Component\Security\Http\Authenticator\Token\PostAuthenticationToken

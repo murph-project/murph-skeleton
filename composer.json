@@ -3,21 +3,21 @@
     "description": "A powerful CMS framework",
     "type": "project",
     "license": "MIT",
-    "minimum-stability": "stable",
+    "minimum-stability": "dev",
     "prefer-stable": true,
     "require": {
-        "php": ">=8.0.0",
-        "murph/murph-core": "^1.26"
+        "php": ">=8.2.0",
+        "murph/murph-core": "@dev"
     },
     "require-dev": {
-        "symfony/browser-kit": "^5.4",
-        "symfony/css-selector": "^5.4",
-        "symfony/debug-bundle": "^5.4",
+        "symfony/browser-kit": "^7.4",
+        "symfony/css-selector": "^7.4",
+        "symfony/debug-bundle": "^7.4",
         "symfony/maker-bundle": "^1.0",
-        "symfony/phpunit-bridge": "^6.2",
-        "symfony/stopwatch": "^5.4",
-        "symfony/var-dumper": "^5.4",
-        "symfony/web-profiler-bundle": "^5.4"
+        "symfony/phpunit-bridge": "^7.4",
+        "symfony/stopwatch": "^7.4",
+        "symfony/var-dumper": "^7.4",
+        "symfony/web-profiler-bundle": "^7.4"
     },
     "config": {
         "optimize-autoloader": true,
@@ -43,7 +43,9 @@
     "replace": {
         "symfony/polyfill-ctype": "*",
         "symfony/polyfill-iconv": "*",
-        "symfony/polyfill-php72": "*"
+        "symfony/polyfill-php72": "*",
+        "symfony/polyfill-php80": "*",
+        "symfony/polyfill-php81": "*"
     },
     "scripts": {
         "auto-scripts": {
@@ -63,7 +65,15 @@
     "extra": {
         "symfony": {
             "allow-contrib": false,
-            "require": "5.4.*"
+            "require": "7.4.*"
         }
-    }
+    },
+    "repositories": [{
+        "name": "murph-core",
+        "type": "path",
+        "url": "/app/murph-core",
+        "options": {
+            "symlink": true
+        }
+    }]
 }
